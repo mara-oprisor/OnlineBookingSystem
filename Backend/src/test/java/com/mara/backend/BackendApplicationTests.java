@@ -1,4 +1,4 @@
-package com.mara.Backend;
+package com.mara.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
