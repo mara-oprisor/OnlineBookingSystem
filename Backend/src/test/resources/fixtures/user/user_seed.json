@@ -1,0 +1,29 @@
+[
+  {
+    "id": null,
+    "username": "client1",
+    "email": "client1@example.com",
+    "password": "password123",
+    "userType": "CLIENT",
+    "name": "Client One",
+    "age": 28,
+    "gender": "FEMALE"
+  },
+  {
+    "id": null,
+    "username": "admin1",
+    "email": "admin1@example.com",
+    "password": "adminpass",
+    "userType": "ADMIN"
+  },
+  {
+    "id": null,
+    "username": "client2",
+    "email": "client2@example.com",
+    "password": "clientpass",
+    "userType": "CLIENT",
+    "name": "Client Two",
+    "age": 35,
+    "gender": "MALE"
+  }
+]

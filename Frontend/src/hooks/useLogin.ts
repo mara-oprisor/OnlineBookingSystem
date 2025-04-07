@@ -9,6 +9,8 @@ function useLogin(){
     const [errorMsg, setErrorMsg] = useState<string>("");
     const navigate = useNavigate();
 
+    const loginService = LoginService();
+
     function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value);
     }
@@ -27,7 +29,7 @@ function useLogin(){
             setErrorMsg("Password is required!");
         } else {
             try {
-                const response = await LoginService(username, password);
+                const response = await loginService.login(username, password);
 
                 if(response.success) {
                     if(response.role == "CLIENT") {

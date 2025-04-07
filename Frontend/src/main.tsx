@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './index.css'
 import App from './App.tsx'
 import LoginForm from "./components/LoginForm.tsx";
-import ClientPage from "./components/ClientPage.tsx";
-import AdminPage from "./components/AdminPage.tsx";
+import ClientPage from "./pages/ClientPage.tsx";
+import AdminPage from "./pages/AdminPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
