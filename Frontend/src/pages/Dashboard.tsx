@@ -26,6 +26,8 @@ import useDiscountCodeCRUD from "../hooks/useDiscountCodeCRUD.ts";
 import useDiscountCodeModal from "../hooks/useDiscountCodeModal.ts";
 import DiscountCodeTable from "../components/DiscountCodeTable.tsx";
 import DiscountCodeModal from "../components/DiscountCodeModal.tsx";
+import FilterUserForm from "../components/FilterUserForm.tsx";
+import UserFilter from "../model/UserFilter.ts";
 
 function Dashboard() {
     const [userData, setUserData] = useState<User[]>([]);
@@ -68,6 +70,19 @@ function Dashboard() {
             setUserData(users);
         } catch (error) {
             console.error("Error fetching user data: ", error);
+            setUserIsError(true);
+        } finally {
+            setUserLoading(false);
+        }
+    }
+
+    async function handleFilterSubmit(filter: UserFilter) {
+        try {
+            setUserLoading(true);
+            const filteredUsers = await userService.filterUsers(filter);
+            setUserData(filteredUsers);
+        } catch (err) {
+            console.error("Error filtering users:", err);
             setUserIsError(true);
         } finally {
             setUserLoading(false);
@@ -172,6 +187,7 @@ function Dashboard() {
                     <button className="btn btn-secondary" onClick={handleDeleteUser} disabled={!selectedUser}>
                         Delete User
                     </button>
+                    <FilterUserForm onSubmit={handleFilterSubmit} />
                 </div>
                 <UserTable
                     data={userData}

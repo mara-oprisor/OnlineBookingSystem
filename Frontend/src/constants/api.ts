@@ -5,6 +5,7 @@ export const USER_ENDPOINT = `${API_BASE_URL}/users`;
 export const ADD_USER_ENDPOINT = `${API_BASE_URL}/add_user`;
 export const EDIT_USER_ENDPOINT = `${API_BASE_URL}/edit_user`;
 export const DELETE_USER_ENDPOINT = `${API_BASE_URL}/delete_user`;
+export const USER_FILTER_ENDPOINT = `${API_BASE_URL}/user_filter`;
 
 export const SALON_ENDPOINT = `${API_BASE_URL}/salons`;
 export const ADD_SALON_ENDPOINT = `${API_BASE_URL}/add_salon`;
