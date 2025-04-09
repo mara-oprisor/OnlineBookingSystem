@@ -3,7 +3,7 @@ import ServiceItem from "../model/ServiceItem.ts";
 
 function ServiceItemService() {
 
-    async function getServices() {
+    async function getServices(): Promise<ServiceItem[]> {
         const response = await fetch(SERVICE_ENDPOINT);
 
         if(!response.ok) {
@@ -13,7 +13,17 @@ function ServiceItemService() {
         return response.json();
     }
 
-    async function addService(service: Omit<ServiceItem, 'uuid'>) {
+    async function getServicesBySalon(salonUuid: string): Promise<ServiceItem> {
+        const response = await fetch(`${SERVICE_ENDPOINT}/${salonUuid}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch the service items for the salon!");
+        }
+
+        return response.json();
+    }
+
+    async function addService(service: Omit<ServiceItem, 'uuid'>): Promise<ServiceItem> {
         const response = await fetch(ADD_SERVICE_ENDPOINT, {
             method: 'POST',
             headers: {
@@ -30,7 +40,7 @@ function ServiceItemService() {
         return response.json();
     }
 
-    async function updateService(service: ServiceItem) {
+    async function updateService(service: ServiceItem): Promise<ServiceItem> {
         const response = await fetch(`${EDIT_SERVICE_ENDPOINT}/${service.uuid}`, {
             method: 'PUT',
             headers: {
@@ -43,6 +53,8 @@ function ServiceItemService() {
             const errorData = await response.json();
             throw new Error(JSON.stringify(errorData));
         }
+
+        return response.json();
     }
 
     async function deleteService(id: string) {
@@ -57,6 +69,7 @@ function ServiceItemService() {
 
     return {
         getServices,
+        getServicesBySalon,
         addService,
         updateService,
         deleteService

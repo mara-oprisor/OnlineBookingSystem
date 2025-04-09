@@ -31,16 +31,18 @@ function useSalonCRUD({ setData, setSelectedSalon, selectedSalon }: UseSalonActi
             }
             console.error("Error adding the salon:", error);
             const detailedMessage = parseErrorMessage(errorMessage);
-            alert(`Failed to add salon:\n${detailedMessage}`);
+            alert(`Failed to add user:\n${detailedMessage}`);
+            throw error;
         }
     }
 
     async function handleUpdateSalon(salon: Salon): Promise<void> {
         if (!selectedSalon) return;
+
         try {
-            await salonService.updateSalon(salon);
-            setData((prevData) =>
-                prevData.map((s) => (s.uuid === selectedSalon.uuid ? salon : s))
+            const updatedSalon = await salonService.updateSalon(salon);
+            setData(prevData =>
+                prevData.map(s => (s.uuid === selectedSalon.uuid ? updatedSalon : s))
             );
         } catch (error: unknown) {
             let errorMessage = "An unknown error occurred.";
@@ -49,12 +51,14 @@ function useSalonCRUD({ setData, setSelectedSalon, selectedSalon }: UseSalonActi
             }
             console.error("Error updating the salon:", error);
             const detailedMessage = parseErrorMessage(errorMessage);
-            alert(`Failed to update salon:\n${detailedMessage}`);
+            alert(`Failed to update user:\n${detailedMessage}`);
+            throw error;
         }
     }
 
     async function handleDeleteSalon(): Promise<void> {
         if (!selectedSalon) return;
+
         try {
             await salonService.deleteSalon(selectedSalon.uuid);
             setData((prevData) => prevData.filter((s) => s.uuid !== selectedSalon.uuid));

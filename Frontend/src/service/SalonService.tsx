@@ -3,7 +3,7 @@ import Salon from "../model/Salon.ts";
 
 function SalonService() {
 
-    async function getSalons() {
+    async function getSalons(): Promise<Salon[]> {
         const response = await fetch(SALON_ENDPOINT);
 
         if(!response.ok) {
@@ -13,7 +13,7 @@ function SalonService() {
         return response.json();
     }
 
-    async function addSalon(salon: Omit<Salon, 'uuid'>) {
+    async function addSalon(salon: Omit<Salon, 'uuid'>): Promise<Salon>{
         const response = await fetch(ADD_SALON_ENDPOINT, {
             method: 'POST',
             headers: {
@@ -30,7 +30,7 @@ function SalonService() {
         return response.json();
     }
 
-    async function updateSalon(salon: Salon) {
+    async function updateSalon(salon: Salon): Promise<Salon> {
         const response = await fetch(`${EDIT_SALON_ENDPOINT}/${salon.uuid}`, {
             method: 'PUT',
             headers: {
@@ -43,9 +43,11 @@ function SalonService() {
             const errorData = await response.json();
             throw new Error(JSON.stringify(errorData));
         }
+
+        return response.json();
     }
 
-    async function deleteSalon(id: string) {
+    async function deleteSalon(id: string): Promise<void> {
         const response = await fetch(`${DELETE_SALON_ENDPOINT}/${id}`, {
             method: 'DELETE',
         });

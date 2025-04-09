@@ -12,7 +12,7 @@ function SalonTable({ data, loading, isError, onRowSelected }: SalonTableProps) 
     const columns: TableColumn<Salon>[] = [
         { name: "ID", selector: (row: Salon) => row.uuid, sortable: true },
         { name: "Name", selector: (row: Salon) => row.name, sortable: true },
-        { name: "Phone Number", selector: (row: Salon) => row.phoneNumber, sortable: true },
+        { name: "Phone Number", selector: (row: Salon) => row.phoneNumber, sortable: false },
     ];
 
     return (

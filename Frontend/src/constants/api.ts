@@ -15,3 +15,9 @@ export const SERVICE_ENDPOINT = `${API_BASE_URL}/services`;
 export const ADD_SERVICE_ENDPOINT = `${API_BASE_URL}/add_service`;
 export const EDIT_SERVICE_ENDPOINT = `${API_BASE_URL}/edit_service`;
 export const DELETE_SERVICE_ENDPOINT = `${API_BASE_URL}/delete_service`;
+
+export const DISCOUNT_CODES = `${API_BASE_URL}/discounts`;
+export const DISCOUNT_CODE = `${API_BASE_URL}/discount`;
+
+export const BOOKINGS_ENDPOINT = `${API_BASE_URL}/bookings`;
+export const BOOKING_ENDPOINT = `${API_BASE_URL}/booking`;

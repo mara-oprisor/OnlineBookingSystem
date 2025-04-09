@@ -1,23 +1,23 @@
-import User from "../model/User.ts";
-import {ADD_USER_ENDPOINT, DELETE_USER_ENDPOINT, EDIT_USER_ENDPOINT, USER_ENDPOINT} from "../constants/api.ts";
+import { ADD_USER_ENDPOINT, DELETE_USER_ENDPOINT, EDIT_USER_ENDPOINT, USER_ENDPOINT } from "../constants/api";
+import User from "../model/User";
 
 function UserService() {
 
-    async function getUsers(){
+    async function getUsers(): Promise<User[]> {
         const response = await fetch(USER_ENDPOINT);
 
-        if(!response.ok) {
-            throw new Error("Failed to fetch the users from the database!");
+        if (!response.ok) {
+            throw new Error("Failed to fetch users from the database!");
         }
 
         return response.json();
     }
 
-    async function addUser(user: Omit<User, 'uuid'>) {
+    async function addUser(user: Omit<User, 'uuid'>): Promise<User> {
         const response = await fetch(ADD_USER_ENDPOINT, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type' : 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         });
@@ -30,11 +30,11 @@ function UserService() {
         return response.json();
     }
 
-    async function updateUser(user: User) {
+    async function updateUser(user: User): Promise<User> {
         const response = await fetch(`${EDIT_USER_ENDPOINT}/${user.uuid}`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-                'Content-Type' : 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         });
@@ -43,13 +43,14 @@ function UserService() {
             const errorData = await response.json();
             throw new Error(JSON.stringify(errorData));
         }
+
+        return response.json();
     }
 
-    async function deleteUser(id: string) {
+    async function deleteUser(id: string): Promise<void> {
         const response = await fetch(`${DELETE_USER_ENDPOINT}/${id}`, {
-            method: 'DELETE',
+            method: "DELETE",
         });
-
         if (!response.ok) {
             throw new Error("Failed to delete the user!");
         }

@@ -1,25 +1,24 @@
 import { useState } from "react";
 import User from "../model/User";
 
-interface UseUserModalProps {
+export interface UseUserModalProps {
     selectedUser: User | null;
 }
 
 function useUserModal({ selectedUser }: UseUserModalProps) {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
+    const [isModalUserOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isUpdateModeUser, setIsUpdateMode] = useState<boolean>(false);
     const [newUser, setNewUser] = useState<User>({
         uuid: "",
         username: "",
         password: "",
         email: "",
-        type: "CLIENT",
+        userType: "CLIENT",
         name: "",
-        age: null,
-        gender: null
+        age: null
     });
 
-    function openModal(update: boolean = false): void {
+    function openModalUser(update: boolean = false): void {
         setIsModalOpen(true);
         setIsUpdateMode(update);
         if (update && selectedUser) {
@@ -30,35 +29,33 @@ function useUserModal({ selectedUser }: UseUserModalProps) {
                 username: "",
                 password: "",
                 email: "",
-                type: "CLIENT",
+                userType: "CLIENT",
                 name: "",
-                age: null,
-                gender: null
+                age: null
             });
         }
     }
 
-    function closeModal(): void {
+    function closeModalUser(): void {
         setIsModalOpen(false);
         setNewUser({
             uuid: "",
             username: "",
             password: "",
             email: "",
-            type: "CLIENT",
+            userType: "CLIENT",
             name: "",
-            age: null,
-            gender: null
+            age: null
         });
         setIsUpdateMode(false);
     }
 
     return {
-        isModalOpen,
-        isUpdateMode,
+        isModalUserOpen,
+        isUpdateModeUser,
         newUser,
-        openModal,
-        closeModal,
+        openModalUser,
+        closeModalUser,
         setNewUser
     };
 }

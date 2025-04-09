@@ -1,7 +1,7 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import User from "../model/User";
 
-interface UserTableProps {
+export interface UserTableProps {
     data: User[];
     loading: boolean;
     isError: boolean;
@@ -14,10 +14,9 @@ function UserTable({ data, loading, isError, onRowSelected }: UserTableProps) {
         { name: "Username", selector: (row: User) => row.username, sortable: true },
         { name: "Email", selector: (row: User) => row.email, sortable: true },
         { name: "Password", selector: (row: User) => row.password, sortable: false },
-        { name: "User Type", selector: (row: User) => row.type, sortable: true },
+        { name: "User Type", selector: (row: User) => row.userType, sortable: true },
         { name: "Name", selector: (row: User) => row.name, sortable: true },
-        { name: "Age", selector: (row: User) => row.age ?? "", sortable: true },
-        { name: "Gender", selector: (row: User) => row.gender ?? "", sortable: true }
+        { name: "Age", selector: (row: User) => row.age ?? "", sortable: true }
     ];
 
     return (

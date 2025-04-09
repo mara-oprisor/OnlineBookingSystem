@@ -6,15 +6,15 @@ interface UseSalonModalProps {
 }
 
 function useSalonModal({ selectedSalon }: UseSalonModalProps) {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
+    const [isModalSalonOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isUpdateModeSalon, setIsUpdateMode] = useState<boolean>(false);
     const [newSalon, setNewSalon] = useState<Salon>({
         uuid: "",
         name: "",
         phoneNumber: "",
     });
 
-    function openModal(update: boolean = false): void {
+    function openModalSalon(update: boolean = false): void {
         setIsModalOpen(true);
         setIsUpdateMode(update);
         if (update && selectedSalon) {
@@ -28,7 +28,7 @@ function useSalonModal({ selectedSalon }: UseSalonModalProps) {
         }
     }
 
-    function closeModal(): void {
+    function closeModalSalon(): void {
         setIsModalOpen(false);
         setNewSalon({
             uuid: "",
@@ -39,11 +39,11 @@ function useSalonModal({ selectedSalon }: UseSalonModalProps) {
     }
 
     return {
-        isModalOpen,
-        isUpdateMode,
+        isModalSalonOpen,
+        isUpdateModeSalon,
         newSalon,
-        openModal,
-        closeModal,
+        openModalSalon,
+        closeModalSalon,
         setNewSalon,
     };
 }
