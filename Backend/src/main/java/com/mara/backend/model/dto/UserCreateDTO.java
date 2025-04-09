@@ -1,9 +1,13 @@
 package com.mara.backend.model.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateDTO {
     @NotBlank(message = "Username is required!")
     @Size(min = 5, max = 25, message = "Username must have between 5 and 25 characters")
@@ -30,6 +34,5 @@ public class UserCreateDTO {
     @Max(value = 99, message = "Age must be at most 99")
     private Integer age;
 
-    @Pattern(regexp = "^(MALE|FEMALE)?$")
     private String gender;
 }

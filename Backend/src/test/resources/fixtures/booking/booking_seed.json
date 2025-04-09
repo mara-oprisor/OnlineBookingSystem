@@ -1,0 +1,42 @@
+[
+  {
+    "uuid": null,
+    "client": {
+      "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "username": "client1",
+      "email": "client1@example.com",
+      "userType": "CLIENT"
+    },
+    "serviceItem": {
+      "uuid": null,
+      "name": "Service A",
+      "price": 100,
+      "description": "Standard service",
+      "salon": {
+        "name": "Salon A"
+      }
+    },
+    "dateTime": "2025-01-01T10:00:00",
+    "finalPrice": 100
+  },
+  {
+    "uuid": null,
+    "client": {
+      "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "username": "client2",
+      "email": "client2@example.com",
+      "userType": "CLIENT"
+    },
+    "serviceItem": {
+      "uuid": null,
+      "name": "Service B",
+      "price": 200,
+      "description": "Premium service",
+      "salon": {
+        "name": "Salon B"
+      }
+    },
+    "dateTime": "2025-01-02T12:00:00",
+    "finalPrice": 200
+  }
+]

@@ -29,7 +29,6 @@ public class UserDisplayDTO {
             userDTO.setUserType("CLIENT");
             userDTO.setName(client.getName());
             userDTO.setAge(client.getAge());
-            userDTO.setGender(String.valueOf(client.getGender()));
         } else {
             userDTO.setUserType("ADMIN");
         }

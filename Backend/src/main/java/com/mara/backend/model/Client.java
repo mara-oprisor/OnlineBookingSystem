@@ -1,12 +1,16 @@
 package com.mara.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorValue("CLIENT")
 public class Client extends User{
     @Column(name = "name")
@@ -14,12 +18,5 @@ public class Client extends User{
 
     @Column(name = "age")
     private Integer age;
-
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @ManyToMany(mappedBy = "favoriteFor")
-    private List<Salon> favoriteSalons;
 }
 

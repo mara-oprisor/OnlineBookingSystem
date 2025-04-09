@@ -39,4 +39,14 @@ public class GlobalExceptionHandler {
         log.error("Duplicate resource error: {}", ex.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalStateException.class)
+    public Map<String, String> handleIllegalStateException(IllegalStateException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        log.error("Illegal state error: {}", ex.getMessage());
+        return errorMap;
+    }
+
 }

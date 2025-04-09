@@ -1,0 +1,8 @@
+{
+  "username": "clientNew",
+  "email": "clientNew@example.com",
+  "password": "password123",
+  "userType": "CLIENT",
+  "name": "Client New",
+  "age": 29
+}

@@ -31,6 +31,15 @@ public class ServiceItemService {
         return servicesDTO;
     }
 
+    public List<ServiceItemDisplayDTO> getServicesBySalon(UUID salonUuid) {
+        List<ServiceItem> items = serviceItemRepository.findBySalonUuid(salonUuid);
+        List<ServiceItemDisplayDTO> displayList = new ArrayList<>();
+        for (ServiceItem item : items) {
+            displayList.add(ServiceItemDisplayDTO.serviceToDTO(item));
+        }
+        return displayList;
+    }
+
     public ServiceItemDisplayDTO getServiceByName(String name) {
         ServiceItem service = serviceItemRepository.findServiceItemByName(name).orElseThrow(
                 () -> new IllegalStateException("There is no service with name: " + name)

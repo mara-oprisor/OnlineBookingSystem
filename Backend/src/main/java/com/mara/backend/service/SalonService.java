@@ -97,10 +97,6 @@ public class SalonService {
             salon.getFavoriteFor().add(client);
         }
 
-        if(!client.getFavoriteSalons().contains(salon)) {
-            client.getFavoriteSalons().add(salon);
-        }
-
         return SalonDisplayDTO.salonToDTO(salonRepository.save(salon));
     }
 }

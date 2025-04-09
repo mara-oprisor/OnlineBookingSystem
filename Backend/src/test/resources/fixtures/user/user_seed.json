@@ -6,8 +6,7 @@
     "password": "password123",
     "userType": "CLIENT",
     "name": "Client One",
-    "age": 28,
-    "gender": "FEMALE"
+    "age": 28
   },
   {
     "id": null,
@@ -23,7 +22,6 @@
     "password": "clientpass",
     "userType": "CLIENT",
     "name": "Client Two",
-    "age": 35,
-    "gender": "MALE"
+    "age": 35
   }
 ]

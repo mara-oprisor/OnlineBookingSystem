@@ -20,9 +20,6 @@ public class Salon {
     @Column(name = "phone_nr", unique = true)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ServiceItem> services;
-
     @ManyToMany
     @JoinTable(
             name = "client_favorite_salons",

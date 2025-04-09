@@ -22,6 +22,11 @@ public class ServiceItemController {
         return serviceItemService.getAllServices();
     }
 
+    @GetMapping("/services/{uuid}")
+    public List<ServiceItemDisplayDTO> getServicesBySalon(@PathVariable UUID uuid) {
+        return serviceItemService.getServicesBySalon(uuid);
+    }
+
     @GetMapping("/service/{name}")
     public ServiceItemDisplayDTO getServiceByName(@PathVariable String name) {
         return serviceItemService.getServiceByName(name);

@@ -3,6 +3,7 @@ package com.mara.backend.controller;
 import com.mara.backend.config.exception.DuplicateResourceException;
 import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
+import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public List<UserDisplayDTO> getAllUsers() {
+    public List<UserDisplayDTO> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/user_filter")
+    public List<UserDisplayDTO> filterUsers(@RequestBody UserFilterDTO filterDTO) {
+        return userService.filterUsers(filterDTO);
     }
 
     @GetMapping("/user/{username}")

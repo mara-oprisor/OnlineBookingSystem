@@ -3,17 +3,19 @@ package com.mara.backend.service;
 import com.mara.backend.config.exception.DuplicateResourceException;
 import com.mara.backend.model.Admin;
 import com.mara.backend.model.Client;
-import com.mara.backend.model.Gender;
 import com.mara.backend.model.User;
 import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
+import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +31,42 @@ public class UserService {
         }
 
         return usersDTO;
+    }
+    public List<UserDisplayDTO> filterUsers(UserFilterDTO filterDTO) {
+        List<User> users = userRepository.findAll();
+
+        if (filterDTO.getUsername() != null && !filterDTO.getUsername().trim().isEmpty()) {
+            String usernameLower = filterDTO.getUsername().toLowerCase();
+            users = users.stream()
+                    .filter(u -> u.getUsername().toLowerCase().contains(usernameLower))
+                    .collect(Collectors.toList());
+        }
+
+        if (filterDTO.getEmail() != null && !filterDTO.getEmail().trim().isEmpty()) {
+            String emailLower = filterDTO.getEmail().toLowerCase();
+            users = users.stream()
+                    .filter(u -> u.getEmail().toLowerCase().contains(emailLower))
+                    .collect(Collectors.toList());
+        }
+
+        if (filterDTO.getUserType() != null && !filterDTO.getUserType().trim().isEmpty()) {
+            String filterType = filterDTO.getUserType().toUpperCase();
+            users = users.stream()
+                    .filter(u -> {
+                        if (filterType.equals("CLIENT")) {
+                            return u instanceof Client;
+                        } else if (filterType.equals("ADMIN")) {
+                            return u instanceof Admin;
+                        } else {
+                            return true;
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        return users.stream()
+                .map(UserDisplayDTO::userToDTO)
+                .collect(Collectors.toList());
     }
 
     public UserDisplayDTO getUserByUsername(String username) {
@@ -56,13 +94,6 @@ public class UserService {
             client.setUsername(userDTO.getUsername());
             client.setPassword(userDTO.getPassword());
             client.setEmail(userDTO.getEmail());
-
-            if(userDTO.getGender() != null && !userDTO.getGender().isEmpty()) {
-                client.setGender(Gender.valueOf(userDTO.getGender()));
-            } else {
-                client.setGender(null);
-            }
-
 
             return UserDisplayDTO.userToDTO(userRepository.save(client));
         } else if ("ADMIN".equalsIgnoreCase(userDTO.getUserType())) {
@@ -99,12 +130,6 @@ public class UserService {
 
             client.setName(userDTO.getName());
             client.setAge(userDTO.getAge());
-
-            if(userDTO.getGender() != null && !userDTO.getGender().isEmpty()) {
-                client.setGender(Gender.valueOf(userDTO.getGender()));
-            } else {
-                client.setGender(null);
-            }
 
             return UserDisplayDTO.userToDTO(userRepository.save(client));
         }

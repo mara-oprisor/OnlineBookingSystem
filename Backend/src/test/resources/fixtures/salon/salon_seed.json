@@ -1,0 +1,17 @@
+[
+  {
+    "uuid": null,
+    "name": "salon1",
+    "phoneNumber": "0711111111"
+  },
+  {
+    "uuid": null,
+    "name": "salon2",
+    "phoneNumber": "0722222222"
+  },
+  {
+    "uuid": null,
+    "name": "salon3",
+    "phoneNumber": "0733333333"
+  }
+]
