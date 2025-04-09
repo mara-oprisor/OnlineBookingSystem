@@ -6,6 +6,7 @@ import com.mara.backend.model.Client;
 import com.mara.backend.model.User;
 import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
+import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,150 @@ public class UserServiceTest {
         assertEquals(3, result.size());
         verify(userRepository, times(1)).findAll();
         assertEquals(usersDTO, result);
+    }
+
+    @Test
+    void testFilterUsersByUsername() {
+        Client client1 = new Client();
+        UUID id1 = UUID.randomUUID();
+        client1.setId(id1);
+        client1.setUsername("john");
+        client1.setEmail("john@example.com");
+        client1.setPassword("pass");
+        client1.setName("John Doe");
+        client1.setAge(30);
+
+        Client client2 = new Client();
+        UUID id2 = UUID.randomUUID();
+        client2.setId(id2);
+        client2.setUsername("jane");
+        client2.setEmail("jane@example.com");
+        client2.setPassword("pass");
+        client2.setName("Jane Smith");
+        client2.setAge(25);
+
+        Admin admin1 = new Admin();
+        UUID id3 = UUID.randomUUID();
+        admin1.setId(id3);
+        admin1.setUsername("adminUser");
+        admin1.setEmail("admin@example.com");
+        admin1.setPassword("pass");
+
+        UserFilterDTO filterDTO = new UserFilterDTO();
+        filterDTO.setUsername("john");
+
+
+        List<User> allUsers = List.of(client1, client2, admin1);
+        when(userRepository.findAll()).thenReturn(allUsers);
+        List<UserDisplayDTO> result = userService.filterUsers(filterDTO);
+
+
+        assertEquals(1, result.size());
+        assertTrue(result.getFirst().getUsername().toLowerCase().contains("john"));
+        verify(userRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testFilterUsersByEmail() {
+        Client client1 = new Client();
+        UUID id1 = UUID.randomUUID();
+        client1.setId(id1);
+        client1.setUsername("john");
+        client1.setEmail("john@example.com");
+        client1.setPassword("pass");
+        client1.setName("John Doe");
+        client1.setAge(30);
+
+        Client client2 = new Client();
+        UUID id2 = UUID.randomUUID();
+        client2.setId(id2);
+        client2.setUsername("jane");
+        client2.setEmail("jane@sample.com");
+        client2.setPassword("pass");
+        client2.setName("Jane Smith");
+        client2.setAge(25);
+
+        List<User> allUsers = List.of(client1, client2);
+
+        UserFilterDTO filterDTO = new UserFilterDTO();
+        filterDTO.setEmail("example");
+
+
+        when(userRepository.findAll()).thenReturn(allUsers);
+        List<UserDisplayDTO> result = userService.filterUsers(filterDTO);
+
+
+        assertEquals(1, result.size());
+        assertTrue(result.getFirst().getEmail().toLowerCase().contains("example"));
+        verify(userRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testFilterUsersByUserType() {
+        Client client1 = new Client();
+        UUID id1 = UUID.randomUUID();
+        client1.setId(id1);
+        client1.setUsername("john");
+        client1.setEmail("john@example.com");
+        client1.setPassword("pass");
+        client1.setName("John Doe");
+        client1.setAge(30);
+
+        Admin admin1 = new Admin();
+        UUID id2 = UUID.randomUUID();
+        admin1.setId(id2);
+        admin1.setUsername("adminUser");
+        admin1.setEmail("admin@example.com");
+        admin1.setPassword("pass");
+
+        UserFilterDTO filterDTO = new UserFilterDTO();
+        filterDTO.setUserType("ADMIN");
+
+        List<User> allUsers = List.of(client1, admin1);
+
+
+        when(userRepository.findAll()).thenReturn(allUsers);
+        List<UserDisplayDTO> result = userService.filterUsers(filterDTO);
+
+
+        assertEquals(1, result.size());
+        assertEquals(admin1.getId(), result.getFirst().getUuid());
+        verify(userRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testFilterUsersByMultipleCriteria() {
+        Client client1 = new Client();
+        UUID id1 = UUID.randomUUID();
+        client1.setId(id1);
+        client1.setUsername("john");
+        client1.setEmail("john@example.com");
+        client1.setPassword("pass");
+        client1.setName("John Doe");
+        client1.setAge(30);
+
+        Client client2 = new Client();
+        UUID id2 = UUID.randomUUID();
+        client2.setId(id2);
+        client2.setUsername("johnny");
+        client2.setEmail("johnny@example.com");
+        client2.setPassword("pass");
+        client2.setName("Johnny Appleseed");
+        client2.setAge(28);
+
+        UserFilterDTO filterDTO = new UserFilterDTO();
+        filterDTO.setUsername("john");
+        filterDTO.setEmail("example");
+
+        List<User> allUsers = List.of(client1, client2);
+
+
+        when(userRepository.findAll()).thenReturn(allUsers);
+        List<UserDisplayDTO> result = userService.filterUsers(filterDTO);
+
+
+        assertEquals(2, result.size());
+        verify(userRepository, times(1)).findAll();
     }
 
     @Test

@@ -65,6 +65,51 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
+    void testFilterUsersByUsername() throws Exception {
+        String filterJson = "{\"username\": \"client\", \"email\": \"\", \"userType\": \"\"}";
+        mockMvc.perform(post("/user_filter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(filterJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[*].username", Matchers.containsInAnyOrder("client1", "client2")));
+    }
+
+    @Test
+    void testFilterUsersByEmail() throws Exception {
+        String filterJson = "{\"username\": \"\", \"email\": \"admin1@example.com\", \"userType\": \"\"}";
+        mockMvc.perform(post("/user_filter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(filterJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].email").value("admin1@example.com"));
+    }
+
+    @Test
+    void testFilterUsersByUserType() throws Exception {
+        String filterJson = "{\"username\": \"\", \"email\": \"\", \"userType\": \"CLIENT\"}";
+        mockMvc.perform(post("/user_filter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(filterJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[*].userType", Matchers.everyItem(Matchers.equalTo("CLIENT"))));
+    }
+
+    @Test
+    void testFilterUsersByMultipleCriteria() throws Exception {
+        String filterJson = "{\"username\": \"client\", \"email\": \"example\", \"userType\": \"\"}";
+        mockMvc.perform(post("/user_filter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(filterJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[*].username", Matchers.containsInAnyOrder("client1", "client2")))
+                .andExpect(jsonPath("$[*].email", Matchers.containsInAnyOrder("client1@example.com", "client2@example.com")));
+    }
+
+    @Test
     void testAddClientValid() throws Exception {
         String validClientJson = loadFixture("valid_client.json");
 

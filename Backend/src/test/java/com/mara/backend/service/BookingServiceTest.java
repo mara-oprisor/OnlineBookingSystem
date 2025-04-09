@@ -32,7 +32,6 @@ public class BookingServiceTest {
     private DiscountCodeRepository discountCodeRepository;
     @Mock
     private LoyaltyPointService loyaltyPointService;
-
     @InjectMocks
     private BookingService bookingService;
 
@@ -106,14 +105,23 @@ public class BookingServiceTest {
 
         double expectedFinalPrice = 100;
 
+        Booking dummyBooking = new Booking();
+        dummyBooking.setUuid(UUID.randomUUID());
+        dummyBooking.setClient(client);
+        dummyBooking.setServiceItem(serviceItem);
+        dummyBooking.setDateTime(dto.getDateTime());
+        dummyBooking.setFinalPrice(expectedFinalPrice);
 
-        when(bookingRepository.save(any(Booking.class))).thenReturn(new Booking());
+
+        when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         BookingDisplayDTO result = bookingService.createBooking(dto);
 
 
         assertEquals(expectedFinalPrice, result.getFinalPrice());
+        assertEquals(dummyBooking.getUuid(), result.getBookingId());
         verify(bookingRepository, times(1)).save(any(Booking.class));
     }
+
 
     @Test
     void testCreateBookingWithDiscount() {
@@ -126,12 +134,18 @@ public class BookingServiceTest {
         DiscountCode discountCode = new DiscountCode();
         discountCode.setCode("DISC10");
         discountCode.setExpirationDate(LocalDateTime.now().plusDays(5));
-
         double expectedFinalPrice = 90.0;
 
+        Booking dummyBooking = new Booking();
+        dummyBooking.setUuid(UUID.randomUUID());
+        dummyBooking.setClient(client);
+        dummyBooking.setServiceItem(serviceItem);
+        dummyBooking.setDateTime(dto.getDateTime());
+        dummyBooking.setFinalPrice(expectedFinalPrice);
 
-        when(discountCodeRepository.findByCode(dto.getDiscountCode())).thenReturn(Optional.of(discountCode));
-        when(bookingRepository.save(any(Booking.class))).thenReturn(new Booking());
+
+        when(discountCodeRepository.findByCode("DISC10")).thenReturn(Optional.of(discountCode));
+        when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         doNothing().when(loyaltyPointService).addLoyaltyPoint(any());
         BookingDisplayDTO result = bookingService.createBooking(dto);
 
@@ -140,6 +154,7 @@ public class BookingServiceTest {
         verify(discountCodeRepository, times(1)).findByCode("DISC10");
         verify(loyaltyPointService, times(1)).addLoyaltyPoint(any());
     }
+
 
     @Test
     void testCreateBookingWithExpiredDiscountCode() {
@@ -174,9 +189,16 @@ public class BookingServiceTest {
 
         double expectedFinalPrice = 80.0;
 
+        Booking dummyBooking = new Booking();
+        dummyBooking.setUuid(UUID.randomUUID());
+        dummyBooking.setClient(client);
+        dummyBooking.setServiceItem(serviceItem);
+        dummyBooking.setDateTime(dto.getDateTime());
+        dummyBooking.setFinalPrice(expectedFinalPrice);
+
 
         when(loyaltyPointService.getAllPointsForUser(clientId)).thenReturn(150);
-        when(bookingRepository.save(any(Booking.class))).thenReturn(new Booking());
+        when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         BookingDisplayDTO result = bookingService.createBooking(dto);
 
 
@@ -192,9 +214,17 @@ public class BookingServiceTest {
         dto.setDiscountCode(null);
         dto.setDateTime(LocalDateTime.now().plusDays(1));
 
+        Booking dummyBooking = new Booking();
+        dummyBooking.setUuid(UUID.randomUUID());
+        dummyBooking.setClient(client);
+        dummyBooking.setServiceItem(serviceItem);
+        dummyBooking.setDateTime(dto.getDateTime());
+        dummyBooking.setFinalPrice(100.0);
+
         int expectedPoints = 5;
 
-        when(bookingRepository.save(any(Booking.class))).thenReturn(new Booking());
+
+        when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         ArgumentCaptor<LoyaltyPoint> captor = ArgumentCaptor.forClass(LoyaltyPoint.class);
         doNothing().when(loyaltyPointService).addLoyaltyPoint(captor.capture());
         bookingService.createBooking(dto);
