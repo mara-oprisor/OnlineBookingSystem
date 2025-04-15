@@ -6,6 +6,7 @@ import BookingDisplay from "../model/BookingDisplay";
 import useAvailableServices from "../hooks/useAvailableServices";
 import useClients from "../hooks/useClients";
 import {BookingFormData} from "../hooks/useBooking.ts";
+import LogoutButton from "../components/LogoutButton.tsx";
 
 function BookingPage() {
     const { salonId } = useParams<{ salonId: string }>();
@@ -55,19 +56,25 @@ function BookingPage() {
     }
 
     return (
-        <div className="container mt-4">
-            <h2>Book an Appointment</h2>
-            <BookingForm
-                clients={clients}
-                services={availableServices}
-                onSubmit={handleBookingSubmit}
-            />
-            {finalBooking && (
-                <div className="mt-3">
-                    <h4>Final Price: ${finalBooking.finalPrice.toFixed(2)}</h4>
-                </div>
-            )}
-        </div>
+        <>
+            <div className="d-flex justify-content-end p-2">
+                <LogoutButton/>
+            </div>
+
+            <div className="container mt-4">
+                <h2>Book an Appointment</h2>
+                <BookingForm
+                    clients={clients}
+                    services={availableServices}
+                    onSubmit={handleBookingSubmit}
+                />
+                {finalBooking && (
+                    <div className="mt-3">
+                        <h4>Final Price: ${finalBooking.finalPrice.toFixed(2)}</h4>
+                    </div>
+                )}
+            </div>
+        </>
     );
 }
 

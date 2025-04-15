@@ -79,13 +79,25 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                             </div>
                             <div className="mb-3">
                                 <label>Password</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="password"
-                                    value={user.password}
-                                    onChange={handleInputChange}
-                                />
+                                {isUpdateMode ? (
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="password"
+                                        value={user.password}
+                                        onChange={handleInputChange}
+                                        hidden
+                                    />
+                                ) : (
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="password"
+                                        value={user.password}
+                                        onChange={handleInputChange}
+                                    />
+                                )}
+
                             </div>
                             <div className="mb-3">
                                 <label>Email</label>
@@ -103,14 +115,14 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="type"
+                                        name="userType"
                                         value={user.userType}
                                         disabled
                                     />
                                 ) : (
                                     <select
                                         className="form-select"
-                                        name="type"
+                                        name="userType"
                                         value={user.userType}
                                         onChange={handleInputChange}
                                     >

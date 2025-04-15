@@ -1,25 +1,31 @@
-import {LOGIN_ENDPOINT} from "../constants/api.ts";
+import { LOGIN_ENDPOINT } from "../constants/api";
+import axios from "axios";
 
 function LoginService() {
     async function login(username: string, password: string) {
         try {
-            const response = await fetch(LOGIN_ENDPOINT, {
-                method: "POST",
+            const response = await axios.post(LOGIN_ENDPOINT, { username, password }, {
                 headers: {
                     "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
+                }
             });
 
-            return await response.json();
-        } catch (error) {
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string;
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            } else if (error instanceof Error) {
+                errorMessage = error.message;
+            } else {
+                errorMessage = "Unknown error!";
+            }
+
             return {
                 success: false,
                 role: null,
-                error: error instanceof Error? error.message : "Unknown error!"
+                error: errorMessage
             };
         }
     }

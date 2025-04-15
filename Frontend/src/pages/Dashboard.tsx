@@ -7,7 +7,6 @@ import useUserCRUD from "../hooks/useUserCRUD";
 import useUserModal from "../hooks/useUserModal";
 import UserTable from "../components/UserTable";
 import UserModal from "../components/UserModal";
-
 import Salon from "../model/Salon";
 import SalonService from "../service/SalonService";
 import useSalonCRUD from "../hooks/useSalonCRUD";
@@ -28,6 +27,7 @@ import DiscountCodeTable from "../components/DiscountCodeTable.tsx";
 import DiscountCodeModal from "../components/DiscountCodeModal.tsx";
 import FilterUserForm from "../components/FilterUserForm.tsx";
 import UserFilter from "../model/UserFilter.ts";
+import LogoutButton from "../components/LogoutButton.tsx";
 
 function Dashboard() {
     const [userData, setUserData] = useState<User[]>([]);
@@ -172,8 +172,13 @@ function Dashboard() {
         setSelectedDiscount(state.selectedRows[0] || null);
     }
 
+
     return (
         <>
+            <div className="d-flex justify-content-end p-2">
+                <LogoutButton/>
+            </div>
+
             <h1>Dashboard</h1>
             <div className="app-container">
                 <h2>User Management</h2>

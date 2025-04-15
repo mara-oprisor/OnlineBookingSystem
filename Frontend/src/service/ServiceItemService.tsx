@@ -1,69 +1,88 @@
-import {ADD_SERVICE_ENDPOINT, DELETE_SERVICE_ENDPOINT, EDIT_SERVICE_ENDPOINT, SERVICE_ENDPOINT} from "../constants/api.ts";
-import ServiceItem from "../model/ServiceItem.ts";
+import { ADD_SERVICE_ENDPOINT, DELETE_SERVICE_ENDPOINT, EDIT_SERVICE_ENDPOINT, SERVICE_ENDPOINT } from "../constants/api";
+import ServiceItem from "../model/ServiceItem";
+import axios from "axios";
 
 function ServiceItemService() {
 
     async function getServices(): Promise<ServiceItem[]> {
-        const response = await fetch(SERVICE_ENDPOINT);
+        try {
+            const response = await axios.get<ServiceItem[]>(SERVICE_ENDPOINT);
 
-        if(!response.ok) {
-            throw new Error("Failed to fetch the services from the database!");
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to fetch the services from the database!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function getServicesBySalon(salonUuid: string): Promise<ServiceItem> {
-        const response = await fetch(`${SERVICE_ENDPOINT}/${salonUuid}`);
+        try {
+            const response = await axios.get<ServiceItem>(`${SERVICE_ENDPOINT}/${salonUuid}`);
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch the service items for the salon!");
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to fetch the service items for the salon!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function addService(service: Omit<ServiceItem, 'uuid'>): Promise<ServiceItem> {
-        const response = await fetch(ADD_SERVICE_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(service)
-        });
+        try {
+            const response = await axios.post<ServiceItem>(ADD_SERVICE_ENDPOINT, service, {
+                headers: { "Content-Type": "application/json" },
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(JSON.stringify(errorData));
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to add service!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function updateService(service: ServiceItem): Promise<ServiceItem> {
-        const response = await fetch(`${EDIT_SERVICE_ENDPOINT}/${service.uuid}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(service)
-        });
+        try {
+            const response = await axios.put<ServiceItem>(`${EDIT_SERVICE_ENDPOINT}/${service.uuid}`, service, {
+                headers: { "Content-Type": "application/json" },
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(JSON.stringify(errorData));
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to update service!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
-    async function deleteService(id: string) {
-        const response = await fetch(`${DELETE_SERVICE_ENDPOINT}/${id}`, {
-            method: 'DELETE',
-        });
+    async function deleteService(id: string): Promise<void> {
+        try {
+            await axios.delete(`${DELETE_SERVICE_ENDPOINT}/${id}`);
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to delete the service!";
 
-        if (!response.ok) {
-            throw new Error("Failed to delete the service!");
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
     }
 

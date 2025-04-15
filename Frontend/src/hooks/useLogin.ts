@@ -2,6 +2,7 @@ import {useState} from "react";
 import * as React from "react";
 import LoginService from "../service/LoginService.tsx";
 import { useNavigate } from "react-router-dom"
+import axios from "axios";
 
 function useLogin(){
     const [username, setUsername] = useState<string>("");
@@ -21,6 +22,7 @@ function useLogin(){
 
     async function handleLogin(event: React.FormEvent) {
         event.preventDefault();
+        setErrorMsg("");
 
         if (username === "") {
             setErrorMsg("Username is required!");
@@ -32,6 +34,10 @@ function useLogin(){
                 const response = await loginService.login(username, password);
 
                 if(response.success) {
+                    sessionStorage.setItem('token', response.token);
+                    sessionStorage.setItem('role', response.role);
+                    console.log("Login successful: ", response);
+
                     if(response.role == "CLIENT") {
                         navigate('/client');
                     } else {
@@ -40,10 +46,22 @@ function useLogin(){
                 } else {
                     setErrorMsg(response.errorMessage);
                 }
-            } catch {
-                setErrorMsg("An unexpected error occurred! Please try again!");
+            } catch(error) {
+                if (axios.isAxiosError(error) && error.response?.status === 401) {
+                    console.error('Login failed:', error.response.data);
+                    setErrorMsg(error.response.data.errorMessage);
+                } else {
+                    console.error('An unexpected error occurred:', error);
+                    setErrorMsg('Failed to login. Please try again later.');
+                }
             }
         }
+    }
+
+    function logout(): void {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
+        navigate('/login');
     }
 
     return {
@@ -52,7 +70,8 @@ function useLogin(){
         password,
         handlePasswordChange,
         errorMsg,
-        handleLogin
+        handleLogin,
+        logout
     }
 }
 

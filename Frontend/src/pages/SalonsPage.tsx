@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSalons } from "../hooks/useSalonCards";
 import SalonCard from "../components/SalonCard";
 import Salon from "../model/Salon.ts";
+import LogoutButton from "../components/LogoutButton.tsx";
 
 function SalonsPage() {
     const { salons, loading, error } = useSalons();
@@ -15,14 +16,20 @@ function SalonsPage() {
     if (error) return <p className="error-text">{error}</p>;
 
     return (
-        <div className="salon-cards-container">
-            <h2>Salons</h2>
-            <div className="card-grid" style={{ display: "flex", flexWrap: "wrap" }}>
-                {salons.map((salon) => (
-                    <SalonCard key={salon.uuid} salon={salon} onSelect={handleSelectSalon} />
-                ))}
+        <>
+            <div className="d-flex justify-content-end p-2">
+                <LogoutButton/>
             </div>
-        </div>
+
+            <div className="salon-cards-container">
+                <h2>Salons</h2>
+                <div className="card-grid" style={{ display: "flex", flexWrap: "wrap" }}>
+                    {salons.map((salon) => (
+                        <SalonCard key={salon.uuid} salon={salon} onSelect={handleSelectSalon} />
+                    ))}
+                </div>
+            </div>
+        </>
     );
 }
 

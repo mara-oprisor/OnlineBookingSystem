@@ -1,77 +1,84 @@
-import {
-    ADD_USER_ENDPOINT,
-    DELETE_USER_ENDPOINT,
-    EDIT_USER_ENDPOINT,
-    USER_ENDPOINT,
-    USER_FILTER_ENDPOINT
-} from "../constants/api";
+import { ADD_USER_ENDPOINT, DELETE_USER_ENDPOINT, EDIT_USER_ENDPOINT, USER_ENDPOINT, USER_FILTER_ENDPOINT } from "../constants/api";
 import User from "../model/User";
-import UserFilter from "../model/UserFilter.ts";
+import UserFilter from "../model/UserFilter";
+import axios from "axios";
 
 function UserService() {
 
     async function getUsers(): Promise<User[]> {
-        const response = await fetch(USER_ENDPOINT);
+        try {
+            const response = await axios.get<User[]>(USER_ENDPOINT);
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch users from the database!");
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to fetch users from the database!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function filterUsers(filter: UserFilter): Promise<User[]> {
-        const response = await fetch(USER_FILTER_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(filter),
-        });
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(JSON.stringify(errorData));
+        try {
+            const response = await axios.post<User[]>(USER_FILTER_ENDPOINT, filter, {
+                headers: { "Content-Type": "application/json" }
+            });
+
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to filter users!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-        return response.json();
     }
 
     async function addUser(user: Omit<User, 'uuid'>): Promise<User> {
-        const response = await fetch(ADD_USER_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        });
+        try {
+            const response = await axios.post<User>(ADD_USER_ENDPOINT, user, {
+                headers: { "Content-Type": "application/json" }
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(JSON.stringify(errorData));
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to add user!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function updateUser(user: User): Promise<User> {
-        const response = await fetch(`${EDIT_USER_ENDPOINT}/${user.uuid}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        });
+        try {
+            const response = await axios.put<User>(`${EDIT_USER_ENDPOINT}/${user.uuid}`, user, {
+                headers: { "Content-Type": "application/json" }
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(JSON.stringify(errorData));
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to update user!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
         }
-
-        return response.json();
     }
 
     async function deleteUser(id: string): Promise<void> {
-        const response = await fetch(`${DELETE_USER_ENDPOINT}/${id}`, {
-            method: "DELETE",
-        });
-        if (!response.ok) {
+        try {
+            await axios.delete(`${DELETE_USER_ENDPOINT}/${id}`);
+        } catch {
             throw new Error("Failed to delete the user!");
         }
     }
