@@ -18,8 +18,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class SalonService {
-    private SalonRepository salonRepository;
-    private UserRepository userRepository;
+    private final SalonRepository salonRepository;
+    private final UserRepository userRepository;
 
     public List<SalonDisplayDTO> getAllSalons() {
         List<Salon> salons = salonRepository.findAll();

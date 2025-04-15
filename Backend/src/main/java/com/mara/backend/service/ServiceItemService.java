@@ -17,8 +17,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class ServiceItemService {
-    private ServiceItemRepository serviceItemRepository;
-    private SalonRepository salonRepository;
+    private final ServiceItemRepository serviceItemRepository;
+    private final SalonRepository salonRepository;
 
     public List<ServiceItemDisplayDTO> getAllServices() {
         List<ServiceItem> services = serviceItemRepository.findAll();

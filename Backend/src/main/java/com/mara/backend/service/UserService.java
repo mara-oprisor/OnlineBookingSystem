@@ -8,6 +8,7 @@ import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
+import com.mara.backend.security.PasswordUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordUtil passwordUtil;
 
     public List<UserDisplayDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -92,7 +94,8 @@ public class UserService {
             client.setName(userDTO.getName());
             client.setAge(userDTO.getAge());
             client.setUsername(userDTO.getUsername());
-            client.setPassword(userDTO.getPassword());
+            String hashedPassword = passwordUtil.hashPassword(userDTO.getPassword());
+            client.setPassword(hashedPassword);
             client.setEmail(userDTO.getEmail());
 
             return UserDisplayDTO.userToDTO(userRepository.save(client));
@@ -101,7 +104,8 @@ public class UserService {
 
             admin.setUsername(userDTO.getUsername());
             admin.setEmail(userDTO.getEmail());
-            admin.setPassword(userDTO.getPassword());
+            String hashedPassword = passwordUtil.hashPassword(userDTO.getPassword());
+            admin.setPassword(hashedPassword);
 
             return UserDisplayDTO.userToDTO(userRepository.save(admin));
         } else {
@@ -124,7 +128,8 @@ public class UserService {
 
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setUsername(userDTO.getUsername());
-        existingUser.setPassword(userDTO.getPassword());
+        String hashedPassword = passwordUtil.hashPassword(userDTO.getPassword());
+        existingUser.setPassword(hashedPassword);
 
         if (existingUser instanceof Client client) {
 

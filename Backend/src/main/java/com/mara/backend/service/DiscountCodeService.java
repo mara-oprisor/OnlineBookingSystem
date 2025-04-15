@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class DiscountCodeService {
-    private DiscountCodeRepository discountCodeRepository;
+    private final DiscountCodeRepository discountCodeRepository;
 
     public List<DiscountCodeDisplayDTO> getAllDiscountCodes() {
         List<DiscountCode> discountCodes = discountCodeRepository.findAll();
