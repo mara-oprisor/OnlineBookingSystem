@@ -7,7 +7,9 @@ import com.mara.backend.model.Client;
 import com.mara.backend.model.ServiceItem;
 import com.mara.backend.model.dto.BookingDisplayDTO;
 import com.mara.backend.repository.*;
+import com.mara.backend.security.JWTUtil;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class BookingControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -100,6 +105,15 @@ public class BookingControllerIntegrationTest {
         return Files.readString(Paths.get(BOOKING_FIXTURE_PATH + fileName));
     }
 
+    private String generateTestToken() {
+        Client dummyUser = new Client();
+        dummyUser.setId(UUID.randomUUID());
+        dummyUser.setUsername("testUser");
+        dummyUser.setEmail("testUser@example.com");
+
+        return jwtUtil.createToken(dummyUser);
+    }
+
     @Test
     void testGetBookings() throws Exception {
         Client persistedClient = (Client) userRepository.findByUsername("client1")
@@ -112,12 +126,14 @@ public class BookingControllerIntegrationTest {
         validBookingJson = validBookingJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validBookingJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.bookingId").exists());
 
-        mockMvc.perform(get("/bookings"))
+        mockMvc.perform(get("/bookings")
+                        .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$[0].bookingId", Matchers.notNullValue()));
@@ -136,6 +152,7 @@ public class BookingControllerIntegrationTest {
         validBookingJson = validBookingJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validBookingJson))
                 .andExpect(status().isOk())
@@ -163,6 +180,7 @@ public class BookingControllerIntegrationTest {
         discountBookingJson = discountBookingJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(discountBookingJson))
                 .andExpect(status().isOk())
@@ -190,6 +208,7 @@ public class BookingControllerIntegrationTest {
         expiredDiscountJson = expiredDiscountJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expiredDiscountJson))
                 .andExpect(status().isBadRequest())
@@ -199,7 +218,6 @@ public class BookingControllerIntegrationTest {
 
     @Test
     void testEditBooking() throws Exception {
-        // Create a booking first.
         Client persistedClient = (Client) userRepository.findByUsername("client1")
                 .orElseThrow(() -> new RuntimeException("Client not found"));
         ServiceItem persistedService = serviceItemRepository.findServiceItemByName("Service A")
@@ -209,6 +227,7 @@ public class BookingControllerIntegrationTest {
         validBookingJson = validBookingJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         String createResponse = mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validBookingJson))
                 .andExpect(status().isOk())
@@ -218,6 +237,7 @@ public class BookingControllerIntegrationTest {
 
         String newDateTime = "2025-12-31T10:00:00";
         mockMvc.perform(put("/booking/{uuid}", bookingId)
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.TEXT_PLAIN)
                         .content(newDateTime))
                 .andExpect(status().isOk())
@@ -236,6 +256,7 @@ public class BookingControllerIntegrationTest {
         validBookingJson = validBookingJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
 
         String createResponse = mockMvc.perform(post("/booking")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validBookingJson))
                 .andExpect(status().isOk())
@@ -245,7 +266,26 @@ public class BookingControllerIntegrationTest {
         BookingDisplayDTO createdBooking = objectMapper.readValue(createResponse, BookingDisplayDTO.class);
         UUID bookingId = createdBooking.getBookingId();
 
-        mockMvc.perform(delete("/booking/{uuid}", bookingId))
+        mockMvc.perform(delete("/booking/{uuid}", bookingId)
+                        .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk());
+    }
+
+    @AfterEach
+    void cleanDatabase() {
+        bookingRepository.deleteAll();
+        bookingRepository.flush();
+
+        loyaltyPointRepository.deleteAll();
+        loyaltyPointRepository.flush();
+
+        userRepository.deleteAll();
+        userRepository.flush();
+
+        serviceItemRepository.deleteAll();
+        serviceItemRepository.flush();
+
+        salonRepository.deleteAll();
+        salonRepository.flush();
     }
 }

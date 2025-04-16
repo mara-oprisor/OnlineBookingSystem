@@ -5,6 +5,8 @@ import com.mara.backend.model.Client;
 import com.mara.backend.model.User;
 import com.mara.backend.model.login.LoginResponse;
 import com.mara.backend.repository.UserRepository;
+import com.mara.backend.security.JWTUtil;
+import com.mara.backend.security.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,13 +21,20 @@ import static org.mockito.Mockito.*;
 public class LoginServiceTest {
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private  PasswordUtil passwordUtil;
+    @Mock
+    private JWTUtil jwtUtil;
 
     @InjectMocks
     private LoginService loginService;
 
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        when(passwordUtil.hashPassword(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(jwtUtil.createToken(any(User.class))).thenReturn("dummyToken");
     }
 
     @Test
@@ -38,6 +47,7 @@ public class LoginServiceTest {
 
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(client));
+        when(passwordUtil.checkPassword(anyString(), anyString())).thenReturn(true);
         LoginResponse result = loginService.login(username, password);
 
 
@@ -56,6 +66,7 @@ public class LoginServiceTest {
 
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(admin));
+        when(passwordUtil.checkPassword(anyString(), anyString())).thenReturn(true);
         LoginResponse result = loginService.login(username, password);
 
 

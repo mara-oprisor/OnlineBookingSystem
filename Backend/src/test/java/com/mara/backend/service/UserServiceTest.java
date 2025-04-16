@@ -8,6 +8,7 @@ import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
+import com.mara.backend.security.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,6 +26,8 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private PasswordUtil passwordUtil;
 
     @InjectMocks
     private UserService userService;
@@ -32,6 +35,7 @@ public class UserServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        when(passwordUtil.hashPassword(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
     }
 
     @Test

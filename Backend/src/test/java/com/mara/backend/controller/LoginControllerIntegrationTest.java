@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mara.backend.model.User;
 import com.mara.backend.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,5 +99,11 @@ public class LoginControllerIntegrationTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.errorMessage").value("Incorrect password! Please try again!"));
+    }
+
+    @AfterEach
+    void cleanDatabase() {
+        userRepository.deleteAll();
+        userRepository.flush();
     }
 }

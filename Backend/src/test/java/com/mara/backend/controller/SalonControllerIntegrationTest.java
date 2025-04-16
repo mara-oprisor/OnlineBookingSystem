@@ -2,9 +2,12 @@ package com.mara.backend.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mara.backend.model.Client;
 import com.mara.backend.model.Salon;
 import com.mara.backend.repository.SalonRepository;
+import com.mara.backend.security.JWTUtil;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,6 +36,9 @@ public class SalonControllerIntegrationTest {
 
     @Autowired
     private SalonRepository salonRepository;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     private static final String FIXTURE_PATH = "src/test/resources/fixtures/salon/";
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -53,9 +60,19 @@ public class SalonControllerIntegrationTest {
         return Files.readString(Paths.get(FIXTURE_PATH + fileName));
     }
 
+    private String generateTestToken() {
+        Client dummyUser = new Client();
+        dummyUser.setId(UUID.randomUUID());
+        dummyUser.setUsername("testUser");
+        dummyUser.setEmail("testUser@example.com");
+
+        return jwtUtil.createToken(dummyUser);
+    }
+
     @Test
     void testGetSalons() throws Exception {
-        mockMvc.perform(get("/salons"))
+        mockMvc.perform(get("/salons")
+                        .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(jsonPath("$[*].name", Matchers.containsInAnyOrder("salon1", "salon2", "salon3")))
@@ -67,6 +84,7 @@ public class SalonControllerIntegrationTest {
         String validSalonJson = loadFixture("valid_salon.json");
 
         mockMvc.perform(post("/add_salon")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validSalonJson))
                 .andExpect(status().isOk())
@@ -80,6 +98,7 @@ public class SalonControllerIntegrationTest {
         String invalidSalonJson = loadFixture("invalid_salon.json");
 
         mockMvc.perform(post("/add_salon")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
                 .andExpect(status().isBadRequest())
@@ -92,6 +111,7 @@ public class SalonControllerIntegrationTest {
         String invalidSalonJson = loadFixture("duplicate_salon.json");
 
         mockMvc.perform(post("/add_salon")
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
                 .andExpect(status().isBadRequest())
@@ -106,6 +126,7 @@ public class SalonControllerIntegrationTest {
         );
 
         mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validSalonJson))
                 .andExpect(status().isOk())
@@ -122,6 +143,7 @@ public class SalonControllerIntegrationTest {
 
 
         mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
                 .andExpect(status().isBadRequest())
@@ -138,6 +160,7 @@ public class SalonControllerIntegrationTest {
 
 
         mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+                        .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
                 .andExpect(status().isBadRequest())
@@ -150,7 +173,14 @@ public class SalonControllerIntegrationTest {
                 () -> new RuntimeException("Salon not found")
         );
 
-        mockMvc.perform(delete("/delete_salon/{uuid}", existingSalon.getUuid()))
+        mockMvc.perform(delete("/delete_salon/{uuid}", existingSalon.getUuid())
+                        .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk());
+    }
+
+    @AfterEach
+    void cleanDatabase() {
+        salonRepository.deleteAll();
+        salonRepository.flush();
     }
 }

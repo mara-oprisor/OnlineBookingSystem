@@ -3,7 +3,7 @@
     "id": null,
     "username": "client1",
     "email": "client1@example.com",
-    "password": "password123",
+    "password": "$2a$10$T1Vn65pfayo8h7BpwvxKOeq2ROxRYOfdsyhxI6HB6TdNlwePG8mQ.",
     "userType": "CLIENT",
     "name": "Client One",
     "age": 28
@@ -12,14 +12,14 @@
     "id": null,
     "username": "admin1",
     "email": "admin1@example.com",
-    "password": "adminpass",
+    "password": "$2a$10$AsRglxlKQRj8BDvf2rlrXua6xjhzbLNbqhusXIYX98BLe2x2mPU8W",
     "userType": "ADMIN"
   },
   {
     "id": null,
     "username": "client2",
     "email": "client2@example.com",
-    "password": "clientpass",
+    "password": "$2a$10$Rr2VKQy1Iz.tJDs6ab9KfutmJt4s8geE9fSOt5jUPM7qx9jRcEJ9O",
     "userType": "CLIENT",
     "name": "Client Two",
     "age": 35
