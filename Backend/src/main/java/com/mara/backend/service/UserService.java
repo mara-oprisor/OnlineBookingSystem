@@ -8,9 +8,8 @@ import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
-import com.mara.backend.security.PasswordUtil;
+import com.mara.backend.util.security.PasswordUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

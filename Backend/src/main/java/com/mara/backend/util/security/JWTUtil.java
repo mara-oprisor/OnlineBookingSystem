@@ -1,4 +1,4 @@
-package com.mara.backend.security;
+package com.mara.backend.util.security;
 
 import com.mara.backend.model.Client;
 import com.mara.backend.model.User;

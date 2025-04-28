@@ -8,7 +8,7 @@ import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.model.dto.UserFilterDTO;
 import com.mara.backend.repository.UserRepository;
-import com.mara.backend.security.PasswordUtil;
+import com.mara.backend.util.security.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

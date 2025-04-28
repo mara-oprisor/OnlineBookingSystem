@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mara.backend.model.Client;
 import com.mara.backend.model.Salon;
 import com.mara.backend.repository.SalonRepository;
-import com.mara.backend.security.JWTUtil;
+import com.mara.backend.util.security.JWTUtil;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

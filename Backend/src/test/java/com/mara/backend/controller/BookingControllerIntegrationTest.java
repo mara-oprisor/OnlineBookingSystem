@@ -7,7 +7,7 @@ import com.mara.backend.model.Client;
 import com.mara.backend.model.ServiceItem;
 import com.mara.backend.model.dto.BookingDisplayDTO;
 import com.mara.backend.repository.*;
-import com.mara.backend.security.JWTUtil;
+import com.mara.backend.util.security.JWTUtil;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

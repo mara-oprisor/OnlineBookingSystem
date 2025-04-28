@@ -1,4 +1,4 @@
-package com.mara.backend.security;
+package com.mara.backend.util.security;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;

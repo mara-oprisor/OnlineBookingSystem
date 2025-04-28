@@ -4,8 +4,8 @@ import com.mara.backend.model.Client;
 import com.mara.backend.model.User;
 import com.mara.backend.model.login.LoginResponse;
 import com.mara.backend.repository.UserRepository;
-import com.mara.backend.security.JWTUtil;
-import com.mara.backend.security.PasswordUtil;
+import com.mara.backend.util.security.JWTUtil;
+import com.mara.backend.util.security.PasswordUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

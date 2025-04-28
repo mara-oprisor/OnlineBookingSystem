@@ -1,4 +1,4 @@
-package com.mara.backend.security;
+package com.mara.backend.util.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -72,7 +72,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        if ("/login".equals(path) || "OPTIONS".equalsIgnoreCase(method)) {
+        if ("/login".equals(path) || "/reset_password".equals(path) || "/forgot_password".equals(path) || "OPTIONS".equalsIgnoreCase(method)) {
             log.info("Skipping JWT filter for path: {} and method: {}", path, method);
             filterChain.doFilter(request, response);
             return;
