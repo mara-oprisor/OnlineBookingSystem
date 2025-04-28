@@ -22,3 +22,6 @@ export const DISCOUNT_CODE = `${API_BASE_URL}/discount`;
 
 export const BOOKINGS_ENDPOINT = `${API_BASE_URL}/bookings`;
 export const BOOKING_ENDPOINT = `${API_BASE_URL}/booking`;
+
+export const SEND_RESET_TOKEN_ENDPOINT = `${API_BASE_URL}/forgot_password`;
+export const RESET_PASSWORD_ENDPOINT = `${API_BASE_URL}/reset_password`;

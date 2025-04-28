@@ -9,6 +9,8 @@ import BookingPage from "./pages/BookingPage.tsx";
 import 'bootstrap/dist/css/bootstrap.css';
 import AuthenticatedRouteGuard from "./security/AuthenticatedRouteGuard.tsx";
 import './security/axiosConfig.ts';
+import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path="/reset_password" element={<ResetPasswordPage />} />
             <Route element={<AuthenticatedRouteGuard requiredRole={"CLIENT"} />}>
                 <Route path="/client" element={<SalonsPage />} />
                 <Route path="/book/:salonId" element={<BookingPage />} />
