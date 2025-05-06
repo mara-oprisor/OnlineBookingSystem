@@ -1,6 +1,7 @@
 package com.mara.backend.controller;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.model.dto.UserFilterDTO;
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}")
-    public  UserDisplayDTO getUserByUsername(@PathVariable String username) {
+    public  UserDisplayDTO getUserByUsername(@PathVariable String username) throws NotExistentException {
         return userService.getUserByUsername(username);
     }
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/edit_user/{uuid}")
-    public UserDisplayDTO editUser(@PathVariable UUID uuid, @Valid @RequestBody UserCreateDTO userDTO) throws DuplicateResourceException {
+    public UserDisplayDTO editUser(@PathVariable UUID uuid, @Valid @RequestBody UserCreateDTO userDTO) throws DuplicateResourceException, NotExistentException {
         return userService.editUser(uuid, userDTO);
     }
 

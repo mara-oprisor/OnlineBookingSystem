@@ -1,5 +1,6 @@
 package com.mara.backend.service;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.Salon;
 import com.mara.backend.model.ServiceItem;
 import com.mara.backend.model.dto.ServiceItemCreateDTO;
@@ -40,17 +41,17 @@ public class ServiceItemService {
         return displayList;
     }
 
-    public ServiceItemDisplayDTO getServiceByName(String name) {
+    public ServiceItemDisplayDTO getServiceByName(String name) throws NotExistentException {
         ServiceItem service = serviceItemRepository.findServiceItemByName(name).orElseThrow(
-                () -> new IllegalStateException("There is no service with name: " + name)
+                () -> new NotExistentException("There is no service with name: " + name)
         );
 
         return ServiceItemDisplayDTO.serviceToDTO(service);
     }
 
-    public ServiceItemDisplayDTO addService(ServiceItemCreateDTO serviceDTO) {
+    public ServiceItemDisplayDTO addService(ServiceItemCreateDTO serviceDTO) throws NotExistentException {
         Salon salon = salonRepository.findByName(serviceDTO.getSalonName()).orElseThrow(
-                () -> new IllegalStateException("Salon with name " + serviceDTO.getSalonName() + " does not exist!")
+                () -> new NotExistentException("Salon with name " + serviceDTO.getSalonName() + " does not exist!")
         );
 
         ServiceItem serviceItem = new ServiceItem();
@@ -62,9 +63,9 @@ public class ServiceItemService {
         return ServiceItemDisplayDTO.serviceToDTO(serviceItemRepository.save(serviceItem));
     }
 
-    public ServiceItemDisplayDTO editService(UUID uuid, ServiceItemUpdateDTO serviceDTO) {
+    public ServiceItemDisplayDTO editService(UUID uuid, ServiceItemUpdateDTO serviceDTO) throws NotExistentException {
         ServiceItem existingService = serviceItemRepository.findById(uuid).orElseThrow(
-                () -> new IllegalStateException("Service with uuid " + uuid + " does not exist!")
+                () -> new NotExistentException("Service with uuid " + uuid + " does not exist!")
         );
 
         existingService.setName(serviceDTO.getName());

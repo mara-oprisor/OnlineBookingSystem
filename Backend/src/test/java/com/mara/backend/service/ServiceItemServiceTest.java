@@ -1,5 +1,6 @@
 package com.mara.backend.service;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.Salon;
 import com.mara.backend.model.ServiceItem;
 import com.mara.backend.model.dto.SalonCreateDTO;
@@ -72,7 +73,7 @@ public class ServiceItemServiceTest {
     }
 
     @Test
-    void testAddService() {
+    void testAddService() throws NotExistentException {
         ServiceItemCreateDTO serviceItemDto = new ServiceItemCreateDTO("service", "description", 10, "salon1");
 
         ServiceItem savedService = new ServiceItem();
@@ -95,7 +96,7 @@ public class ServiceItemServiceTest {
     }
 
     @Test
-    void testEditService() {
+    void testEditService() throws NotExistentException {
         UUID serviceId = UUID.randomUUID();
         ServiceItem existingService = new ServiceItem();
         existingService.setUuid(serviceId);

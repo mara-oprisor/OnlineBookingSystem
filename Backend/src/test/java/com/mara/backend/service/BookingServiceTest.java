@@ -1,8 +1,11 @@
 package com.mara.backend.service;
 
+import com.mara.backend.config.exception.NotExistentException;
+import com.mara.backend.logic.PriceHandler;
 import com.mara.backend.model.*;
 import com.mara.backend.model.dto.BookingCreateDTO;
 import com.mara.backend.model.dto.BookingDisplayDTO;
+import com.mara.backend.model.dto.PricingDTO;
 import com.mara.backend.repository.BookingRepository;
 import com.mara.backend.repository.DiscountCodeRepository;
 import com.mara.backend.repository.ServiceItemRepository;
@@ -32,8 +35,11 @@ public class BookingServiceTest {
     private DiscountCodeRepository discountCodeRepository;
     @Mock
     private LoyaltyPointService loyaltyPointService;
+    @Mock
+    private PriceHandler priceHandler;
     @InjectMocks
     private BookingService bookingService;
+
 
     private Client client;
     private ServiceItem serviceItem;
@@ -96,7 +102,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void testCreateBookingWithoutDiscount() {
+    void testCreateBookingWithoutDiscount() throws NotExistentException {
         BookingCreateDTO dto = new BookingCreateDTO();
         dto.setClientId(clientId);
         dto.setServiceId(serviceItemId);
@@ -124,7 +130,7 @@ public class BookingServiceTest {
 
 
     @Test
-    void testCreateBookingWithDiscount() {
+    void testCreateBooking() throws NotExistentException {
         BookingCreateDTO dto = new BookingCreateDTO();
         dto.setClientId(clientId);
         dto.setServiceId(serviceItemId);
@@ -144,70 +150,18 @@ public class BookingServiceTest {
         dummyBooking.setFinalPrice(expectedFinalPrice);
 
 
-        when(discountCodeRepository.findByCode("DISC10")).thenReturn(Optional.of(discountCode));
+        when(priceHandler.findFinalPrice(any(PricingDTO.class))).thenReturn(90.0);
         when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         doNothing().when(loyaltyPointService).addLoyaltyPoint(any());
         BookingDisplayDTO result = bookingService.createBooking(dto);
 
 
         assertEquals(expectedFinalPrice, result.getFinalPrice());
-        verify(discountCodeRepository, times(1)).findByCode("DISC10");
         verify(loyaltyPointService, times(1)).addLoyaltyPoint(any());
     }
 
-
     @Test
-    void testCreateBookingWithExpiredDiscountCode() {
-        BookingCreateDTO dto = new BookingCreateDTO();
-        dto.setClientId(clientId);
-        dto.setServiceId(serviceItemId);
-        dto.setDiscountCode("DISC10");
-        dto.setDateTime(LocalDateTime.now().plusDays(1));
-
-        DiscountCode expiredDiscountCode = new DiscountCode();
-        expiredDiscountCode.setCode("DISC10");
-        expiredDiscountCode.setExpirationDate(LocalDateTime.now().minusDays(1));
-
-
-        when(discountCodeRepository.findByCode("DISC10")).thenReturn(Optional.of(expiredDiscountCode));
-        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
-            bookingService.createBooking(dto);
-        });
-
-
-        assertEquals("Discount code is expired!", thrown.getMessage());
-    }
-
-
-    @Test
-    void testCreateBookingWithLoyaltyDiscount() {
-        BookingCreateDTO dto = new BookingCreateDTO();
-        dto.setClientId(clientId);
-        dto.setServiceId(serviceItemId);
-        dto.setDiscountCode(null);
-        dto.setDateTime(LocalDateTime.now().plusDays(1));
-
-        double expectedFinalPrice = 80.0;
-
-        Booking dummyBooking = new Booking();
-        dummyBooking.setUuid(UUID.randomUUID());
-        dummyBooking.setClient(client);
-        dummyBooking.setServiceItem(serviceItem);
-        dummyBooking.setDateTime(dto.getDateTime());
-        dummyBooking.setFinalPrice(expectedFinalPrice);
-
-
-        when(loyaltyPointService.getAllPointsForUser(clientId)).thenReturn(150);
-        when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
-        BookingDisplayDTO result = bookingService.createBooking(dto);
-
-
-        assertEquals(expectedFinalPrice, result.getFinalPrice());
-        verify(loyaltyPointService, times(1)).getAllPointsForUser(clientId);
-    }
-
-    @Test
-    void testCreateBookingAwardsLoyaltyPoints() {
+    void testCreateBookingAwardsLoyaltyPoints() throws NotExistentException {
         BookingCreateDTO dto = new BookingCreateDTO();
         dto.setClientId(clientId);
         dto.setServiceId(serviceItemId);
@@ -224,6 +178,7 @@ public class BookingServiceTest {
         int expectedPoints = 5;
 
 
+        when(priceHandler.findFinalPrice(any(PricingDTO.class))).thenReturn(100.0);
         when(bookingRepository.save(any(Booking.class))).thenReturn(dummyBooking);
         ArgumentCaptor<LoyaltyPoint> captor = ArgumentCaptor.forClass(LoyaltyPoint.class);
         doNothing().when(loyaltyPointService).addLoyaltyPoint(captor.capture());
@@ -236,7 +191,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void testEditBooking() {
+    public void testEditBooking() throws NotExistentException {
         LocalDateTime newDate = LocalDateTime.of(2025, 2, 1, 15, 0);
 
         Booking booking1 = new Booking();

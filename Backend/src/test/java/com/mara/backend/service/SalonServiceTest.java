@@ -1,6 +1,7 @@
 package com.mara.backend.service;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.Salon;
 import com.mara.backend.model.dto.SalonCreateDTO;
 import com.mara.backend.model.dto.SalonDisplayDTO;
@@ -82,7 +83,7 @@ public class SalonServiceTest {
     }
 
     @Test
-    void testUpdateSalon() throws DuplicateResourceException {
+    void testUpdateSalon() throws DuplicateResourceException, NotExistentException {
         UUID uuid = UUID.randomUUID();
         Salon existingSalon = new Salon();
         existingSalon.setName("salon");
@@ -128,7 +129,7 @@ public class SalonServiceTest {
         when(salonRepository.findById(uuid)).thenReturn(Optional.empty());
 
 
-        assertThrows(IllegalStateException.class, () -> salonService.editSalonInfo(uuid, salonDTO));
+        assertThrows(NotExistentException.class, () -> salonService.editSalonInfo(uuid, salonDTO));
     }
 
     @Test

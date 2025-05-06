@@ -14,14 +14,9 @@ public class LoyaltyPointService {
     private final LoyaltyPointRepository loyaltyPointRepository;
 
     public int getAllPointsForUser(UUID clientId) {
-        List<LoyaltyPoint> loyaltyPointList = loyaltyPointRepository.findByClientId(clientId);
-        int totalPoints = 0;
-
-        for (LoyaltyPoint loyaltyPoint: loyaltyPointList) {
-            totalPoints += loyaltyPoint.getPoints();
-        }
-
-        return totalPoints;
+        return loyaltyPointRepository.findByClientId(clientId).stream()
+                .mapToInt(LoyaltyPoint::getPoints)
+                .sum();
     }
 
     public void addLoyaltyPoint(LoyaltyPoint loyaltyPoint) {

@@ -1,5 +1,6 @@
 package com.mara.backend.controller;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.dto.ResetPasswordRequest;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.service.PasswordResetService;
@@ -17,14 +18,14 @@ public class PasswordResetController {
     private final PasswordResetService passwordResetService;
 
     @PostMapping("/forgot_password")
-    public ResponseEntity<String> forgotPassword(@RequestBody String email) {
+    public ResponseEntity<String> forgotPassword(@RequestBody String email) throws NotExistentException {
         passwordResetService.sendResetToken(email);
 
         return ResponseEntity.ok("Code sent!");
     }
 
     @PostMapping("/reset_password")
-    public UserDisplayDTO resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+    public UserDisplayDTO resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) throws NotExistentException {
         return passwordResetService.resetPassword(resetPasswordRequest);
     }
 }

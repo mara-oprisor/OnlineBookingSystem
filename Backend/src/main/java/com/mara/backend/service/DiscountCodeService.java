@@ -1,5 +1,6 @@
 package com.mara.backend.service;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.DiscountCode;
 import com.mara.backend.model.dto.DiscountCodeCreateDTO;
 import com.mara.backend.model.dto.DiscountCodeDisplayDTO;
@@ -10,7 +11,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.mara.backend.model.dto.DiscountCodeDisplayDTO.discountToDTO;
 
 @Service
 @AllArgsConstructor
@@ -18,14 +23,21 @@ public class DiscountCodeService {
     private final DiscountCodeRepository discountCodeRepository;
 
     public List<DiscountCodeDisplayDTO> getAllDiscountCodes() {
-        List<DiscountCode> discountCodes = discountCodeRepository.findAll();
-        List<DiscountCodeDisplayDTO> discountDTOs = new ArrayList<>();
+        return discountCodeRepository.findAll().stream()
+                .map(DiscountCodeDisplayDTO::discountToDTO)
+                .collect(Collectors.toList());
+    }
 
-        for(DiscountCode discountCode: discountCodes) {
-            discountDTOs.add(DiscountCodeDisplayDTO.discountToDTO(discountCode));
+    public Optional<DiscountCodeDisplayDTO> getDiscountCodeIfValid (String code) {
+        Optional<DiscountCode> discountCode = discountCodeRepository.findByCode(code);
+
+        if(discountCode.isPresent()) {
+            if(discountCode.get().getExpirationDate().isAfter(LocalDateTime.now())) {
+                return Optional.of(DiscountCodeDisplayDTO.discountToDTO(discountCode.get()));
+            }
         }
 
-        return discountDTOs;
+        return Optional.empty();
     }
 
     public DiscountCodeDisplayDTO createDiscountCode(DiscountCodeCreateDTO createDTO) {
@@ -41,17 +53,17 @@ public class DiscountCodeService {
         discountCode.setCode(sb.toString());
         discountCode.setExpirationDate(LocalDateTime.parse(createDTO.getDateTime()));
 
-        return DiscountCodeDisplayDTO.discountToDTO(discountCodeRepository.save(discountCode));
+        return discountToDTO(discountCodeRepository.save(discountCode));
     }
 
-    public DiscountCodeDisplayDTO editDiscountCode(UUID uuid, DiscountCodeDisplayDTO createDTO) {
+    public DiscountCodeDisplayDTO editDiscountCode(UUID uuid, DiscountCodeDisplayDTO createDTO) throws NotExistentException {
         DiscountCode discountCode = discountCodeRepository.findById(uuid).orElseThrow(
-                () -> new IllegalStateException("There is no discount code with uuid " + uuid)
+                () -> new NotExistentException("There is no discount code with uuid " + uuid)
         );
 
         discountCode.setExpirationDate(createDTO.getExpirationDate());
 
-        return DiscountCodeDisplayDTO.discountToDTO(discountCodeRepository.save(discountCode));
+        return discountToDTO(discountCodeRepository.save(discountCode));
     }
 
     public void deleteDiscountCode(UUID uuid) {

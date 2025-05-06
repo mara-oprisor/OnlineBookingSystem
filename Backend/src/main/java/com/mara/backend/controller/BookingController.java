@@ -1,5 +1,6 @@
 package com.mara.backend.controller;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.dto.BookingCreateDTO;
 import com.mara.backend.model.dto.BookingDisplayDTO;
 import com.mara.backend.service.BookingService;
@@ -23,12 +24,12 @@ public class BookingController {
     }
 
     @PostMapping("/booking")
-    public BookingDisplayDTO createBooking(@RequestBody BookingCreateDTO bookingCreateDTO) {
+    public BookingDisplayDTO createBooking(@RequestBody BookingCreateDTO bookingCreateDTO) throws NotExistentException {
         return bookingService.createBooking(bookingCreateDTO);
     }
 
     @PutMapping("booking/{uuid}")
-    public BookingDisplayDTO editBooking(@PathVariable UUID uuid, @Valid @RequestBody String dateTime) {
+    public BookingDisplayDTO editBooking(@PathVariable UUID uuid, @Valid @RequestBody String dateTime) throws NotExistentException {
         LocalDateTime parsedDateTime = LocalDateTime.parse(dateTime);
         return bookingService.editBooking(uuid, parsedDateTime);
     }

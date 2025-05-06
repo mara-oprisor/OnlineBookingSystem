@@ -1,6 +1,7 @@
 package com.mara.backend.config;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -37,6 +38,15 @@ public class GlobalExceptionHandler {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("error", ex.getMessage());
         log.error("Duplicate resource error: {}", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotExistentException.class)
+    public Map<String, String> handleNotExistentException(NotExistentException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        log.error("Not existent resource error: {}", ex.getMessage());
         return errorMap;
     }
 

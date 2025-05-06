@@ -1,6 +1,7 @@
 package com.mara.backend.service;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.Client;
 import com.mara.backend.model.Salon;
 import com.mara.backend.model.User;
@@ -32,9 +33,9 @@ public class SalonService {
         return salonsDTO;
     }
 
-    public SalonDisplayDTO getSalonByName(String name) {
+    public SalonDisplayDTO getSalonByName(String name) throws NotExistentException {
         Salon salon = salonRepository.findByName(name).orElseThrow(
-                () -> new IllegalStateException("There is no salon with the name: " + name)
+                () -> new NotExistentException("There is no salon with the name: " + name)
         );
 
         return SalonDisplayDTO.salonToDTO(salon);
@@ -57,9 +58,9 @@ public class SalonService {
         return SalonDisplayDTO.salonToDTO(salonRepository.save(salon));
     }
 
-    public SalonDisplayDTO editSalonInfo(UUID uuid, SalonCreateDTO salonDTO) throws DuplicateResourceException {
+    public SalonDisplayDTO editSalonInfo(UUID uuid, SalonCreateDTO salonDTO) throws DuplicateResourceException, NotExistentException {
         Salon existingSalon = salonRepository.findById(uuid).orElseThrow(
-                () -> new IllegalStateException("There is no user with such uuid!")
+                () -> new NotExistentException("There is no user with such uuid!")
         );
 
         if(!salonDTO.getName().equals(existingSalon.getName()) && salonRepository.existsByName(salonDTO.getName())) {
@@ -80,9 +81,9 @@ public class SalonService {
         salonRepository.deleteById(uuid);
     }
 
-    public SalonDisplayDTO addFavoriteSalon(UUID clientUUID, UUID salonUUID) {
+    public SalonDisplayDTO addFavoriteSalon(UUID clientUUID, UUID salonUUID) throws NotExistentException {
         User user = userRepository.findById(clientUUID).orElseThrow(
-                () -> new IllegalStateException("There is no user with uuid " + clientUUID)
+                () -> new NotExistentException("There is no user with uuid " + clientUUID)
         );
 
         if(!(user instanceof Client client)) {
@@ -90,7 +91,7 @@ public class SalonService {
         }
 
         Salon salon = salonRepository.findById(salonUUID).orElseThrow(
-                () -> new IllegalStateException("There is no salon with uuid " + salonUUID)
+                () -> new NotExistentException("There is no salon with uuid " + salonUUID)
         );
 
         if(!salon.getFavoriteFor().contains(client)) {

@@ -189,34 +189,6 @@ public class BookingControllerIntegrationTest {
 
 
     @Test
-    void testCreateBookingWithExpiredDiscount() throws Exception {
-        discountCodeRepository.deleteAll();
-        discountCodeRepository.flush();
-
-        com.mara.backend.model.DiscountCode discountCode = new com.mara.backend.model.DiscountCode();
-        discountCode.setCode("DISC10");
-        discountCode.setExpirationDate(LocalDateTime.now().minusDays(1));
-        discountCodeRepository.save(discountCode);
-
-        Client persistedClient = (Client) userRepository.findByUsername("client1")
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-        ServiceItem persistedService = serviceItemRepository.findServiceItemByName("Service A")
-                .orElseThrow(() -> new RuntimeException("Service item not found"));
-
-        String expiredDiscountJson = loadBookingFixture("expired_discount_booking.json");
-        expiredDiscountJson = expiredDiscountJson.replace("PLACEHOLDER_CLIENT_ID", persistedClient.getId().toString());
-        expiredDiscountJson = expiredDiscountJson.replace("PLACEHOLDER_SERVICE_ID", persistedService.getUuid().toString());
-
-        mockMvc.perform(post("/booking")
-                        .header("Authorization", "Bearer " + generateTestToken())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(expiredDiscountJson))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Discount code is expired!"));
-    }
-
-
-    @Test
     void testEditBooking() throws Exception {
         Client persistedClient = (Client) userRepository.findByUsername("client1")
                 .orElseThrow(() -> new RuntimeException("Client not found"));

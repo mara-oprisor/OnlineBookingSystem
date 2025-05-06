@@ -1,6 +1,7 @@
 package com.mara.backend.controller;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.dto.SalonCreateDTO;
 import com.mara.backend.model.dto.SalonDisplayDTO;
 import com.mara.backend.service.SalonService;
@@ -23,7 +24,7 @@ public class SalonController {
     }
 
     @GetMapping("/salon/{name}")
-    public SalonDisplayDTO getServiceByName(@PathVariable String name) {
+    public SalonDisplayDTO getServiceByName(@PathVariable String name) throws NotExistentException {
         return salonService.getSalonByName(name);
     }
 
@@ -33,7 +34,7 @@ public class SalonController {
     }
 
     @PutMapping("/edit_salon/{uuid}")
-    public SalonDisplayDTO editSalon(@PathVariable UUID uuid, @Valid @RequestBody SalonCreateDTO salonDTO) throws DuplicateResourceException {
+    public SalonDisplayDTO editSalon(@PathVariable UUID uuid, @Valid @RequestBody SalonCreateDTO salonDTO) throws DuplicateResourceException, NotExistentException {
         return salonService.editSalonInfo(uuid, salonDTO);
     }
 
@@ -43,7 +44,7 @@ public class SalonController {
     }
 
     @PostMapping("/{client_uuid}/favorite_salon/{salon_uuid}")
-    public SalonDisplayDTO addFavoriteSalon(@PathVariable UUID client_uuid, @PathVariable UUID salon_uuid) {
+    public SalonDisplayDTO addFavoriteSalon(@PathVariable UUID client_uuid, @PathVariable UUID salon_uuid) throws NotExistentException {
         return salonService.addFavoriteSalon(client_uuid, salon_uuid);
     }
 }

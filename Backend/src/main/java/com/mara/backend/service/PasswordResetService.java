@@ -1,9 +1,9 @@
 package com.mara.backend.service;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.PasswordResetToken;
 import com.mara.backend.model.User;
 import com.mara.backend.model.dto.ResetPasswordRequest;
-import com.mara.backend.model.dto.UserCreateDTO;
 import com.mara.backend.model.dto.UserDisplayDTO;
 import com.mara.backend.repository.PasswordResetRepository;
 import com.mara.backend.repository.UserRepository;
@@ -26,14 +26,14 @@ public class PasswordResetService {
     private final PasswordUtil passwordUtil;
 
     @Transactional
-    public void sendResetToken(String email) {
+    public void sendResetToken(String email) throws NotExistentException {
         email = email.trim();
         if (email.startsWith("\"") && email.endsWith("\"")) {
             email = email.substring(1, email.length() - 1);
         }
 
         userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalStateException("There is no user with this email")
+                () -> new NotExistentException("There is no user with this email")
         );
 
         passwordResetRepository.deleteByEmail(email);
@@ -54,13 +54,13 @@ public class PasswordResetService {
         return passwordResetRepository.save(passwordResetToken);
     }
 
-    public UserDisplayDTO resetPassword(ResetPasswordRequest resetPasswordRequest) {
+    public UserDisplayDTO resetPassword(ResetPasswordRequest resetPasswordRequest) throws NotExistentException {
         User user = userRepository.findByEmail(resetPasswordRequest.getEmail()).orElseThrow(
-                () -> new IllegalStateException("There is no user with email " + resetPasswordRequest.getEmail())
+                () -> new NotExistentException("There is no user with email " + resetPasswordRequest.getEmail())
         );
 
         PasswordResetToken passwordResetToken = passwordResetRepository.findByToken(resetPasswordRequest.getToken()).orElseThrow(
-                () -> new IllegalStateException("There is token " + resetPasswordRequest.getToken())
+                () -> new NotExistentException("There is no token " + resetPasswordRequest.getToken())
         );
 
         if (passwordResetToken.getExpiresAt().isBefore(LocalDateTime.now())) {

@@ -1,6 +1,7 @@
 package com.mara.backend.service;
 
 import com.mara.backend.config.exception.DuplicateResourceException;
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.Admin;
 import com.mara.backend.model.Client;
 import com.mara.backend.model.User;
@@ -267,7 +268,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testUpdateUser() throws DuplicateResourceException {
+    void testUpdateUser() throws DuplicateResourceException, NotExistentException {
         UUID uuid = UUID.randomUUID();
         Client existingClient = new Client();
         existingClient.setId(uuid);
@@ -307,7 +308,7 @@ public class UserServiceTest {
         when(userRepository.findById(uuid)).thenReturn(Optional.empty());
 
 
-        assertThrows(IllegalStateException.class, () -> userService.editUser(uuid, user));
+        assertThrows(NotExistentException.class, () -> userService.editUser(uuid, user));
         verify(userRepository, times(1)).findById(uuid);
     }
 

@@ -1,14 +1,14 @@
 package com.mara.backend.service;
 
-import com.mara.backend.logic.DiscountCodePricingStrategy;
-import com.mara.backend.logic.LoyaltyDiscountStrategy;
-import com.mara.backend.logic.PriceCalculator;
-import com.mara.backend.logic.RegularPricingStrategy;
+import com.mara.backend.config.exception.NotExistentException;
+import com.mara.backend.logic.PriceHandler;
 import com.mara.backend.model.*;
 import com.mara.backend.model.dto.BookingCreateDTO;
 import com.mara.backend.model.dto.BookingDisplayDTO;
+import com.mara.backend.model.dto.PricingDTO;
 import com.mara.backend.repository.*;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,8 +22,8 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final ServiceItemRepository serviceItemRepository;
-    private final DiscountCodeRepository discountCodeRepository;
     private final LoyaltyPointService loyaltyPointService;
+    private final PriceHandler priceHandler;
 
     public List<BookingDisplayDTO> getAllBookings() {
         List<Booking> bookings = bookingRepository.findAll();
@@ -34,11 +34,13 @@ public class BookingService {
         return bookingsDTO;
     }
 
-    public BookingDisplayDTO createBooking(BookingCreateDTO bookingCreateDTO) {
+    public BookingDisplayDTO createBooking(BookingCreateDTO bookingCreateDTO) throws NotExistentException {
         Client client = getClientFromDTO(bookingCreateDTO);
         ServiceItem serviceItem = getServiceItemFromDTO(bookingCreateDTO);
-        PriceCalculator priceCalculator = determinePricingStrategy(bookingCreateDTO, client);
-        double finalPrice = priceCalculator.computeFinalPrice(serviceItem, client);
+
+        PricingDTO pricingDTO = new PricingDTO(serviceItem.getPrice(), bookingCreateDTO.getDiscountCode(), client);
+
+        double finalPrice = priceHandler.findFinalPrice(pricingDTO);
 
         Booking booking = createAndSaveBooking(client, serviceItem, bookingCreateDTO.getDateTime(), finalPrice);
         awardLoyaltyPointsIfEligible(client, finalPrice);
@@ -46,9 +48,9 @@ public class BookingService {
         return BookingDisplayDTO.bookingToDTO(booking);
     }
 
-    private Client getClientFromDTO(BookingCreateDTO dto) {
+    private Client getClientFromDTO(BookingCreateDTO dto) throws NotExistentException {
         User user = userRepository.findById(dto.getClientId()).orElseThrow(
-                () -> new IllegalStateException("User with uuid " + dto.getClientId() + " was not found!")
+                () -> new NotExistentException("User with uuid " + dto.getClientId() + " was not found!")
         );
 
         if (!(user instanceof Client client)) {
@@ -58,38 +60,10 @@ public class BookingService {
         return client;
     }
 
-    private ServiceItem getServiceItemFromDTO(BookingCreateDTO dto) {
+    private ServiceItem getServiceItemFromDTO(BookingCreateDTO dto) throws NotExistentException {
         return serviceItemRepository.findById(dto.getServiceId()).orElseThrow(
-                () -> new IllegalStateException("Service with uuid " + dto.getServiceId() + " was not found!")
+                () -> new NotExistentException("Service with uuid " + dto.getServiceId() + " was not found!")
         );
-    }
-
-    private PriceCalculator determinePricingStrategy(BookingCreateDTO dto, Client client) {
-        PriceCalculator priceCalculator = new PriceCalculator();
-
-        if (dto.getDiscountCode() != null) {
-            DiscountCode discountCode = discountCodeRepository.findByCode(dto.getDiscountCode()).orElseThrow(
-                    () -> new IllegalStateException("There is no discount code with this name!")
-            );
-
-            if (discountCode.getExpirationDate().isBefore(LocalDateTime.now())) {
-                throw new IllegalStateException("Discount code is expired!");
-            }
-
-            int discountPercentage = extractPercentageFromCode(discountCode.getCode());
-            priceCalculator.setStrategy(new DiscountCodePricingStrategy(discountPercentage));
-        } else if (loyaltyPointService.getAllPointsForUser(client.getId()) > 100) {
-            priceCalculator.setStrategy(new LoyaltyDiscountStrategy());
-        } else {
-            priceCalculator.setStrategy(new RegularPricingStrategy());
-        }
-
-        return priceCalculator;
-    }
-
-    private int extractPercentageFromCode(String code) {
-        String lastDigits = code.substring(code.length() - 2);
-        return Integer.parseInt(lastDigits);
     }
 
     private Booking createAndSaveBooking(Client client, ServiceItem serviceItem, LocalDateTime dateTime, double finalPrice) {
@@ -112,9 +86,9 @@ public class BookingService {
         }
     }
 
-    public BookingDisplayDTO editBooking(UUID bookingId, LocalDateTime newDate) {
+    public BookingDisplayDTO editBooking(UUID bookingId, LocalDateTime newDate) throws NotExistentException {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(
-                () -> new IllegalStateException("Booking with uuid " + bookingId + " does not exist!")
+                () -> new NotExistentException("Booking with uuid " + bookingId + " does not exist!")
         );
         booking.setDateTime(newDate);
         Booking updatedBooking = bookingRepository.save(booking);

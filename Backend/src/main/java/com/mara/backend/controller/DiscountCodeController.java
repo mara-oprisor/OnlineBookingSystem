@@ -1,5 +1,6 @@
 package com.mara.backend.controller;
 
+import com.mara.backend.config.exception.NotExistentException;
 import com.mara.backend.model.dto.DiscountCodeCreateDTO;
 import com.mara.backend.model.dto.DiscountCodeDisplayDTO;
 import com.mara.backend.service.DiscountCodeService;
@@ -27,7 +28,7 @@ public class DiscountCodeController {
     }
 
     @PutMapping("/discount/{uuid}")
-    public DiscountCodeDisplayDTO editDiscountCode(@PathVariable UUID uuid, @Valid @RequestBody DiscountCodeDisplayDTO createDTO) {
+    public DiscountCodeDisplayDTO editDiscountCode(@PathVariable UUID uuid, @Valid @RequestBody DiscountCodeDisplayDTO createDTO) throws NotExistentException {
         return discountCodeService.editDiscountCode(uuid, createDTO);
     }
 
