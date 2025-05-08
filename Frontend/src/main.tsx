@@ -18,6 +18,11 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path={"/forbidden"} element={
+                <div className="app-container">
+                    <h1>403 - Access forbidden</h1>
+                </div>
+            } />
             <Route path="/reset_password" element={<ResetPasswordPage />} />
             <Route element={<AuthenticatedRouteGuard requiredRole={"CLIENT"} />}>
                 <Route path="/client" element={<SalonsPage />} />
@@ -28,7 +33,7 @@ createRoot(document.getElementById('root')!).render(
             </Route>
             <Route path="*" element={
                 <div className="app-container">
-                    <h1>Page Not Found</h1>
+                    <h1>404 - Page Not Found</h1>
                 </div>
             } />
         </Routes>

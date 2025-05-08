@@ -78,7 +78,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                 />
                             </div>
                             <div className="mb-3">
-                                <label>Password</label>
+                                <label hidden={isUpdateMode}>Password</label>
                                 {isUpdateMode ? (
                                     <input
                                         type="text"
@@ -90,7 +90,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                     />
                                 ) : (
                                     <input
-                                        type="text"
+                                        type="password"
                                         className="form-control"
                                         name="password"
                                         value={user.password}

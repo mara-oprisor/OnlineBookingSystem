@@ -24,7 +24,7 @@ function AuthenticatedRouteGuard({requiredRole}: AuthenticatedRouteGuardProps) {
         }
 
         if (requiredRole && decodedToken.role !== requiredRole) {
-            return <Navigate to="/login" />;
+            return <Navigate to="/forbidden" />;
         }
     } catch (error) {
         console.log("Invalid token", error);
