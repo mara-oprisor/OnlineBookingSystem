@@ -3,8 +3,7 @@ package com.mara.backend.util.email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
-import org.simplejavamail.api.email.Recipient;
-import org.springframework.beans.factory.annotation.Value;   // <— correct import
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

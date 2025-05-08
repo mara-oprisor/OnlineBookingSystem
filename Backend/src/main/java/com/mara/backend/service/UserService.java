@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public UserDisplayDTO editUser(UUID uuid, UserCreateDTO userDTO) throws DuplicateResourceException, NotExistentException {
-        validateUniqueness(userDTO);
+        validateUniqueness(userDTO, uuid);
 
         return userRepository.findById(uuid).stream()
                 .peek(user -> {
@@ -112,6 +112,16 @@ public class UserService {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
             throw new DuplicateResourceException("Username '" + userDTO.getUsername() + "' already exists.");
         }
+    }
+
+    private void validateUniqueness(UserCreateDTO dto, UUID uuid) throws DuplicateResourceException {
+        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), uuid)) {
+            throw new DuplicateResourceException("Email '" + dto.getEmail() + "' is already in use");
+        }
+        if (userRepository.existsByUsernameAndIdNot(dto.getUsername(), uuid)) {
+            throw new DuplicateResourceException("Username '" + dto.getUsername() + "' is already in use");
+        }
+
     }
 
     private Client createClient(UserCreateDTO dto) {

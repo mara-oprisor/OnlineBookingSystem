@@ -19,32 +19,32 @@ import java.util.UUID;
 public class UserController {
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/admin/users")
     public List<UserDisplayDTO> getUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/user_filter")
+    @PostMapping("/admin/user_filter")
     public List<UserDisplayDTO> filterUsers(@RequestBody UserFilterDTO filterDTO) {
         return userService.filterUsers(filterDTO);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/admin/user/{username}")
     public  UserDisplayDTO getUserByUsername(@PathVariable String username) throws NotExistentException {
         return userService.getUserByUsername(username);
     }
 
-    @PostMapping("/add_user")
+    @PostMapping("/admin/add_user")
     public UserDisplayDTO addUser(@Valid @RequestBody UserCreateDTO userDTO) throws DuplicateResourceException {
         return userService.createUser(userDTO);
     }
 
-    @PutMapping("/edit_user/{uuid}")
+    @PutMapping("/admin/edit_user/{uuid}")
     public UserDisplayDTO editUser(@PathVariable UUID uuid, @Valid @RequestBody UserCreateDTO userDTO) throws DuplicateResourceException, NotExistentException {
         return userService.editUser(uuid, userDTO);
     }
 
-    @DeleteMapping("/delete_user/{uuid}")
+    @DeleteMapping("/admin/delete_user/{uuid}")
     public void deleteUser(@PathVariable UUID uuid) {
         userService.deleteUser(uuid);
     }

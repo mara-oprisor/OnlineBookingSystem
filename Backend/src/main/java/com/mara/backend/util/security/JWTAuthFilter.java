@@ -94,8 +94,29 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-            filterChain.doFilter(request, response);
 
+            Claims claims = getAllClaimsFromToken(token);
+            String role   = claims.get("role", String.class);
+
+            boolean allowed = false;
+            if ("CLIENT".equals(role)) {
+                if (path.startsWith("/client/") || path.startsWith("/common/")) {
+                    allowed = true;
+                }
+            }
+            else if ("ADMIN".equals(role)) {
+                if (path.startsWith("/admin/") || path.startsWith("/common/")) {
+                    allowed = true;
+                }
+            }
+
+            if (!allowed) {
+                log.warn("Role '{}' is not permitted to access '{}'", role, path);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
+
+            filterChain.doFilter(request, response);
         } catch (JwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

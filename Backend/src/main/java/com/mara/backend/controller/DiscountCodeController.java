@@ -17,22 +17,22 @@ import java.util.UUID;
 public class DiscountCodeController {
     private DiscountCodeService discountCodeService;
 
-    @GetMapping("/discounts")
+    @GetMapping("/common/discounts")
     public List<DiscountCodeDisplayDTO> getAllDiscounts() {
         return discountCodeService.getAllDiscountCodes();
     }
 
-    @PostMapping("/discount")
+    @PostMapping("/admin/discount")
     public DiscountCodeDisplayDTO addDiscountCode(@Valid @RequestBody DiscountCodeCreateDTO createDTO) {
         return discountCodeService.createDiscountCode(createDTO);
     }
 
-    @PutMapping("/discount/{uuid}")
+    @PutMapping("/admin/discount/{uuid}")
     public DiscountCodeDisplayDTO editDiscountCode(@PathVariable UUID uuid, @Valid @RequestBody DiscountCodeDisplayDTO createDTO) throws NotExistentException {
         return discountCodeService.editDiscountCode(uuid, createDTO);
     }
 
-    @DeleteMapping("/discount/{uuid}")
+    @DeleteMapping("/admin/discount/{uuid}")
     public void deleteDiscountCode(@PathVariable UUID uuid) {
         discountCodeService.deleteDiscountCode(uuid);
     }

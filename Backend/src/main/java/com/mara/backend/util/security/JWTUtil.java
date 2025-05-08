@@ -23,13 +23,6 @@ public class JWTUtil {
     }
 
     public String createToken(User user) {
-        String role;
-        if(user instanceof Client) {
-            role = "CLIENT";
-        } else {
-            role = "ADMIN";
-        }
-
         return Jwts
                 .builder()
                 .subject(user.getUsername())
@@ -37,7 +30,7 @@ public class JWTUtil {
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .claims(Map.of(
                         "userId", user.getId(),
-                        "role", role
+                        "role", user instanceof Client? "CLIENT" : "ADMIN"
                 ))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(getLoginKey(), Jwts.SIG.HS256)

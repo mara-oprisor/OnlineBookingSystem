@@ -18,32 +18,32 @@ import java.util.UUID;
 public class SalonController {
     private SalonService salonService;
 
-    @GetMapping("/salons")
+    @GetMapping("/common/salons")
     public List<SalonDisplayDTO> getSalons() {
         return salonService.getAllSalons();
     }
 
-    @GetMapping("/salon/{name}")
+    @GetMapping("/common/salon/{name}")
     public SalonDisplayDTO getServiceByName(@PathVariable String name) throws NotExistentException {
         return salonService.getSalonByName(name);
     }
 
-    @PostMapping("/add_salon")
+    @PostMapping("/admin/add_salon")
     public SalonDisplayDTO addSalon(@Valid @RequestBody SalonCreateDTO salonDTO) throws DuplicateResourceException {
         return salonService.addNewSalon(salonDTO);
     }
 
-    @PutMapping("/edit_salon/{uuid}")
+    @PutMapping("/admin/edit_salon/{uuid}")
     public SalonDisplayDTO editSalon(@PathVariable UUID uuid, @Valid @RequestBody SalonCreateDTO salonDTO) throws DuplicateResourceException, NotExistentException {
         return salonService.editSalonInfo(uuid, salonDTO);
     }
 
-    @DeleteMapping("/delete_salon/{uuid}")
+    @DeleteMapping("/admin/delete_salon/{uuid}")
     public void deleteSalon(@PathVariable UUID uuid) {
         salonService.deleteSalon(uuid);
     }
 
-    @PostMapping("/{client_uuid}/favorite_salon/{salon_uuid}")
+    @PostMapping("/client/{client_uuid}/favorite_salon/{salon_uuid}")
     public SalonDisplayDTO addFavoriteSalon(@PathVariable UUID client_uuid, @PathVariable UUID salon_uuid) throws NotExistentException {
         return salonService.addFavoriteSalon(client_uuid, salon_uuid);
     }
