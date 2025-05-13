@@ -1,4 +1,4 @@
-import { ADD_SERVICE_ENDPOINT, DELETE_SERVICE_ENDPOINT, EDIT_SERVICE_ENDPOINT, SERVICE_ENDPOINT } from "../constants/api";
+import {SERVICE_ENDPOINT, SERVICES_ENDPOINT} from "../constants/api";
 import ServiceItem from "../model/ServiceItem";
 import axios from "axios";
 
@@ -6,7 +6,7 @@ function ServiceItemService() {
 
     async function getServices(): Promise<ServiceItem[]> {
         try {
-            const response = await axios.get<ServiceItem[]>(SERVICE_ENDPOINT);
+            const response = await axios.get<ServiceItem[]>(SERVICES_ENDPOINT);
 
             return response.data;
         } catch (error: unknown) {
@@ -22,7 +22,7 @@ function ServiceItemService() {
 
     async function getServicesBySalon(salonUuid: string): Promise<ServiceItem> {
         try {
-            const response = await axios.get<ServiceItem>(`${SERVICE_ENDPOINT}/${salonUuid}`);
+            const response = await axios.get<ServiceItem>(`${SERVICES_ENDPOINT}/${salonUuid}`);
 
             return response.data;
         } catch (error: unknown) {
@@ -38,7 +38,7 @@ function ServiceItemService() {
 
     async function addService(service: Omit<ServiceItem, 'uuid'>): Promise<ServiceItem> {
         try {
-            const response = await axios.post<ServiceItem>(ADD_SERVICE_ENDPOINT, service, {
+            const response = await axios.post<ServiceItem>(SERVICE_ENDPOINT, service, {
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -56,7 +56,7 @@ function ServiceItemService() {
 
     async function updateService(service: ServiceItem): Promise<ServiceItem> {
         try {
-            const response = await axios.put<ServiceItem>(`${EDIT_SERVICE_ENDPOINT}/${service.uuid}`, service, {
+            const response = await axios.put<ServiceItem>(`${SERVICE_ENDPOINT}/${service.uuid}`, service, {
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -74,7 +74,7 @@ function ServiceItemService() {
 
     async function deleteService(id: string): Promise<void> {
         try {
-            await axios.delete(`${DELETE_SERVICE_ENDPOINT}/${id}`);
+            await axios.delete(`${SERVICE_ENDPOINT}/${id}`);
         } catch (error: unknown) {
             let errorMessage: string = "Failed to delete the service!";
 

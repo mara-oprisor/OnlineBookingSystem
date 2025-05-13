@@ -1,4 +1,4 @@
-import { ADD_SALON_ENDPOINT, DELETE_SALON_ENDPOINT, EDIT_SALON_ENDPOINT, SALON_ENDPOINT } from "../constants/api.ts";
+import {SALON_ENDPOINT, SALONS_ENDPOINT} from "../constants/api.ts";
 import Salon from "../model/Salon.ts";
 import axios from "axios";
 
@@ -6,7 +6,7 @@ function SalonService() {
 
     async function getSalons(): Promise<Salon[]> {
         try {
-            const response = await axios.get<Salon[]>(SALON_ENDPOINT);
+            const response = await axios.get<Salon[]>(SALONS_ENDPOINT);
             return response.data;
         } catch  {
             throw new Error("Failed to fetch the salons from the database!");
@@ -15,7 +15,7 @@ function SalonService() {
 
     async function addSalon(salon: Omit<Salon, 'uuid'>): Promise<Salon> {
         try {
-            const response = await axios.post<Salon>(ADD_SALON_ENDPOINT, salon, {
+            const response = await axios.post<Salon>(SALON_ENDPOINT, salon, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -39,7 +39,7 @@ function SalonService() {
 
     async function updateSalon(salon: Salon): Promise<Salon> {
         try {
-            const response = await axios.put<Salon>(`${EDIT_SALON_ENDPOINT}/${salon.uuid}`, salon, {
+            const response = await axios.put<Salon>(`${SALON_ENDPOINT}/${salon.uuid}`, salon, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -63,7 +63,7 @@ function SalonService() {
 
     async function deleteSalon(id: string): Promise<void> {
         try {
-            await axios.delete(`${DELETE_SALON_ENDPOINT}/${id}`);
+            await axios.delete(`${SALON_ENDPOINT}/${id}`);
         } catch  {
             throw new Error("Failed to delete the salon!");
         }

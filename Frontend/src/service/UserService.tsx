@@ -1,4 +1,4 @@
-import { ADD_USER_ENDPOINT, DELETE_USER_ENDPOINT, EDIT_USER_ENDPOINT, USER_ENDPOINT, USER_FILTER_ENDPOINT } from "../constants/api";
+import {USER_ENDPOINT, USERS_ENDPOINT} from "../constants/api";
 import User from "../model/User";
 import UserFilter from "../model/UserFilter";
 import axios from "axios";
@@ -7,7 +7,7 @@ function UserService() {
 
     async function getUsers(): Promise<User[]> {
         try {
-            const response = await axios.get<User[]>(USER_ENDPOINT);
+            const response = await axios.get<User[]>(USERS_ENDPOINT);
 
             return response.data;
         } catch (error: unknown) {
@@ -23,7 +23,7 @@ function UserService() {
 
     async function filterUsers(filter: UserFilter): Promise<User[]> {
         try {
-            const response = await axios.post<User[]>(USER_FILTER_ENDPOINT, filter, {
+            const response = await axios.post<User[]>(USERS_ENDPOINT, filter, {
                 headers: { "Content-Type": "application/json" }
             });
 
@@ -41,7 +41,7 @@ function UserService() {
 
     async function addUser(user: Omit<User, 'uuid'>): Promise<User> {
         try {
-            const response = await axios.post<User>(ADD_USER_ENDPOINT, user, {
+            const response = await axios.post<User>(USER_ENDPOINT, user, {
                 headers: { "Content-Type": "application/json" }
             });
 
@@ -59,7 +59,7 @@ function UserService() {
 
     async function updateUser(user: User): Promise<User> {
         try {
-            const response = await axios.put<User>(`${EDIT_USER_ENDPOINT}/${user.uuid}`, user, {
+            const response = await axios.put<User>(`${USER_ENDPOINT}/${user.uuid}`, user, {
                 headers: { "Content-Type": "application/json" }
             });
 
@@ -77,7 +77,7 @@ function UserService() {
 
     async function deleteUser(id: string): Promise<void> {
         try {
-            await axios.delete(`${DELETE_USER_ENDPOINT}/${id}`);
+            await axios.delete(`${USER_ENDPOINT}/${id}`);
         } catch {
             throw new Error("Failed to delete the user!");
         }
