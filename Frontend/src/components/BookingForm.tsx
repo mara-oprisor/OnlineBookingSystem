@@ -1,21 +1,26 @@
 import React from "react";
-import { useBooking, BookingFormData } from "../hooks/useBooking";
-import User from "../model/User";
+import {BookingFormState, useBooking} from "../hooks/useBooking";
 import ServiceItem from "../model/ServiceItem";
+import DatePicker from "react-datepicker";
+import {addDays, setHours, setMinutes} from "date-fns";
 
 export interface BookingFormProps {
-    clients: User[];
     services: ServiceItem[];
-    onSubmit: (data: BookingFormData) => void;
+    onSubmit: (data: BookingFormState) => void;
 }
 
-export function BookingForm({ clients, services, onSubmit }: BookingFormProps) {
-    const { formData, handleChange } = useBooking();
+export function BookingForm({ services, onSubmit }: BookingFormProps) {
+    const { formData, handleChange, handleDateChange } = useBooking();
+
+    const now = new Date();
+    const minDate = addDays(now, 1);
+    const minTime = setHours(setMinutes(new Date(), 0), 8);
+    const maxTime = setHours(setMinutes(new Date(), 0), 18);
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.clientId || !formData.serviceId || !formData.dateTime) {
-            alert("Please select a client, service, and appointment date/time.");
+        if (!formData.serviceId || !formData.date) {
+            alert("Please select a service and appointment date/time.");
             return;
         }
         onSubmit(formData);
@@ -23,23 +28,6 @@ export function BookingForm({ clients, services, onSubmit }: BookingFormProps) {
 
     return (
         <form onSubmit={handleFormSubmit} className="booking-form">
-            <div className="mb-3">
-                <label className="form-label">Select Client</label>
-                <select
-                    className="form-select"
-                    name="clientId"
-                    value={formData.clientId}
-                    onChange={handleChange}
-                    required
-                >
-                    <option value="">-- Select a Client --</option>
-                    {clients.map((client) => (
-                        <option key={client.uuid} value={client.uuid}>
-                            {client.username}
-                        </option>
-                    ))}
-                </select>
-            </div>
             <div className="mb-3">
                 <label className="form-label">Select Service</label>
                 <select
@@ -57,15 +45,20 @@ export function BookingForm({ clients, services, onSubmit }: BookingFormProps) {
                     ))}
                 </select>
             </div>
-            <div className="mb-3">
+            <div className="col-md-6">
                 <label className="form-label">Appointment Date &amp; Time</label>
-                <input
-                    type="datetime-local"
+                <DatePicker
+                    selected={formData.date}
+                    onChange={handleDateChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={30}
+                    dateFormat="yyyy-MM-dd HH:mm"
                     className="form-control"
-                    name="dateTime"
-                    value={formData.dateTime}
-                    onChange={handleChange}
-                    required
+                    placeholderText="Choose date & time"
+                    minDate={minDate}
+                    minTime={minTime}
+                    maxTime={maxTime}
                 />
             </div>
             <div className="mb-3">

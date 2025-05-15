@@ -4,26 +4,26 @@ import { BookingForm } from "../components/BookingForm";
 import BookingService from "../service/BookingService";
 import BookingDisplay from "../model/BookingDisplay";
 import useAvailableServices from "../hooks/useAvailableServices";
-import useClients from "../hooks/useClients";
-import {BookingFormData} from "../hooks/useBooking.ts";
+import {BookingFormState} from "../hooks/useBooking.ts";
 import LogoutButton from "../components/LogoutButton.tsx";
+import BookingCreate from "../model/BookingCreate.ts";
 
 function BookingPage() {
     const { salonId } = useParams<{ salonId: string }>();
     const effectiveSalonId = salonId || "";
     const { availableServices, loadingServices, error: serviceError } = useAvailableServices(effectiveSalonId);
-    const { clients, loading: loadingClients, error: clientError } = useClients();
     const [finalBooking, setFinalBooking] = useState<BookingDisplay | null>(null);
     const bookingService = BookingService();
 
-    async function handleBookingSubmit(data: BookingFormData) {
-        const payload = {
-            ...data,
+    async function handleBookingSubmit(data: BookingFormState) {
+        const payload: BookingCreate = {
+            clientId: sessionStorage.getItem("uuid") as string,
+            serviceId: data.serviceId,
+            dateTime: data.date!.toISOString(),
             discountCode:
-                data.discountCode == null || data.discountCode.trim() === ""
-                    ? null
-                    : data.discountCode.trim(),
+                data.discountCode?.trim() ? null : data.discountCode.trim(),
         };
+
 
         try {
             const booking: BookingDisplay = await bookingService.createBooking(payload);
@@ -48,10 +48,10 @@ function BookingPage() {
         }
     }
 
-    if (loadingServices || loadingClients) {
+    if (loadingServices) {
         return <p>Loading...</p>;
     }
-    if (serviceError || clientError) {
+    if (serviceError) {
         return <p className="error-text">Error loading data.</p>;
     }
 
@@ -64,7 +64,6 @@ function BookingPage() {
             <div className="container mt-4">
                 <h2>Book an Appointment</h2>
                 <BookingForm
-                    clients={clients}
                     services={availableServices}
                     onSubmit={handleBookingSubmit}
                 />

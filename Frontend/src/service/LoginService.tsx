@@ -15,7 +15,7 @@ function LoginService() {
             let errorMessage: string;
 
             if (axios.isAxiosError(error)) {
-                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+                errorMessage = error.response?.data ? error.response.data.errorMessage : error.message;
             } else if (error instanceof Error) {
                 errorMessage = error.message;
             } else {
@@ -25,7 +25,8 @@ function LoginService() {
             return {
                 success: false,
                 role: null,
-                error: errorMessage
+                errorMessage: errorMessage,
+                token: null
             };
         }
     }

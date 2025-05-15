@@ -1,7 +1,9 @@
 export const API_BASE_URL = "http://localhost:8080";
 export const LOGIN_ENDPOINT = `${API_BASE_URL}/login`;
+export const REGISTER_ENDPOINT = `${API_BASE_URL}/register`;
 
 export const USERS_ENDPOINT = `${API_BASE_URL}/users`;
+export const USERS_FILTER_ENDPOINT = `${API_BASE_URL}/users/filter`;
 export const USER_ENDPOINT = `${API_BASE_URL}/user`;
 
 export const SALONS_ENDPOINT = `${API_BASE_URL}/salons`;

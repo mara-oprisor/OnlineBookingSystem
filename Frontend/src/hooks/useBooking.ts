@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import BookingCreate from "../model/BookingCreate";
 
-export type BookingFormData = BookingCreate
+export interface BookingFormState {
+    serviceId: string;
+    date: Date | null;
+    discountCode: string;
+    finalPrice: number | null;
+}
 
 export function useBooking() {
-    const [formData, setFormData] = useState<BookingFormData>({
-        clientId: "",
+    const [formData, setFormData] = useState<BookingFormState>({
         serviceId: "",
-        dateTime: "",
+        date: null,
         discountCode: "",
         finalPrice: null,
     });
@@ -20,7 +23,14 @@ export function useBooking() {
         }));
     }
 
-    return { formData, setFormData, handleChange };
+    function handleDateChange(date: Date | null) {
+        setFormData((prev) => ({
+            ...prev,
+            date,
+        }));
+    }
+
+    return { formData, handleChange, handleDateChange };
 }
 
 export default useBooking;

@@ -1,4 +1,4 @@
-import {USER_ENDPOINT, USERS_ENDPOINT} from "../constants/api";
+import {USER_ENDPOINT, USERS_ENDPOINT, USERS_FILTER_ENDPOINT} from "../constants/api";
 import User from "../model/User";
 import UserFilter from "../model/UserFilter";
 import axios from "axios";
@@ -21,9 +21,25 @@ function UserService() {
         }
     }
 
+    async function getUserByUsername(username: string): Promise<User> {
+        try{
+            const response = await axios.get<User>(`${USER_ENDPOINT}/${username}`);
+
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to fetch the user with the given username!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
+        }
+    }
+
     async function filterUsers(filter: UserFilter): Promise<User[]> {
         try {
-            const response = await axios.post<User[]>(USERS_ENDPOINT, filter, {
+            const response = await axios.post<User[]>(USERS_FILTER_ENDPOINT, filter, {
                 headers: { "Content-Type": "application/json" }
             });
 
@@ -85,6 +101,7 @@ function UserService() {
 
     return {
         getUsers,
+        getUserByUsername,
         filterUsers,
         addUser,
         updateUser,

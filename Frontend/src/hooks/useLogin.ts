@@ -3,6 +3,9 @@ import * as React from "react";
 import LoginService from "../service/LoginService.tsx";
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
+import LoginResponse from "../model/LoginResponse.ts";
+import UserService from "../service/UserService.tsx";
+import User from "../model/User.ts";
 
 function useLogin(){
     const [username, setUsername] = useState<string>("");
@@ -11,6 +14,7 @@ function useLogin(){
     const navigate = useNavigate();
 
     const loginService = LoginService();
+    const userService = UserService();
 
     function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value);
@@ -31,12 +35,15 @@ function useLogin(){
             setErrorMsg("Password is required!");
         } else {
             try {
-                const response = await loginService.login(username, password);
+                const response: LoginResponse = await loginService.login(username, password);
 
                 if(response.success) {
                     sessionStorage.setItem('token', response.token);
                     sessionStorage.setItem('role', response.role);
                     console.log("Login successful: ", response);
+
+                    const user: User = await userService.getUserByUsername(username);
+                    sessionStorage.setItem('uuid', user.uuid);
 
                     if(response.role == "CLIENT") {
                         navigate('/client');
@@ -61,7 +68,8 @@ function useLogin(){
     function logout(): void {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('role');
-        navigate('/login');
+        sessionStorage.removeItem('uuid')
+        navigate('/auth');
     }
 
     return {
