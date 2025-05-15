@@ -2,6 +2,7 @@ package com.mara.backend.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mara.backend.model.Admin;
 import com.mara.backend.model.Client;
 import com.mara.backend.model.User;
 import com.mara.backend.repository.UserRepository;
@@ -60,7 +61,7 @@ public class UserControllerIntegrationTest {
     }
 
     private String generateTestToken() {
-        Client dummyUser = new Client();
+        Admin dummyUser = new Admin();
         dummyUser.setId(UUID.randomUUID());
         dummyUser.setUsername("testUser");
         dummyUser.setEmail("testUser@example.com");
@@ -82,7 +83,7 @@ public class UserControllerIntegrationTest {
     @Test
     void testFilterUsersByUsername() throws Exception {
         String filterJson = "{\"username\": \"client\", \"email\": \"\", \"userType\": \"\"}";
-        mockMvc.perform(post("/user_filter")
+        mockMvc.perform(post("/users/filter")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(filterJson))
@@ -94,7 +95,7 @@ public class UserControllerIntegrationTest {
     @Test
     void testFilterUsersByEmail() throws Exception {
         String filterJson = "{\"username\": \"\", \"email\": \"admin1@example.com\", \"userType\": \"\"}";
-        mockMvc.perform(post("/user_filter")
+        mockMvc.perform(post("/users/filter")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(filterJson))
@@ -106,7 +107,7 @@ public class UserControllerIntegrationTest {
     @Test
     void testFilterUsersByUserType() throws Exception {
         String filterJson = "{\"username\": \"\", \"email\": \"\", \"userType\": \"CLIENT\"}";
-        mockMvc.perform(post("/user_filter")
+        mockMvc.perform(post("/users/filter")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(filterJson))
@@ -118,7 +119,7 @@ public class UserControllerIntegrationTest {
     @Test
     void testFilterUsersByMultipleCriteria() throws Exception {
         String filterJson = "{\"username\": \"client\", \"email\": \"example\", \"userType\": \"\"}";
-        mockMvc.perform(post("/user_filter")
+        mockMvc.perform(post("/users/filter")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(filterJson))
@@ -132,7 +133,7 @@ public class UserControllerIntegrationTest {
     void testAddClientValid() throws Exception {
         String validClientJson = loadFixture("valid_client.json");
 
-        mockMvc.perform(post("/add_user")
+        mockMvc.perform(post("/user")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validClientJson))
@@ -148,7 +149,7 @@ public class UserControllerIntegrationTest {
     void testAddAdminValid() throws Exception {
         String validClientJson = loadFixture("valid_admin.json");
 
-        mockMvc.perform(post("/add_user")
+        mockMvc.perform(post("/user")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validClientJson))
@@ -163,7 +164,7 @@ public class UserControllerIntegrationTest {
     void testAddUserInvalid() throws Exception {
         String invalidClientJson = loadFixture("invalid_user.json");
 
-        mockMvc.perform(post("/add_user")
+        mockMvc.perform(post("/user")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidClientJson))
@@ -176,7 +177,7 @@ public class UserControllerIntegrationTest {
     void testAddUserDuplicateInfo() throws Exception {
         String invalidClientJson = loadFixture("duplicate_data_user.json");
 
-        mockMvc.perform(post("/add_user")
+        mockMvc.perform(post("/user")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidClientJson))
@@ -191,7 +192,7 @@ public class UserControllerIntegrationTest {
                 () -> new RuntimeException("User not found")
         );
 
-        mockMvc.perform(put("/edit_user/{uuid}", existingUser.getId())
+        mockMvc.perform(put("/user/{uuid}", existingUser.getId())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validClientJson))
@@ -208,7 +209,7 @@ public class UserControllerIntegrationTest {
                 () -> new RuntimeException("User not found")
         );
 
-        mockMvc.perform(put("/edit_user/{uuid}", existingUser.getId())
+        mockMvc.perform(put("/user/{uuid}", existingUser.getId())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validClientJson))
@@ -224,7 +225,7 @@ public class UserControllerIntegrationTest {
                 () -> new RuntimeException("User not found")
         );
 
-        mockMvc.perform(put("/edit_user/{uuid}", existingUser.getId())
+        mockMvc.perform(put("/user/{uuid}", existingUser.getId())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validClientJson))
@@ -238,7 +239,7 @@ public class UserControllerIntegrationTest {
                 () -> new RuntimeException("User not found")
         );
 
-        mockMvc.perform(delete("/delete_user/{uuid}", existingUser.getId())
+        mockMvc.perform(delete("/user/{uuid}", existingUser.getId())
                         .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk());
     }

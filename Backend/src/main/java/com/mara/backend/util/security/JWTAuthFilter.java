@@ -17,12 +17,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Date;
+import java.util.*;
 
 @Component
 @Slf4j
 public class JWTAuthFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secretKey;
+
+    private final Map<String, List<String>> ROLE_ENDPOINTS = Map.of(
+            "CLIENT", List.of("/favorite_salon", "/services", "/service", "/salons", "/salon", "/bookings", "/booking", "/users", "/user"),
+            "ADMIN",  List.of("/users", "/user", "/services", "/service", "/salons", "/salon", "/discounts", "/discount", "/bookings", "/booking")
+    );
 
     private SecretKey getLoginKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -72,7 +78,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        if ("/login".equals(path) || "/reset_password".equals(path) || "/forgot_password".equals(path) || "OPTIONS".equalsIgnoreCase(method)) {
+        if ("/register".equals(path) || "/login".equals(path) || "/reset_password".equals(path) || "/forgot_password".equals(path) || "OPTIONS".equalsIgnoreCase(method)) {
             log.info("Skipping JWT filter for path: {} and method: {}", path, method);
             filterChain.doFilter(request, response);
             return;
@@ -98,17 +104,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             Claims claims = getAllClaimsFromToken(token);
             String role   = claims.get("role", String.class);
 
-            boolean allowed = false;
-            if ("CLIENT".equals(role)) {
-                if (path.startsWith("/client/") || path.startsWith("/common/")) {
-                    allowed = true;
-                }
-            }
-            else if ("ADMIN".equals(role)) {
-                if (path.startsWith("/admin/") || path.startsWith("/common/")) {
-                    allowed = true;
-                }
-            }
+            boolean allowed = ROLE_ENDPOINTS.get(role).stream()
+                                            .anyMatch(path::startsWith);
 
             if (!allowed) {
                 log.warn("Role '{}' is not permitted to access '{}'", role, path);

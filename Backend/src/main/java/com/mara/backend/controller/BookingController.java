@@ -18,23 +18,23 @@ import java.util.UUID;
 public class BookingController {
     private BookingService bookingService;
 
-    @GetMapping("/common/bookings")
+    @GetMapping("/bookings")
     public List<BookingDisplayDTO> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
-    @PostMapping("/common/booking")
+    @PostMapping("/booking")
     public BookingDisplayDTO createBooking(@RequestBody BookingCreateDTO bookingCreateDTO) throws NotExistentException {
         return bookingService.createBooking(bookingCreateDTO);
     }
 
-    @PutMapping("/common/booking/{uuid}")
+    @PutMapping("/booking/{uuid}")
     public BookingDisplayDTO editBooking(@PathVariable UUID uuid, @Valid @RequestBody String dateTime) throws NotExistentException {
         LocalDateTime parsedDateTime = LocalDateTime.parse(dateTime);
         return bookingService.editBooking(uuid, parsedDateTime);
     }
 
-    @DeleteMapping("/common/booking/{uuid}")
+    @DeleteMapping("/booking/{uuid}")
     public void deleteBooking(@PathVariable UUID uuid) {
         bookingService.deleteBooking(uuid);
     }

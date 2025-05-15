@@ -116,10 +116,10 @@ public class UserService {
 
     private void validateUniqueness(UserCreateDTO dto, UUID uuid) throws DuplicateResourceException {
         if (userRepository.existsByEmailAndIdNot(dto.getEmail(), uuid)) {
-            throw new DuplicateResourceException("Email '" + dto.getEmail() + "' is already in use");
+            throw new DuplicateResourceException("Email '" + dto.getEmail() + "' already exists.");
         }
         if (userRepository.existsByUsernameAndIdNot(dto.getUsername(), uuid)) {
-            throw new DuplicateResourceException("Username '" + dto.getUsername() + "' is already in use");
+            throw new DuplicateResourceException("Username '" + dto.getUsername() + "' already exists.");
         }
 
     }

@@ -18,32 +18,32 @@ import java.util.UUID;
 public class ServiceItemController {
     private ServiceItemService serviceItemService;
 
-    @GetMapping("/common/services")
+    @GetMapping("/services")
     public List<ServiceItemDisplayDTO> getAllServices() {
         return serviceItemService.getAllServices();
     }
 
-    @GetMapping("/common/services/{uuid}")
+    @GetMapping("/services/{uuid}")
     public List<ServiceItemDisplayDTO> getServicesBySalon(@PathVariable UUID uuid) {
         return serviceItemService.getServicesBySalon(uuid);
     }
 
-    @GetMapping("/common/service/{name}")
+    @GetMapping("/service/{name}")
     public ServiceItemDisplayDTO getServiceByName(@PathVariable String name) throws NotExistentException {
         return serviceItemService.getServiceByName(name);
     }
 
-    @PostMapping("/admin/add_service")
+    @PostMapping("/service")
     public ServiceItemDisplayDTO addService(@Valid @RequestBody ServiceItemCreateDTO serviceDTO) throws NotExistentException {
         return serviceItemService.addService(serviceDTO);
     }
 
-    @PutMapping("/admin/edit_service/{uuid}")
+    @PutMapping("/service/{uuid}")
     public ServiceItemDisplayDTO updateService(@PathVariable UUID uuid, @Valid @RequestBody ServiceItemUpdateDTO serviceDTO) throws NotExistentException {
         return serviceItemService.editService(uuid, serviceDTO);
     }
 
-    @DeleteMapping("/admin/delete_service/{uuid}")
+    @DeleteMapping("/service/{uuid}")
     public void deleteService(@PathVariable UUID uuid) {
         serviceItemService.deleteService(uuid);
     }

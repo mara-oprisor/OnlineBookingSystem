@@ -319,11 +319,11 @@ public class UserServiceTest {
 
 
         when(userRepository.findById(uuid)).thenReturn(Optional.of(new Client()));
-        when(userRepository.existsByUsername(user.getUsername())).thenReturn(true);
+        when(userRepository.existsByUsernameAndIdNot(user.getUsername(), uuid)).thenReturn(true);
 
 
         assertThrows(DuplicateResourceException.class, () -> userService.editUser(uuid, user));
-        verify(userRepository, times(1)).existsByUsername(user.getUsername());
+        verify(userRepository, times(1)).existsByUsernameAndIdNot(user.getUsername(), uuid);
     }
 
     @Test
@@ -333,11 +333,11 @@ public class UserServiceTest {
 
 
         when(userRepository.findById(uuid)).thenReturn(Optional.of(new Client()));
-        when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
+        when(userRepository.existsByEmailAndIdNot(user.getEmail(), uuid)).thenReturn(true);
 
 
         assertThrows(DuplicateResourceException.class, () -> userService.editUser(uuid, user));
-        verify(userRepository, times(1)).existsByEmail(user.getEmail());
+        verify(userRepository, times(1)).existsByEmailAndIdNot(user.getEmail(), uuid);
     }
 
     @Test

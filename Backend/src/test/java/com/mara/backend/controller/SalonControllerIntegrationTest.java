@@ -83,7 +83,7 @@ public class SalonControllerIntegrationTest {
     void testAddSalonValid() throws Exception {
         String validSalonJson = loadFixture("valid_salon.json");
 
-        mockMvc.perform(post("/add_salon")
+        mockMvc.perform(post("/salon")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validSalonJson))
@@ -97,7 +97,7 @@ public class SalonControllerIntegrationTest {
     void testAddSalonInvalid() throws Exception {
         String invalidSalonJson = loadFixture("invalid_salon.json");
 
-        mockMvc.perform(post("/add_salon")
+        mockMvc.perform(post("/salon")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
@@ -110,7 +110,7 @@ public class SalonControllerIntegrationTest {
     void testAddSalonDuplicate() throws Exception {
         String invalidSalonJson = loadFixture("duplicate_salon.json");
 
-        mockMvc.perform(post("/add_salon")
+        mockMvc.perform(post("/salon")
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
@@ -125,7 +125,7 @@ public class SalonControllerIntegrationTest {
                 () -> new RuntimeException("Salon not found")
         );
 
-        mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+        mockMvc.perform(put("/salon/{uuid}", existingSalon.getUuid())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(validSalonJson))
@@ -142,7 +142,7 @@ public class SalonControllerIntegrationTest {
         );
 
 
-        mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+        mockMvc.perform(put("/salon/{uuid}", existingSalon.getUuid())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
@@ -159,7 +159,7 @@ public class SalonControllerIntegrationTest {
         );
 
 
-        mockMvc.perform(put("/edit_salon/{uuid}", existingSalon.getUuid())
+        mockMvc.perform(put("/salon/{uuid}", existingSalon.getUuid())
                         .header("Authorization", "Bearer " + generateTestToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidSalonJson))
@@ -173,7 +173,7 @@ public class SalonControllerIntegrationTest {
                 () -> new RuntimeException("Salon not found")
         );
 
-        mockMvc.perform(delete("/delete_salon/{uuid}", existingSalon.getUuid())
+        mockMvc.perform(delete("/salon/{uuid}", existingSalon.getUuid())
                         .header("Authorization", "Bearer " + generateTestToken()))
                 .andExpect(status().isOk());
     }
