@@ -9,19 +9,28 @@ export function useSalons() {
     const salonService = SalonService();
 
     useEffect(() => {
-        async function fetchData() {
+        (async () => {
             try {
                 setLoading(true);
-                const salonsData = await salonService.getSalons();
-                setSalons(salonsData);
-            } catch (err) {
-                console.error("Error fetching salons:", err);
+                const all  = await salonService.getSalons();
+                const favs = await salonService.getFavoriteSalonsForUser(
+                    sessionStorage.getItem("uuid")!);
+                const withFavs = all.map(s =>
+                    ({
+                        ...s,
+                        favoriteFor: favs.find(f => f.uuid === s.uuid)
+                            ? [{ uuid: sessionStorage.getItem("uuid")! }]
+                            : []
+                    })
+                );
+                setSalons(withFavs);
+            } catch (e) {
+                console.error(e);
                 setError("Failed to load salons");
             } finally {
                 setLoading(false);
             }
-        }
-        fetchData();
+        })();
     }, []);
 
     return { salons, loading, error };

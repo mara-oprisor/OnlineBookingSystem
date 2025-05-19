@@ -1,4 +1,4 @@
-import {SALON_ENDPOINT, SALONS_ENDPOINT} from "../constants/api.ts";
+import {FAVORITE_SALON_ENDPOINT, SALON_ENDPOINT, SALONS_ENDPOINT} from "../constants/api.ts";
 import Salon from "../model/Salon.ts";
 import axios from "axios";
 
@@ -69,11 +69,52 @@ function SalonService() {
         }
     }
 
+    async function addFavorite(clientId: string, salonId: string): Promise<Salon> {
+        try {
+            const response = await axios.post<Salon>(`${FAVORITE_SALON_ENDPOINT}/${clientId}/${salonId}`, null, {
+                headers: { "Content-Type": "application/json" },
+            });
+            return response.data;
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err) && err.response) {
+                throw new Error(JSON.stringify(err.response.data));
+            }
+            throw new Error((err as Error).message);
+        }
+    }
+
+    async function removeFavorite(clientId: string, salonId: string): Promise<Salon> {
+        try {
+            const response = await axios.delete<Salon>(`${FAVORITE_SALON_ENDPOINT}/${clientId}/${salonId}`);
+            return response.data;
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err) && err.response) {
+                throw new Error(JSON.stringify(err.response.data));
+            }
+            throw new Error((err as Error).message);
+        }
+    }
+
+    async function getFavoriteSalonsForUser(clientId: string) : Promise<Salon[]> {
+        try {
+            const response = await axios.get(`${FAVORITE_SALON_ENDPOINT}/${clientId}`);
+            return response.data;
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err) && err.response) {
+                throw new Error(JSON.stringify(err.response.data));
+            }
+            throw new Error((err as Error).message);
+        }
+    }
+
     return {
         getSalons,
         addSalon,
         updateSalon,
-        deleteSalon
+        deleteSalon,
+        addFavorite,
+        removeFavorite,
+        getFavoriteSalonsForUser
     };
 }
 
