@@ -47,4 +47,14 @@ public class SalonController {
     public SalonDisplayDTO addFavoriteSalon(@PathVariable UUID client_uuid, @PathVariable UUID salon_uuid) throws NotExistentException {
         return salonService.addFavoriteSalon(client_uuid, salon_uuid);
     }
+
+    @DeleteMapping("/favorite_salon/{client_uuid}/{salon_uuid}")
+    public SalonDisplayDTO removeFavoriteSalon(@PathVariable UUID client_uuid, @PathVariable UUID salon_uuid) throws NotExistentException {
+        return salonService.removeFavoriteSalon(client_uuid, salon_uuid);
+    }
+
+    @GetMapping("/favorite_salon/{client_uuid}")
+    public List<SalonDisplayDTO> getFavoriteSalonsForUser(@PathVariable UUID client_uuid) throws NotExistentException {
+        return salonService.getFavoriteSalonsForClient(client_uuid);
+    }
 }

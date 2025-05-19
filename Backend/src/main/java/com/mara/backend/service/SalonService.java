@@ -100,4 +100,39 @@ public class SalonService {
 
         return SalonDisplayDTO.salonToDTO(salonRepository.save(salon));
     }
+
+    public SalonDisplayDTO removeFavoriteSalon(UUID clientUUID, UUID salonUUID) throws NotExistentException {
+        User user = userRepository.findById(clientUUID).orElseThrow(
+                () -> new NotExistentException("There is no user with uuid " + clientUUID)
+        );
+        if (!(user instanceof Client client)) {
+            throw new IllegalStateException("The user with uuid " + clientUUID + " is not a client!");
+        }
+
+        Salon salon = salonRepository.findById(salonUUID).orElseThrow(
+                () -> new NotExistentException("There is no salon with uuid " + salonUUID)
+        );
+        if (salon.getFavoriteFor().remove(client)) {
+            salonRepository.save(salon);
+        }
+        return SalonDisplayDTO.salonToDTO(salon);
+    }
+
+    public List<SalonDisplayDTO> getFavoriteSalonsForClient(UUID clientUUID) throws NotExistentException {
+        User user = userRepository.findById(clientUUID).orElseThrow(
+                () -> new NotExistentException("There is no user with uuid " + clientUUID)
+        );
+        if (!(user instanceof Client client)) {
+            throw new IllegalStateException("The user with uuid " + clientUUID + " is not a client!");
+        }
+
+        List<SalonDisplayDTO> favorites = new ArrayList<>();
+        for (Salon salon : salonRepository.findAll()) {
+            if (salon.getFavoriteFor().contains(client)) {
+                favorites.add(SalonDisplayDTO.salonToDTO(salon));
+            }
+        }
+
+        return favorites;
+    }
 }
