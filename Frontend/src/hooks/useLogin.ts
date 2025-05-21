@@ -46,7 +46,7 @@ function useLogin(){
                     sessionStorage.setItem('uuid', user.uuid);
 
                     if(response.role == "CLIENT") {
-                        navigate('/client');
+                        navigate('/salons');
                     } else {
                         navigate('/admin');
                     }

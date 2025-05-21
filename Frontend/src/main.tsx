@@ -11,6 +11,7 @@ import AuthenticatedRouteGuard from "./security/AuthenticatedRouteGuard.tsx";
 import './security/axiosConfig.ts';
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import AuthModal from "./components/AuthModal.tsx";
+import MyBookingsPage from "./pages/MyBookingsPage.tsx";
 
 
 createRoot(document.getElementById('root')!).render(
@@ -20,20 +21,21 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/" element={<Navigate to="/auth" />} />
             <Route path="/auth" element={<AuthModal />}/>
             <Route path={"/forbidden"} element={
-                <div className="app-container">
+                <div className="container-fluid">
                     <h1>403 - Access forbidden</h1>
                 </div>
             } />
             <Route path="/reset_password" element={<ResetPasswordPage />} />
             <Route element={<AuthenticatedRouteGuard requiredRole={"CLIENT"} />}>
-                <Route path="/client" element={<SalonsPage />} />
+                <Route path="/salons" element={<SalonsPage />} />
+                <Route path="/my_bookings" element={<MyBookingsPage />} />
                 <Route path="/book/:salonId" element={<BookingPage />} />
             </Route>
             <Route element={<AuthenticatedRouteGuard requiredRole={"ADMIN"} />}>
                 <Route path="/admin" element={<Dashboard />} />
             </Route>
             <Route path="*" element={
-                <div className="app-container">
+                <div className="app-fluid">
                     <h1>404 - Page Not Found</h1>
                 </div>
             } />

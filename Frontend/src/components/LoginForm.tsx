@@ -35,7 +35,9 @@ function LoginForm() {
             </div>
             <button
                 type="submit"
-                className="btn btn-primary w-100 py-2">Log In
+                className="btn btn-primary w-100 py-2"
+            >
+                Log In
             </button>
             {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
             <a href="/reset_password" className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Forgot your password?</a>

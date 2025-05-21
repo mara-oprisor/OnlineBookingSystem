@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSalons } from "../hooks/useSalonCards";
 import SalonCard from "../components/SalonCard";
 import Salon from "../model/Salon.ts";
-import LogoutButton from "../components/LogoutButton.tsx";
+import NavBarClient from "../components/NavBarClient.tsx";
 
 function SalonsPage() {
     const { salons, loading, error } = useSalons();
@@ -17,9 +17,7 @@ function SalonsPage() {
 
     return (
         <>
-            <div className="d-flex justify-content-end p-2">
-                <LogoutButton/>
-            </div>
+            <NavBarClient />
 
             <div className="salon-cards-container">
                 <h2>Salons</h2>

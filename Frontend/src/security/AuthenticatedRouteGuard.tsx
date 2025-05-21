@@ -20,7 +20,7 @@ function AuthenticatedRouteGuard({requiredRole}: AuthenticatedRouteGuardProps) {
         const hasRequiredClaims = decodedToken.userId && decodedToken.role;
 
         if (!isIssuerValid || !isNotExpired || !hasRequiredClaims) {
-            return <Navigate to="/login" />;
+            return <Navigate to="/auth" />;
         }
 
         if (requiredRole && decodedToken.role !== requiredRole) {
