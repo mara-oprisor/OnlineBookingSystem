@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +33,12 @@ public class BookingService {
             bookingsDTO.add(BookingDisplayDTO.bookingToDTO(booking));
         }
         return bookingsDTO;
+    }
+
+    public List<BookingDisplayDTO> getAllBookingsForClient(UUID uuid) {
+        return bookingRepository.findByClient_Id(uuid).stream()
+                .map(BookingDisplayDTO::bookingToDTO)
+                .collect(Collectors.toList());
     }
 
     public BookingDisplayDTO createBooking(BookingCreateDTO bookingCreateDTO) throws NotExistentException {
