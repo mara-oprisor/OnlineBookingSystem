@@ -12,6 +12,7 @@ import './security/axiosConfig.ts';
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import AuthModal from "./components/AuthModal.tsx";
 import MyBookingsPage from "./pages/MyBookingsPage.tsx";
+import BookingPaymentPage from "./pages/BookingPaymentPage.tsx";
 
 
 createRoot(document.getElementById('root')!).render(
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/salons" element={<SalonsPage />} />
                 <Route path="/my_bookings" element={<MyBookingsPage />} />
                 <Route path="/book/:salonId" element={<BookingPage />} />
+                <Route path="/payment" element={<BookingPaymentPage />} />
             </Route>
             <Route element={<AuthenticatedRouteGuard requiredRole={"ADMIN"} />}>
                 <Route path="/admin" element={<Dashboard />} />

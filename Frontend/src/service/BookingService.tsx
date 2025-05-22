@@ -45,7 +45,15 @@ function BookingService() {
         }
     }
 
-    return { getBookingsForClient, createBooking };
+    async function deleteBooking(uuid: string): Promise<void> {
+        try {
+            await axios.delete(`${BOOKING_ENDPOINT}/${uuid}`);
+        } catch {
+            throw new Error("Failed to delete the booking!");
+        }
+    }
+
+    return { getBookingsForClient, createBooking, deleteBooking };
 }
 
 export default BookingService;

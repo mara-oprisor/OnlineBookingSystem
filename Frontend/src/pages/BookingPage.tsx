@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { BookingForm } from "../components/BookingForm";
+import {useNavigate, useParams} from "react-router-dom";
+import BookingForm from "../components/BookingForm";
 import BookingService from "../service/BookingService";
 import BookingDisplay from "../model/BookingDisplay";
 import useAvailableServices from "../hooks/useAvailableServices";
@@ -14,6 +14,7 @@ function BookingPage() {
     const { availableServices, loadingServices, error: serviceError } = useAvailableServices(effectiveSalonId);
     const [finalBooking, setFinalBooking] = useState<BookingDisplay | null>(null);
     const bookingService = BookingService();
+    const navigate = useNavigate();
 
     async function handleBookingSubmit(data: BookingFormState) {
         const payload: BookingCreate = {
@@ -28,7 +29,7 @@ function BookingPage() {
         try {
             const booking: BookingDisplay = await bookingService.createBooking(payload);
             setFinalBooking(booking);
-            alert(`Booking confirmed! Final Price: $${booking.finalPrice.toFixed(2)}`);
+            navigate("/payment", { state: { booking } });
         } catch (error: unknown) {
             let errorMessage = "Booking submission failed.";
             if (error instanceof Error) {

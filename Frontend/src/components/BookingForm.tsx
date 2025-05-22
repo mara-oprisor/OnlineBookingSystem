@@ -9,7 +9,7 @@ export interface BookingFormProps {
     onSubmit: (data: BookingFormState) => void;
 }
 
-export function BookingForm({ services, onSubmit }: BookingFormProps) {
+function BookingForm({ services, onSubmit }: BookingFormProps) {
     const { formData, handleChange, handleDateChange } = useBooking();
 
     const now = new Date();
@@ -72,7 +72,7 @@ export function BookingForm({ services, onSubmit }: BookingFormProps) {
                 />
             </div>
             <button type="submit" className="btn btn-primary">
-                Submit Booking
+                Go to Payment
             </button>
         </form>
     );
