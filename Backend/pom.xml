@@ -113,6 +113,12 @@
             <artifactId>simple-java-mail</artifactId>
             <version>8.7.0</version>
         </dependency>
+
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>29.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
