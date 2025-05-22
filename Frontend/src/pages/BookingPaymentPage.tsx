@@ -6,7 +6,6 @@ import BookingService from "../service/BookingService.tsx";
 
 
 function BookingPaymentPage() {
-    console.log(import.meta.env.VITE_STRIPE_KEY)
     const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
     const { state } = useLocation();
     const navigate = useNavigate();
