@@ -4,7 +4,7 @@ import PaymentForm from '../components/PaymentForm';
 import {useLocation, useNavigate} from 'react-router-dom';
 import BookingService from "../service/BookingService.tsx";
 
-const stripePromise = loadStripe('pk_test_51RRDWHGD73yvHlKdkaIoFYq508GgVfeo1GclmH3Bx8cNFx7VmsBfn11h06g5h9T184CaMItoPeFu2MPDD24kvXIL00RKNcvMkw');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
 function BookingPaymentPage() {
     const { state } = useLocation();
