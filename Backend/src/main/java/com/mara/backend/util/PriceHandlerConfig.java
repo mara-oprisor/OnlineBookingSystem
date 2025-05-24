@@ -1,9 +1,6 @@
 package com.mara.backend.util;
 
-import com.mara.backend.logic.DiscountCodeHandler;
-import com.mara.backend.logic.LoyalClientHandler;
-import com.mara.backend.logic.PriceHandler;
-import com.mara.backend.logic.RegularPriceHandler;
+import com.mara.backend.logic.*;
 import com.mara.backend.service.DiscountCodeService;
 import com.mara.backend.service.LoyaltyPointService;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +16,18 @@ public class PriceHandlerConfig {
     }
 
     @Bean
-    public LoyalClientHandler loyalClientHandler(LoyaltyPointService loyaltyPointService) {
-        return new LoyalClientHandler(null, loyaltyPointService);
+    public LoyalClientBronzeHandler loyalClientBronzeHandler(LoyaltyPointService loyaltyPointService) {
+        return new LoyalClientBronzeHandler(null, loyaltyPointService);
+    }
+
+    @Bean
+    public LoyalClientSilverHandler loyalClientSilverHandler(LoyaltyPointService loyaltyPointService) {
+        return new LoyalClientSilverHandler(null, loyaltyPointService);
+    }
+
+    @Bean
+    public LoyalClientGoldHandler loyalClientGoldHandler(LoyaltyPointService loyaltyPointService) {
+        return new LoyalClientGoldHandler(null, loyaltyPointService);
     }
 
     @Bean
@@ -31,10 +38,14 @@ public class PriceHandlerConfig {
     @Bean
     @Primary
     public PriceHandler priceHandlerChain(DiscountCodeHandler discountCodeHandler,
-                                          LoyalClientHandler loyalClientHandler,
+                                          LoyalClientBronzeHandler loyalClientBronzeHandler,
+                                          LoyalClientSilverHandler loyalClientSilverHandler,
+                                          LoyalClientGoldHandler loyalClientGoldHandler,
                                           RegularPriceHandler regularPriceHandler) {
         discountCodeHandler
-                .setNextHandler(loyalClientHandler)
+                .setNextHandler(loyalClientBronzeHandler)
+                .setNextHandler(loyalClientSilverHandler)
+                .setNextHandler(loyalClientGoldHandler)
                 .setNextHandler(regularPriceHandler);
         return discountCodeHandler;
     }

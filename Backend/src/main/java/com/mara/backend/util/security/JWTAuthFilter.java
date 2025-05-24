@@ -26,7 +26,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private String secretKey;
 
     private final Map<String, List<String>> ROLE_ENDPOINTS = Map.of(
-            "CLIENT", List.of("/favorite_salon", "/services", "/service", "/salons", "/salon", "/bookings", "/booking", "/users", "/user", "/api"),
+            "CLIENT", List.of("/favorite_salon", "/services", "/service", "/salons", "/salon", "/bookings", "/booking", "/users", "/user", "/api", "/loyalty-points"),
             "ADMIN",  List.of("/users", "/user", "/services", "/service", "/salons", "/salon", "/discounts", "/discount", "/bookings", "/booking")
     );
 

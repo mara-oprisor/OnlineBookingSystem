@@ -1,7 +1,7 @@
 package com.mara.backend.service;
 
 import com.mara.backend.logic.DiscountCodeHandler;
-import com.mara.backend.logic.LoyalClientHandler;
+import com.mara.backend.logic.LoyalClientBronzeHandler;
 import com.mara.backend.logic.RegularPriceHandler;
 import com.mara.backend.model.Client;
 import com.mara.backend.model.dto.DiscountCodeDisplayDTO;
@@ -23,7 +23,7 @@ public class DiscountCodeHandlerTest {
     @Mock LoyaltyPointService loyaltyPointService;
 
     DiscountCodeHandler discountHandler;
-    LoyalClientHandler  loyaltyHandler;
+    LoyalClientBronzeHandler loyaltyHandler;
     RegularPriceHandler regularHandler;
 
 
@@ -32,7 +32,7 @@ public class DiscountCodeHandlerTest {
         MockitoAnnotations.openMocks(this);
 
         regularHandler = new RegularPriceHandler(null);
-        loyaltyHandler = new LoyalClientHandler(regularHandler, loyaltyPointService);
+        loyaltyHandler = new LoyalClientBronzeHandler(regularHandler, loyaltyPointService);
         discountHandler = new DiscountCodeHandler(loyaltyHandler, discountCodeService);
     }
 

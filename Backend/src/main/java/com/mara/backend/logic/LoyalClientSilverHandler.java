@@ -6,7 +6,7 @@ import com.mara.backend.service.LoyaltyPointService;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class LoyalClientBronzeHandler implements PriceHandler {
+public class LoyalClientSilverHandler implements PriceHandler{
     private PriceHandler next;
     private LoyaltyPointService loyaltyPointService;
 
@@ -14,8 +14,8 @@ public class LoyalClientBronzeHandler implements PriceHandler {
     public double findFinalPrice(PricingDTO pricingDTO) {
         Client client = pricingDTO.getClient();
 
-        if (loyaltyPointService.getAllPointsForUser(client.getId()) > 200) {
-            return pricingDTO.getBasePrice() * 0.95;
+        if (loyaltyPointService.getAllPointsForUser(client.getId()) > 500) {
+            return pricingDTO.getBasePrice() * 0.9;
         }
 
         return next.findFinalPrice(pricingDTO);

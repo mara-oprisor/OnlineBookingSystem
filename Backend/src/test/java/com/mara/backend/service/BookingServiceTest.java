@@ -212,7 +212,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void testDeleteBooking() {
+    public void testDeleteBooking() throws NotExistentException {
         UUID uuid = UUID.randomUUID();
 
 

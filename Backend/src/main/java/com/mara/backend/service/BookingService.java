@@ -102,7 +102,17 @@ public class BookingService {
         return BookingDisplayDTO.bookingToDTO(updatedBooking);
     }
 
-    public void deleteBooking(UUID bookingId) {
+    public void deleteBooking(UUID bookingId) throws NotExistentException {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(
+                () -> new NotExistentException("Booking with uuid " + bookingId + " does not exist!")
+        );
+
+        int loyaltyPoints = (int) (booking.getFinalPrice() / 20);
+        LoyaltyPoint loyaltyPoint = new LoyaltyPoint();
+        loyaltyPoint.setClient(booking.getClient());
+        loyaltyPoint.setPoints(-loyaltyPoints);
+
         bookingRepository.deleteById(bookingId);
+        loyaltyPointService.addLoyaltyPoint(loyaltyPoint);
     }
 }

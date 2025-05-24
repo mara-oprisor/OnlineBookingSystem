@@ -40,7 +40,7 @@ public class BookingController {
     }
 
     @DeleteMapping("/booking/{uuid}")
-    public void deleteBooking(@PathVariable UUID uuid) {
+    public void deleteBooking(@PathVariable UUID uuid) throws NotExistentException {
         bookingService.deleteBooking(uuid);
     }
 }
