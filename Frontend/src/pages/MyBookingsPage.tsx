@@ -12,7 +12,8 @@ function MyBookingsPage() {
         <>
             <NavBarClient />
 
-            <div className="my-bookings-page">
+            <div className="page-container my-bookings-page">
+                <div className="content-container">
                 <h2 className="mb-4 text-center">My Bookings</h2>
 
                 {upcomingBookings.length > 0 && (
@@ -44,6 +45,7 @@ function MyBookingsPage() {
                 {upcomingBookings.length === 0 && pastBookings.length === 0 && (
                     <p className="text-center">You have no bookings yet.</p>
                 )}
+            </div>
             </div>
         </>
     );

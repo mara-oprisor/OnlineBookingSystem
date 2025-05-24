@@ -14,7 +14,7 @@ function BookingCard({ booking, isUpcoming }: BookingCardProps) {
             className={`card mb-3 shadow-sm ${
                 isUpcoming ? 'border-primary' : 'border-secondary'
             }`}
-            style={{ width: '100%' }}
+            style={{ width: '900px' }}
         >
             <div className="card-body d-flex justify-content-between align-items-center">
                 <div>

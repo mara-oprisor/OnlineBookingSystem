@@ -1,4 +1,4 @@
-import useLogin from "../hooks/useLogin.ts";
+import useLogin from "../hooks/useLogin";
 
 function LoginForm() {
     const {
@@ -12,7 +12,7 @@ function LoginForm() {
 
     return (
         <form onSubmit={handleLogin}>
-            <h1 className="h3 mb-3 fw-normal">Log In</h1>
+            <h1>Log In</h1>
             <div className="form-floating">
                 <input
                     type="text"
@@ -20,7 +20,8 @@ function LoginForm() {
                     className="form-control"
                     id="floatingInput"
                     placeholder="Username"
-                    value={username}/>
+                    value={username}
+                />
                 <label htmlFor="floatingInput">Username</label>
             </div>
             <div className="form-floating">
@@ -30,17 +31,20 @@ function LoginForm() {
                     className="form-control"
                     id="floatingPassword"
                     placeholder="Password"
-                    value={password}/>
+                    value={password}
+                />
                 <label htmlFor="floatingPassword">Password</label>
             </div>
-            <button
-                type="submit"
-                className="btn btn-primary w-100 py-2"
-            >
+            {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
+            <button type="submit" className="btn btn-primary">
                 Log In
             </button>
-            {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
-            <a href="/reset_password" className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Forgot your password?</a>
+            <a
+                href="/reset_password"
+                className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+            >
+                Forgot your password?
+            </a>
         </form>
     );
 }

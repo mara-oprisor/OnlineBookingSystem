@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Salon from "../model/Salon";
 import SalonService from "../service/SalonService";
 
-export function useSalons() {
+export function useSalonCards() {
     const [salons, setSalons] = useState<Salon[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);

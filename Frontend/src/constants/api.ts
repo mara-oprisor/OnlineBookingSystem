@@ -24,3 +24,5 @@ export const RESET_PASSWORD_ENDPOINT = `${API_BASE_URL}/reset_password`;
 export const FAVORITE_SALON_ENDPOINT = `${API_BASE_URL}/favorite_salon`;
 
 export const PAYMENT_ENDPOINT = `${API_BASE_URL}/api/payments/create-intent`;
+
+export const LOYALTY_POINT_ENDPOINT = `${API_BASE_URL}/loyalty-points`;

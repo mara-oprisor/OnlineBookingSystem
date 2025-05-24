@@ -32,6 +32,11 @@ function NavBarClient() {
                                 My Bookings
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/loyalty-points">
+                                Loyalty Points
+                            </NavLink>
+                        </li>
                     </ul>
 
                     <div className="d-flex">

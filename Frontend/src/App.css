@@ -1,8 +1,10 @@
 #root {
   max-width: 1280px;
+  min-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 1000px;
 }
 
 .logo {
@@ -33,6 +35,104 @@
   }
 }
 
+
+.read-the-docs {
+  color: #888;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.navbar-nav .nav-link:hover {
+  font-weight: 700;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  transform: translateY(-2px);
+  transition: 0.2s;
+}
+
+h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+nav {
+  width: 100% !important;
+}
+
+.my-bookings-page {
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.content-container {
+  max-width: 800px;
+  width: 100%;
+  padding: 16px;
+  text-align: center;
+}
+
 .salon-card {
   position: relative;
   transition: transform 0.2s;
@@ -57,6 +157,147 @@
   outline: none;
 }
 
-.read-the-docs {
-  color: #888;
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.auth-modal {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.auth-modal h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-modal .form-floating {
+  margin-bottom: 1rem;
+}
+
+.auth-modal .form-control {
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.auth-modal .btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.auth-modal .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.auth-modal .btn-primary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.auth-modal .link-primary {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.auth-modal .d-flex .btn {
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.auth-modal .d-flex .btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.auth-modal .d-flex .btn-light {
+  background-color: #f1f3f5;
+  color: #6c757d;
+}
+.register-form-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.register-form-container h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.register-form-container .form-floating,
+.register-form-container .form-select {
+  margin-bottom: 1rem;
+}
+
+.register-form-container .form-control,
+.register-form-container .form-select {
+  width: 100%;
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .auth-modal {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .register-form-container {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .register-form-container .form-control,
+  .register-form-container .form-select {
+    min-width: 100%;
+  }
+
+  .register-form-container .btn-primary {
+    width: 100%;
+  }
+}
+
+.register-form-container .btn-primary {
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.register-form-container .list-unstyled {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.register-form-container .text-danger {
+  font-size: 0.85rem;
 }

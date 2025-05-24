@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useSalons } from "../hooks/useSalonCards";
+import { useSalonCards } from "../hooks/useSalonCards";
 import SalonCard from "../components/SalonCard";
 import Salon from "../model/Salon.ts";
 import NavBarClient from "../components/NavBarClient.tsx";
 
 function SalonsPage() {
-    const { salons, loading, error } = useSalons();
+    const { salons, loading, error } = useSalonCards();
     const navigate = useNavigate();
 
     const handleSelectSalon = (salon: Salon) => {
