@@ -1,5 +1,6 @@
 import BookingDisplay from "../model/BookingDisplay.ts";
 import { format } from "date-fns";
+import useDownloadInvoice from "../hooks/useDownloadInvoice.ts";
 
 interface BookingCardProps {
     booking: BookingDisplay;
@@ -8,6 +9,7 @@ interface BookingCardProps {
 
 function BookingCard({ booking, isUpcoming }: BookingCardProps) {
     const dt = new Date(booking.dateTime);
+    const {downloadInvoice} = useDownloadInvoice();
 
     return (
         <div
@@ -37,7 +39,7 @@ function BookingCard({ booking, isUpcoming }: BookingCardProps) {
                         <>
                             <button
                                 className="btn btn-outline-primary"
-                                //onClick={() => onReschedule?.(booking.bookingId)}
+                                onClick={() => downloadInvoice(booking.bookingId)}
                             >
                                 See Invoice
                             </button>
@@ -52,7 +54,7 @@ function BookingCard({ booking, isUpcoming }: BookingCardProps) {
                         <>
                             <button
                                 className="btn btn-outline-success"
-                                //onClick={() => onRebook?.(booking.bookingId)}
+                                onClick={() => downloadInvoice(booking.bookingId)}
                             >
                                 See Invoice
                             </button>

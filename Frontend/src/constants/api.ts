@@ -26,3 +26,5 @@ export const FAVORITE_SALON_ENDPOINT = `${API_BASE_URL}/favorite_salon`;
 export const PAYMENT_ENDPOINT = `${API_BASE_URL}/api/payments/create-intent`;
 
 export const LOYALTY_POINT_ENDPOINT = `${API_BASE_URL}/loyalty-points`;
+
+export const INVOICE_ENDPOINT = `${API_BASE_URL}/invoices`;
