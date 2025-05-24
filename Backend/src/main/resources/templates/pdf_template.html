@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Invoice</title>
+
+    <style>
+        body { font-family: "DejaVu Sans", sans-serif; }
+        h1   { margin-bottom: 0.25rem; }
+        p    { margin: 0.15rem 0; }
+
+        table              { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td             { border: 1px solid #ccc; padding: 4px; text-align: right; }
+        th:first-child,
+        td:first-child     { text-align: left; }
+        tfoot tr th        { text-align: left; }
+    </style>
+</head>
+<body>
+
+<h1>Invoice – Booking <span th:text="${invoice.bookingId}"></span></h1>
+
+<p><strong>Salon:</strong> <span th:text="${invoice.salon}"></span></p>
+<p>
+    <strong>Client:</strong>
+    <span th:text="${invoice.clientUsername}"></span>
+    (<span th:text="${invoice.clientEmail}"></span>)
+</p>
+<p>
+    <strong>Date:</strong>
+    <span th:text="${#temporals.format(invoice.date, 'dd MMM yyyy  HH:mm')}"></span>
+</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td th:text="${invoice.serviceName}"></td>
+        <td>1</td>                                      <!-- exactly one service -->
+        <td th:text="${#numbers.formatDecimal(invoice.finalPrice,1,2)}"></td>
+        <td th:text="${#numbers.formatDecimal(invoice.finalPrice,1,2)}"></td>
+    </tr>
+    </tbody>
+
+    <tfoot>
+    <tr>
+        <th colspan="3">Grand total</th>
+        <td th:text="${#numbers.formatDecimal(invoice.finalPrice,1,2)}"></td>
+    </tr>
+    </tfoot>
+</table>
+
+</body>
+</html>
