@@ -14,6 +14,7 @@ import AuthModal from "./components/AuthModal.tsx";
 import MyBookingsPage from "./pages/MyBookingsPage.tsx";
 import BookingPaymentPage from "./pages/BookingPaymentPage.tsx";
 import MyLoyaltyPage from "./pages/MyLoyaltyPointsPage.tsx";
+import AIChatPage from "./pages/AIChatPage.tsx";
 
 
 createRoot(document.getElementById('root')!).render(
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/book/:salonId" element={<BookingPage />} />
                 <Route path="/payment" element={<BookingPaymentPage />} />
                 <Route path="/loyalty-points" element={<MyLoyaltyPage/>} />
+                <Route path="ai-chat" element={<AIChatPage/>} />
             </Route>
             <Route element={<AuthenticatedRouteGuard requiredRole={"ADMIN"} />}>
                 <Route path="/admin" element={<Dashboard />} />
