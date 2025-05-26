@@ -30,7 +30,11 @@ export function useBooking() {
         }));
     }
 
-    return { formData, handleChange, handleDateChange };
+    function setService(serviceId: string) {
+        setFormData((f) => ({ ...f, serviceId }));
+    }
+
+    return { formData, handleChange, handleDateChange, setService };
 }
 
 export default useBooking;

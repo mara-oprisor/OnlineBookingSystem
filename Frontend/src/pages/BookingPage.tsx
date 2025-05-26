@@ -1,81 +1,80 @@
-import { useState } from "react";
+import {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BookingForm from "../components/BookingForm";
+import {BookingFormState} from "../hooks/useBooking.ts";
 import BookingService from "../service/BookingService";
 import BookingDisplay from "../model/BookingDisplay";
 import useAvailableServices from "../hooks/useAvailableServices";
-import {BookingFormState} from "../hooks/useBooking.ts";
-import LogoutButton from "../components/LogoutButton.tsx";
+import LogoutButton from "../components/LogoutButton";
+import {Button, Spinner} from "react-bootstrap";
 import BookingCreate from "../model/BookingCreate.ts";
+import {format} from "date-fns";
 
 function BookingPage() {
-    const { salonId } = useParams<{ salonId: string }>();
-    const effectiveSalonId = salonId || "";
-    const { availableServices, loadingServices, error: serviceError } = useAvailableServices(effectiveSalonId);
-    const [finalBooking, setFinalBooking] = useState<BookingDisplay | null>(null);
-    const bookingService = BookingService();
+    const {salonId} = useParams<{ salonId: string }>();
     const navigate = useNavigate();
+    const bookingService = BookingService();
+
+    const {availableServices, loadingServices, error: serviceError} =
+        useAvailableServices(salonId || "");
+
+    const [finalBooking, setFinalBooking] = useState<BookingDisplay | null>(
+        null
+    );
 
     async function handleBookingSubmit(data: BookingFormState) {
+        const localDateTime = format(
+            data.date!,
+            "yyyy-MM-dd'T'HH:mm:ss"
+        );
+
         const payload: BookingCreate = {
-            clientId: sessionStorage.getItem("uuid") as string,
-            serviceId: data.serviceId,
-            dateTime: data.date!.toISOString(),
-            discountCode:
-                data.discountCode?.trim() ? null : data.discountCode.trim(),
+            clientId: sessionStorage.getItem("uuid")!,
+            serviceId: data.serviceId!,
+            dateTime: localDateTime,
+            discountCode: data.discountCode?.trim() || null,
         };
 
-
         try {
-            const booking: BookingDisplay = await bookingService.createBooking(payload);
+            const booking = await bookingService.createBooking(payload);
             setFinalBooking(booking);
             navigate("/payment", { state: { booking } });
-        } catch (error: unknown) {
-            let errorMessage = "Booking submission failed.";
-            if (error instanceof Error) {
-                try {
-                    const parsed = JSON.parse(error.message);
-                    if (parsed?.error) {
-                        errorMessage = parsed.error;
-                    } else {
-                        errorMessage = error.message;
-                    }
-                } catch {
-                    errorMessage = error.message;
-                }
-            }
-            console.error("Booking submission failed:", error);
-            alert(`Booking submission failed: ${errorMessage}`);
+        } catch (err: unknown) {
+            console.error(err);
+            alert('Booking submission failed: ' + (err as Error).message);
         }
     }
 
     if (loadingServices) {
-        return <p>Loading...</p>;
+        return <Spinner animation="border" className="m-5"/>;
     }
     if (serviceError) {
-        return <p className="error-text">Error loading data.</p>;
+        return <p className="text-danger m-5">Error loading services</p>;
     }
 
     return (
         <>
-            <div className="d-flex justify-content-end p-2">
-                <LogoutButton/>
-            </div>
+        <div className="d-flex justify-content-between align-items-center p-3">
+            <Button variant="link" onClick={() => navigate(-1)}>
+                ← Back
+            </Button>
+            <LogoutButton/>
+        </div>
 
-            <div className="container mt-4">
-                <h2>Book an Appointment</h2>
-                <BookingForm
-                    services={availableServices}
-                    onSubmit={handleBookingSubmit}
-                />
-                {finalBooking && (
-                    <div className="mt-3">
-                        <h4>Final Price: ${finalBooking.finalPrice.toFixed(2)}</h4>
-                    </div>
-                )}
+
+        <BookingForm
+            services={availableServices}
+            onSubmit={handleBookingSubmit}
+        />
+
+        {finalBooking && (
+            <div className="mt-3 text-center">
+                <h4>
+                    Final Price: ${finalBooking.finalPrice.toFixed(2)}
+                </h4>
             </div>
-        </>
-    );
+        )}
+        </>);
 }
 
 export default BookingPage;

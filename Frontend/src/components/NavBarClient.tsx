@@ -37,6 +37,11 @@ function NavBarClient() {
                                 Loyalty Points
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/ai-chat">
+                                AI Assistant
+                            </NavLink>
+                        </li>
                     </ul>
 
                     <div className="d-flex">

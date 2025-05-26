@@ -35,7 +35,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/book/:salonId" element={<BookingPage />} />
                 <Route path="/payment" element={<BookingPaymentPage />} />
                 <Route path="/loyalty-points" element={<MyLoyaltyPage/>} />
-                <Route path="ai-chat" element={<AIChatPage/>} />
+                <Route path="/ai-chat" element={<AIChatPage/>} />
             </Route>
             <Route element={<AuthenticatedRouteGuard requiredRole={"ADMIN"} />}>
                 <Route path="/admin" element={<Dashboard />} />

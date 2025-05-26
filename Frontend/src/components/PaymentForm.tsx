@@ -29,7 +29,7 @@ function PaymentForm({booking, onSuccess, onError}: PaymentFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="p-4">
+        <form onSubmit={handleSubmit} className="payment-form">
             {(error || internalError) && (
                 <div className="alert alert-danger">{error || internalError}</div>
             )}

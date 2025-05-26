@@ -1,15 +1,27 @@
-import BookingDisplay from "../model/BookingDisplay.ts";
-import { format } from "date-fns";
-import useDownloadInvoice from "../hooks/useDownloadInvoice.ts";
+import BookingDisplay from '../model/BookingDisplay';
+import { format } from 'date-fns';
+import useDownloadInvoice from '../hooks/useDownloadInvoice';
 
 interface BookingCardProps {
     booking: BookingDisplay;
     isUpcoming: boolean;
+    onCancel?: (id: string) => void;
 }
 
-function BookingCard({ booking, isUpcoming }: BookingCardProps) {
+export default function BookingCard({
+                                        booking,
+                                        isUpcoming,
+                                        onCancel,
+                                    }: BookingCardProps) {
     const dt = new Date(booking.dateTime);
-    const {downloadInvoice} = useDownloadInvoice();
+    const { downloadInvoice } = useDownloadInvoice();
+
+    const handleCancel = () => {
+        if (!onCancel) return;
+        if (window.confirm('Are you sure you want to cancel this booking?')) {
+            onCancel(booking.bookingId);
+        }
+    };
 
     return (
         <div
@@ -23,9 +35,7 @@ function BookingCard({ booking, isUpcoming }: BookingCardProps) {
                     <h5 className="card-title mb-1">
                         {format(dt, 'MMMM do, yyyy')}
                         <br />
-                        <small className="text-muted">
-                            at {format(dt, 'hh:mm a')}
-                        </small>
+                        <small className="text-muted">at {format(dt, 'hh:mm a')}</small>
                     </h5>
                     <p className="card-text mb-1">
                         <strong>Service:</strong> {booking.serviceId}
@@ -43,27 +53,20 @@ function BookingCard({ booking, isUpcoming }: BookingCardProps) {
                             >
                                 See Invoice
                             </button>
-                            <button
-                                className="btn btn-outline-danger"
-                                //onClick={() => onCancel?.(booking.bookingId)}
-                            >
+                            <button className="btn btn-outline-danger" onClick={handleCancel}>
                                 Cancel
                             </button>
                         </>
                     ) : (
-                        <>
-                            <button
-                                className="btn btn-outline-success"
-                                onClick={() => downloadInvoice(booking.bookingId)}
-                            >
-                                See Invoice
-                            </button>
-                        </>
+                        <button
+                            className="btn btn-outline-success"
+                            onClick={() => downloadInvoice(booking.bookingId)}
+                        >
+                            See Invoice
+                        </button>
                     )}
                 </div>
             </div>
         </div>
     );
 }
-
-export default BookingCard;

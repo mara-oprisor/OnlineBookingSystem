@@ -365,3 +365,89 @@ nav {
 .chat-send-btn {
   flex-shrink: 0;
 }
+
+.booking-form.card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.booking-form__title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.booking-form__services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-card {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.service-card:hover {
+  border-color: #007bff;
+}
+
+.service-card--selected {
+  background: #e6f0ff;
+  border-color: #007bff;
+}
+
+.service-card__name {
+  margin-bottom: 0.5rem;
+}
+
+.booking-form__field {
+  margin-bottom: 1rem;
+}
+
+.booking-form__actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.payment-form {
+  max-width: 360px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0.5rem;
+}
+
+.payment-form .StripeElement {
+  padding: 8px 12px !important;
+  min-height: 40px !important;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.payment-form .btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.payment-form .alert {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.react-datepicker__input-container input,
+.booking-form .react-datepicker__input-container input {
+  background-color: #fff !important;
+  color: #212529;
+}

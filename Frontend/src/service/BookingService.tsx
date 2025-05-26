@@ -21,6 +21,22 @@ function BookingService() {
         }
     }
 
+    async function getBookedSlots(uuid: string): Promise<BookingDisplay[]> {
+        try{
+            const response = await axios.get<BookingDisplay[]>(`${BOOKINGS_ENDPOINT}/slots/${uuid}`);
+
+            return response.data;
+        } catch (error: unknown) {
+            let errorMessage: string = "Failed to fetch the bookings from the database!";
+
+            if (axios.isAxiosError(error)) {
+                errorMessage = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+            }
+
+            throw new Error(errorMessage);
+        }
+    }
+
     async function createBooking(booking: BookingCreate): Promise<BookingDisplay> {
         try {
             const response = await axios.post<BookingDisplay>(BOOKING_ENDPOINT, booking, {
@@ -53,7 +69,7 @@ function BookingService() {
         }
     }
 
-    return { getBookingsForClient, createBooking, deleteBooking };
+    return { getBookingsForClient, getBookedSlots, createBooking, deleteBooking };
 }
 
 export default BookingService;

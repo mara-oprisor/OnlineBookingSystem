@@ -21,6 +21,7 @@
     "file-saver": "^2.0.5",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
     "react-data-table-component": "^7.7.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.0.0",
