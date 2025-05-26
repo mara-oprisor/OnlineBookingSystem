@@ -1,7 +1,7 @@
 interface BookingDisplay {
     bookingId: string;
-    clientId: string;
-    serviceId: string;
+    salonName: string;
+    serviceName: string;
     dateTime: string;
     finalPrice: number;
 }

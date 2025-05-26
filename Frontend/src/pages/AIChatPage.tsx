@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import useAIChat from "../hooks/useAIChat";
+import NavBarClient from "../components/NavBarClient.tsx";
 
 function AIChatPage() {
     const {
@@ -12,21 +13,23 @@ function AIChatPage() {
     } = useAIChat();
 
     return (
-        <div className="chat-container">
-            <h2 className="chat-title">AI Chat</h2>
+        <>
+            <NavBarClient />
+            <div className="chat-container">
+                <h2 className="chat-title">AI Chat</h2>
 
-            <div className="chat-history" ref={scrollRef}>
-                {messages.map((m, i) => (
-                    <div
-                        key={i}
-                        className={`chat-bubble ${m.role === "assistant" ? "assistant" : "user"}`}
-                    >
-                        <ReactMarkdown>{m.text}</ReactMarkdown>
-                    </div>
-                ))}
-            </div>
+                <div className="chat-history" ref={scrollRef}>
+                    {messages.map((m, i) => (
+                        <div
+                            key={i}
+                            className={`chat-bubble ${m.role === "assistant" ? "assistant" : "user"}`}
+                        >
+                            <ReactMarkdown>{m.text}</ReactMarkdown>
+                        </div>
+                    ))}
+                </div>
 
-            <div className="chat-input-row">
+                <div className="chat-input-row">
         <textarea
             className="chat-textarea"
             placeholder="Type your question…"
@@ -34,15 +37,16 @@ function AIChatPage() {
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={handleKeyDown}
         />
-                <button
-                    className="chat-send-btn btn btn-primary"
-                    onClick={sendMessage}
-                    disabled={!draft.trim()}
-                >
-                    Send
-                </button>
+                    <button
+                        className="chat-send-btn btn btn-primary"
+                        onClick={sendMessage}
+                        disabled={!draft.trim()}
+                    >
+                        Send
+                    </button>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

@@ -38,7 +38,10 @@ export default function BookingCard({
                         <small className="text-muted">at {format(dt, 'hh:mm a')}</small>
                     </h5>
                     <p className="card-text mb-1">
-                        <strong>Service:</strong> {booking.serviceId}
+                        <strong>Salon:</strong> {booking.salonName}
+                    </p>
+                    <p className="card-text mb-1">
+                        <strong>Service:</strong> {booking.serviceName}
                     </p>
                     <p className="card-text mb-0">
                         <strong>Price:</strong> {booking.finalPrice.toFixed(2)} RON
