@@ -41,6 +41,12 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookingDisplayDTO> getAllBookedSlots(UUID serviceId) {
+        return bookingRepository.findByServiceItem_Uuid(serviceId).stream()
+                .map(BookingDisplayDTO::bookingToDTO)
+                .collect(Collectors.toList());
+    }
+
     public BookingDisplayDTO createBooking(BookingCreateDTO bookingCreateDTO) throws NotExistentException {
         Client client = getClientFromDTO(bookingCreateDTO);
         ServiceItem serviceItem = getServiceItemFromDTO(bookingCreateDTO);

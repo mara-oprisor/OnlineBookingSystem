@@ -28,6 +28,11 @@ public class BookingController {
         return bookingService.getAllBookingsForClient(uuid);
     }
 
+    @GetMapping("/bookings/slots/{uuid}")
+    public List<BookingDisplayDTO> getAllBookedSlots(@PathVariable UUID uuid) {
+        return bookingService.getAllBookedSlots(uuid);
+    }
+
     @PostMapping("/booking")
     public BookingDisplayDTO createBooking(@RequestBody BookingCreateDTO bookingCreateDTO) throws NotExistentException {
         return bookingService.createBooking(bookingCreateDTO);
