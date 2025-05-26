@@ -10,7 +10,8 @@ import java.util.UUID;
 public class BookingDisplayDTO {
     private UUID bookingId;
     private UUID clientId;
-    private UUID serviceId;
+    private String serviceName;
+    private String salonName;
     private LocalDateTime dateTime;
     private Double finalPrice;
 
@@ -19,7 +20,8 @@ public class BookingDisplayDTO {
 
         bookingDisplayDTO.setBookingId(booking.getUuid());
         bookingDisplayDTO.setClientId(booking.getClient().getId());
-        bookingDisplayDTO.setServiceId(booking.getServiceItem().getUuid());
+        bookingDisplayDTO.setServiceName(booking.getServiceItem().getName());
+        bookingDisplayDTO.setSalonName(booking.getServiceItem().getSalon().getName());
         bookingDisplayDTO.setDateTime(booking.getDateTime());
         bookingDisplayDTO.setFinalPrice(booking.getFinalPrice());
 
