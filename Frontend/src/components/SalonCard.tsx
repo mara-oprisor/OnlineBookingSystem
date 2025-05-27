@@ -1,16 +1,16 @@
 import Salon from "../model/Salon";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import React, {useEffect, useState} from "react";
-import salon1 from "../assets/salon1.jpg";
 import SalonService from "../service/SalonService.tsx";
 import {useTranslation} from "react-i18next";
 
 export interface SalonCardProps {
     salon: Salon;
+    imageUrl: string;
     onSelect: (salon: Salon) => void;
 }
 
-function SalonCard({ salon, onSelect }: SalonCardProps) {
+function SalonCard({ salon, imageUrl, onSelect }: SalonCardProps) {
     const clientId = sessionStorage.getItem("uuid") as string;
     const [favourite, setFavourite] = useState((salon.favoriteFor ?? []).some(c => c.uuid === clientId));
     const salonService = SalonService();
@@ -49,7 +49,7 @@ function SalonCard({ salon, onSelect }: SalonCardProps) {
             </button>
 
             <img
-                src={salon1}
+                src={imageUrl}
                 className="card-img-top"
                 alt={salon.name}
                 style={{ height: 150, objectFit: "cover" }}
