@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { AI_CHAT_ENDPOINT } from "../constants/api";
 
 export interface ChatMessage {
@@ -8,8 +9,9 @@ export interface ChatMessage {
 }
 
 function useAIChat() {
+    const { t, i18n } = useTranslation();
     const [messages, setMessages] = useState<ChatMessage[]>([
-        { role: "assistant", text: "Hi there! Ask me anything." }
+        { role: "assistant", text: t("aiChat.initialMessage") }
     ]);
     const [draft, setDraft] = useState("");
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -18,24 +20,31 @@ function useAIChat() {
         scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
     }, [messages]);
 
+    useEffect(() => {
+        setMessages(msgs => {
+            if (msgs.length === 0) return msgs;
+            return [{ role: "assistant", text: t("aiChat.initialMessage") }, ...msgs.slice(1)];
+        });
+    }, [i18n.language]);
+
     async function sendMessage() {
         const text = draft.trim();
         if (!text) return;
 
-        setMessages((m) => [...m, { role: "user", text }]);
+        setMessages(m => [...m, { role: "user", text }]);
         setDraft("");
 
         try {
             const res = await axios.post(AI_CHAT_ENDPOINT, text, {
                 headers: { "Content-Type": "text/plain" }
             });
-            setMessages((m) => [...m, { role: "assistant", text: res.data }]);
+            setMessages(m => [...m, { role: "assistant", text: res.data }]);
         } catch {
-            setMessages((m) => [
+            setMessages(m => [
                 ...m,
                 {
                     role: "assistant",
-                    text: "Sorry, something went wrong. Please try again later."
+                    text: t("aiChat.errorFallback")
                 }
             ]);
         }
@@ -48,14 +57,7 @@ function useAIChat() {
         }
     }
 
-    return {
-        messages,
-        draft,
-        setDraft,
-        scrollRef,
-        sendMessage,
-        handleKeyDown,
-    };
+    return { messages, draft, setDraft, scrollRef, sendMessage, handleKeyDown };
 }
 
 export default useAIChat;

@@ -1,6 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import NavBarClient from "../components/NavBarClient";
 import useLoyaltyPoints from "../hooks/useLoyaltyPoints";
+import {Trans, useTranslation} from "react-i18next";
 
 const TIERS = [
     { name: "Bronze", limit: 200, color: "#cd7f32", discount: 5 },
@@ -10,6 +11,7 @@ const TIERS = [
 
 function MyLoyaltyPage() {
     const { points, loading, error } = useLoyaltyPoints();
+    const { t } = useTranslation();
 
     const getUserTier = () => {
         if (points < TIERS[0].limit) {
@@ -33,7 +35,7 @@ function MyLoyaltyPage() {
                 <NavBarClient />
                 <Box sx={{ mt: 8, display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <CircularProgress />
-                    <span style={{ marginLeft: "16px" }}>Loading points...</span>
+                    <span style={{ marginLeft: "16px" }}>{t("myLoyalty.loading")}</span>
                 </Box>
             </>
         );
@@ -44,7 +46,7 @@ function MyLoyaltyPage() {
             <>
                 <NavBarClient />
                 <Box sx={{ mt: 8, textAlign: "center", color: "error.main" }}>
-                    <p>{error || "Failed to load points"}</p>
+                    <p>{t("myLoyalty.error")}</p>
                 </Box>
             </>
         );
@@ -56,15 +58,20 @@ function MyLoyaltyPage() {
             <div className="my-bookings-page">
                 <div className="content-container">
                     <h1 style={{ fontSize: "2rem", fontWeight: "500", marginBottom: "16px" }}>
-                        My Loyalty Points
+                        {t("myLoyalty.title")}
                     </h1>
                     <h2 style={{ fontSize: "3.5rem", fontWeight: "bold", marginBottom: "16px" }}>
                         {points}
                     </h2>
                     <p style={{ fontSize: "1.25rem", marginBottom: "32px", color: "#555" }}>
-                        {userTier.name
-                            ? `You are a ${userTier.name} loyal client with ${userTier.discount}% discount at every booking!`
-                            : "Not yet a loyal client. Earn more points to unlock discounts!"}
+                        {userTier.name ? (
+                            <Trans
+                                i18nKey="myLoyalty.tierMessage.hasTier"
+                                values={{ tier: userTier.name, discount: userTier.discount }}
+                            />
+                        ) : (
+                            t("myLoyalty.tierMessage.noTier")
+                        )}
                     </p>
                     <Box
                         sx={{

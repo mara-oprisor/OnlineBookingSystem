@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import useAIChat from "../hooks/useAIChat";
 import NavBarClient from "../components/NavBarClient.tsx";
+import {useTranslation} from "react-i18next";
 
 function AIChatPage() {
     const {
@@ -11,12 +12,13 @@ function AIChatPage() {
         sendMessage,
         handleKeyDown,
     } = useAIChat();
+    const { t } = useTranslation();
 
     return (
         <>
             <NavBarClient />
             <div className="chat-container">
-                <h2 className="chat-title">AI Chat</h2>
+                <h2 className="chat-title">{t("aiChat.title")}</h2>
 
                 <div className="chat-history" ref={scrollRef}>
                     {messages.map((m, i) => (
@@ -32,7 +34,7 @@ function AIChatPage() {
                 <div className="chat-input-row">
         <textarea
             className="chat-textarea"
-            placeholder="Type your question…"
+            placeholder={t("aiChat.placeholder")}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -42,7 +44,7 @@ function AIChatPage() {
                         onClick={sendMessage}
                         disabled={!draft.trim()}
                     >
-                        Send
+                        {t("aiChat.btnSend")}
                     </button>
                 </div>
             </div>

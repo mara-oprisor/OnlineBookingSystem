@@ -4,6 +4,7 @@ import ServiceItem from "../model/ServiceItem";
 import DatePicker from "react-datepicker";
 import { addDays, setHours, setMinutes, isSameDay } from "date-fns";
 import useBookedSlots from "../hooks/useBookedSlots.ts";
+import {useTranslation} from "react-i18next";
 
 
 export interface BookingFormProps {
@@ -14,12 +15,13 @@ export interface BookingFormProps {
 export default function BookingForm({ services, onSubmit }: BookingFormProps) {
     const { formData, handleChange, handleDateChange, setService } = useBooking();
     const { slots } = useBookedSlots(formData.serviceId);
+    const { t } = useTranslation();
 
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.serviceId || !formData.date) {
-            alert("Please select a service and appointment date/time.");
+            alert(t('bookingForm.selectServiceDate'));
             return;
         }
         onSubmit(formData);
@@ -33,7 +35,7 @@ export default function BookingForm({ services, onSubmit }: BookingFormProps) {
 
     return (
         <form onSubmit={handleFormSubmit} className="booking-form card">
-            <h3 className="booking-form__title">Book an Appointment</h3>
+            <h3 className="booking-form__title">{ t('bookingForm.title') }</h3>
 
             <div className="booking-form__services">
                 {services.map((service) => (
@@ -51,7 +53,7 @@ export default function BookingForm({ services, onSubmit }: BookingFormProps) {
             </div>
 
             <div className="booking-form__field">
-                <label className="form-label">Appointment Date &amp; Time</label>
+                <label className="form-label">{ t('bookingForm.appointmentDateTime') }</label>
                 <DatePicker
                     className="form-control"
                     selected={formData.date}
@@ -67,7 +69,7 @@ export default function BookingForm({ services, onSubmit }: BookingFormProps) {
             </div>
 
             <div className="booking-form__field">
-                <label className="form-label">Discount Code (Optional)</label>
+                <label className="form-label">{ t('bookingForm.discountCode') }</label>
                 <input
                     type="text"
                     className="form-control"
@@ -79,7 +81,7 @@ export default function BookingForm({ services, onSubmit }: BookingFormProps) {
 
             <div className="booking-form__actions">
                 <button type="submit" className="btn btn-primary">
-                    Go to Payment
+                    { t('bookingForm.goToPayment') }
                 </button>
             </div>
         </form>

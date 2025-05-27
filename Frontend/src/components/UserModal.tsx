@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import User from "../model/User";
+import {useTranslation} from "react-i18next";
 
 export interface UserModalProps {
     isOpen: boolean;
@@ -12,6 +13,7 @@ export interface UserModalProps {
 
 function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate }: UserModalProps) {
     const [user, setUser] = useState<User>(initialUser);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (isOpen) {
@@ -56,19 +58,19 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">{isUpdateMode ? "Update User" : "Add User"}</h5>
+                            <h5 className="modal-title">{isUpdateMode ? t("userModal.titleUpdate") : t("userModal.titleAdd")}</h5>
                             <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
 
                         <div className="modal-body">
                             {isUpdateMode && (
                                 <div className="mb-3">
-                                    <label>ID</label>
+                                    <label>{t("userModal.labelId")}</label>
                                     <input type="text" className="form-control" name="id" value={user.uuid} disabled />
                                 </div>
                             )}
                             <div className="mb-3">
-                                <label>Username</label>
+                                <label>{t("userModal.labelUsername")}</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -78,7 +80,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                 />
                             </div>
                             <div className="mb-3">
-                                <label hidden={isUpdateMode}>Password</label>
+                                <label hidden={isUpdateMode}>{t("userModal.labelPassword")}</label>
                                 {isUpdateMode ? (
                                     <input
                                         type="text"
@@ -100,7 +102,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
 
                             </div>
                             <div className="mb-3">
-                                <label>Email</label>
+                                <label>{t("userModal.labelEmail")}</label>
                                 <input
                                     type="email"
                                     className="form-control"
@@ -110,7 +112,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                 />
                             </div>
                             <div className="mb-3">
-                                <label>User Type</label>
+                                <label>{t("userModal.labelUserType")}</label>
                                 {isUpdateMode ? (
                                     <input
                                         type="text"
@@ -126,15 +128,15 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                         value={user.userType}
                                         onChange={handleInputChange}
                                     >
-                                        <option value="ADMIN">Admin</option>
-                                        <option value="CLIENT">Client</option>
+                                        <option value="ADMIN">{t("userModal.optionAdmin")}</option>
+                                        <option value="CLIENT">{t("userModal.optionClient")}</option>
                                     </select>
                                 )}
                             </div>
                             {user.userType === "CLIENT" && (
                                 <>
                                     <div className="mb-3">
-                                        <label>Name</label>
+                                        <label>{t("userModal.labelName")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -144,7 +146,7 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label>Age</label>
+                                        <label>{t("userModal.labelAge")}</label>
                                         <input
                                             type="number"
                                             className="form-control"
@@ -159,10 +161,10 @@ function UserModal({ isOpen, isUpdateMode, initialUser, onClose, onAdd, onUpdate
 
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                                {isUpdateMode ? "Update" : "Add"}
+                                {isUpdateMode ? t("userModal.btnUpdate") : t("userModal.btnAdd")}
                             </button>
                             <button type="button" className="btn btn-secondary" onClick={onClose}>
-                                Cancel
+                                {t("userModal.btnCancel")}
                             </button>
                         </div>
                     </div>

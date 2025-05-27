@@ -9,11 +9,13 @@ import LogoutButton from "../components/LogoutButton";
 import {Button, Spinner} from "react-bootstrap";
 import BookingCreate from "../model/BookingCreate.ts";
 import {format} from "date-fns";
+import {useTranslation} from "react-i18next";
 
 function BookingPage() {
     const {salonId} = useParams<{ salonId: string }>();
     const navigate = useNavigate();
     const bookingService = BookingService();
+    const { t } = useTranslation();
 
     const {availableServices, loadingServices, error: serviceError} =
         useAvailableServices(salonId || "");
@@ -41,7 +43,7 @@ function BookingPage() {
             navigate("/payment", { state: { booking } });
         } catch (err: unknown) {
             console.error(err);
-            alert('Booking submission failed: ' + (err as Error).message);
+            alert(t("bookingPage.errorSubmit", { message: (err as Error).message }));
         }
     }
 
@@ -49,14 +51,14 @@ function BookingPage() {
         return <Spinner animation="border" className="m-5"/>;
     }
     if (serviceError) {
-        return <p className="text-danger m-5">Error loading services</p>;
+        return <p className="text-danger m-5">{t("bookingPage.errorLoadServices")}</p>;
     }
 
     return (
         <>
         <div className="d-flex justify-content-between align-items-center p-3">
             <Button variant="link" onClick={() => navigate(-1)}>
-                ← Back
+                {t("bookingPage.btnBack")}
             </Button>
             <LogoutButton/>
         </div>
@@ -70,7 +72,7 @@ function BookingPage() {
         {finalBooking && (
             <div className="mt-3 text-center">
                 <h4>
-                    Final Price: ${finalBooking.finalPrice.toFixed(2)}
+                    {t("bookingPage.finalPrice", { amount: finalBooking.finalPrice.toFixed(2) })}
                 </h4>
             </div>
         )}

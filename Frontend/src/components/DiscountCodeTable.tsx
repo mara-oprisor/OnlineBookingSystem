@@ -1,5 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import DiscountCode from "../model/DiscountCode";
+import {useTranslation} from "react-i18next";
 
 export interface DiscountCodeTableProps {
     data: DiscountCode[];
@@ -9,32 +10,40 @@ export interface DiscountCodeTableProps {
 }
 
 function DiscountCodeTable({ data, loading, isError, onRowSelected }: DiscountCodeTableProps) {
+    const { t } = useTranslation();
     const columns: TableColumn<DiscountCode>[] = [
-        { name: "ID", selector: (row: DiscountCode) => row.uuid, sortable: true },
-        { name: "Code", selector: (row: DiscountCode) => row.discountCode, sortable: true },
-        { name: "Expiration Date", selector: (row: DiscountCode) => row.expirationDate, sortable: true },
+        {
+            name: t("discountTable.colId"),
+            selector: row => row.uuid,
+            sortable: true,
+        },
+        {
+            name: t("discountTable.colCode"),
+            selector: row => row.discountCode,
+            sortable: true,
+        },
+        {
+            name: t("discountTable.colExpiration"),
+            selector: row => row.expirationDate,
+            sortable: true,
+        }
     ];
 
+    if (loading) return <p>{t("discountTable.loading")}</p>;
+    if (isError) return <p>{t("discountTable.error")}</p>;
+
     return (
-        <>
-            {loading ? (
-                <p className="loading-text">Loading...</p>
-            ) : isError ? (
-                <p className="error-text">An error occurred while fetching discount codes</p>
-            ) : (
-                <div className="table-container">
-                    <DataTable
-                        title="Discount Codes"
-                        columns={columns}
-                        data={data}
-                        pagination
-                        highlightOnHover
-                        selectableRows
-                        onSelectedRowsChange={onRowSelected}
-                    />
-                </div>
-            )}
-        </>
+        <div className="table-container">
+            <DataTable
+                title={t("discountTable.title")}
+                columns={columns}
+                data={data}
+                pagination
+                highlightOnHover
+                selectableRows
+                onSelectedRowsChange={onRowSelected}
+            />
+        </div>
     );
 }
 

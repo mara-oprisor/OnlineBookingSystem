@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
 
 export interface ResetPasswordProps {
     isCodeSent: boolean;
@@ -18,6 +19,7 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
     const [token, setToken] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const { t } = useTranslation();
 
     function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -34,10 +36,10 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
         <div className="container mt-4" style={{ maxWidth: 400 }}>
             {!isCodeSent ? (
                 <form onSubmit={handleEmailSubmit}>
-                    <h5>Please enter your email address</h5>
+                    <h5>{t("resetForm.enterEmailTitle")}</h5>
                     <div className="mb-3">
                         <label htmlFor="resetEmail" className="form-label">
-                            Email
+                            {t("resetForm.labelEmail")}
                         </label>
                         <input
                             type="email"
@@ -50,11 +52,11 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
                     </div>
                     {isEmailError && (
                         <div className="text-danger mb-2">
-                            We couldn’t find that email address. Please try again.
+                            {t("resetForm.errorEmailNotFound")}
                         </div>
                     )}
                     <button type="submit" className="btn btn-primary w-100">
-                        Send Reset Code
+                        {t("resetForm.btnSendCode")}
                     </button>
                 </form>
             ) : (
@@ -64,7 +66,7 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
                     </h5>
                     <div className="mb-3">
                         <label htmlFor="resetCode" className="form-label">
-                            6‑Digit Code
+                            {t("resetForm.labelCode6")}
                         </label>
                         <input
                             type="text"
@@ -79,7 +81,7 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
                     </div>
                     <div className="mb-3">
                         <label htmlFor="newPw" className="form-label">
-                            New Password
+                            {t("resetForm.labelNewPassword")}
                         </label>
                         <input
                             type="password"
@@ -93,7 +95,7 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
                     </div>
                     <div className="mb-3">
                         <label htmlFor="confirmPw" className="form-label">
-                            Confirm Password
+                            {t("resetForm.labelConfirmPassword")}
                         </label>
                         <input
                             type="password"
@@ -107,11 +109,11 @@ function ResetPasswordForm({isCodeSent, isEmailError, isCodeError, onSendCode, o
                     </div>
                     {isCodeError && (
                         <div className="text-danger mb-2">
-                            The code is invalid or the passwords don’t match.
+                            {t("resetForm.errorInvalidCode")}
                         </div>
                     )}
                     <button type="submit" className="btn btn-primary w-100">
-                        Reset Password
+                        {t("resetForm.btnResetPassword")}
                     </button>
                 </form>
             )}

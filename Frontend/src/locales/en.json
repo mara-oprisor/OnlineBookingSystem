@@ -1,0 +1,230 @@
+{
+  "auth": {
+    "register": "Register",
+    "login": "Login"
+  },
+  "bookingCard": {
+    "areYouSureCancel": "Are you sure you want to cancel this booking?",
+    "salon": "Salon",
+    "service": "Service",
+    "price": "Price",
+    "seeInvoice": "See Invoice",
+    "cancel": "Cancel"
+  },
+  "bookingForm": {
+    "title": "Book an Appointment",
+    "selectServiceDate": "Please select a service and appointment date/time.",
+    "appointmentDateTime": "Appointment Date & Time",
+    "discountCode": "Discount Code (Optional)",
+    "goToPayment": "Go to Payment"
+  },
+  "discountModal": {
+    "titleAdd": "Add Discount Code",
+    "titleUpdate": "Update Discount Code",
+    "labelId": "ID",
+    "labelCode": "Code",
+    "labelDiscountCode": "Discount Code",
+    "labelDiscount": "Discount",
+    "labelExpirationDate": "Expiration Date",
+    "btnAdd": "Add",
+    "btnUpdate": "Update",
+    "btnCancel": "Cancel"
+  },
+  "discountTable": {
+    "title": "Discount Codes",
+    "colId": "ID",
+    "colCode": "Code",
+    "colExpiration": "Expiration Date",
+    "loading": "Loading...",
+    "error": "An error occurred while fetching discount codes"
+  },
+  "userFilter": {
+    "username": "Username",
+    "placeholderUsername": "Filter by username",
+    "email": "Email",
+    "placeholderEmail": "Filter by email",
+    "userType": "User Type",
+    "all": "-- All --",
+    "client": "Client",
+    "admin": "Admin",
+    "btnApply": "Apply Filter"
+  },
+  "loginForm": {
+    "title": "Log In",
+    "username": "Username",
+    "password": "Password",
+    "btnLogin": "Log In",
+    "forgotPassword": "Forgot your password?"
+  },
+  "logoutButton": {
+    "logout": "Logout"
+  },
+  "navBarClient": {
+    "brand": "BookIT",
+    "salons": "Salons",
+    "myBookings": "My Bookings",
+    "loyaltyPoints": "Loyalty Points",
+    "aiAssistant": "AI Assistant",
+    "logout": "Logout"
+  },
+  "passwordMeter": {
+    "labelVeryWeak": "Very weak",
+    "labelWeak": "Weak",
+    "labelFair": "Fair",
+    "labelGood": "Good",
+    "labelStrong": "Strong"
+  },
+  "paymentForm": {
+    "processing": "Processing…",
+    "pay": "Pay {{amount}} RON",
+    "cancelPayment": "Cancel Payment",
+    "cancelSuccess": "Your booking has been canceled.",
+    "cancelError": "Failed to cancel booking. Please try again."
+  },
+  "registerForm": {
+    "title": "Register",
+    "labelUsername": "Username",
+    "labelEmail": "Email",
+    "labelPassword": "Password",
+    "labelConfirmPassword": "Confirm Password",
+    "errorPasswordsMatch": "Passwords must match",
+    "labelUserType": "User Type",
+    "optionClient": "Client",
+    "optionAdmin": "Admin",
+    "btnRegister": "Register"
+  },
+  "resetForm": {
+    "enterEmailTitle": "Please enter your email address",
+    "labelEmail": "Email",
+    "errorEmailNotFound": "We couldn’t find that email address. Please try again.",
+    "btnSendCode": "Send Reset Code",
+    "codeSentTitle": "A code has been sent to <strong>{{email}}</strong>",
+    "labelCode6": "6-Digit Code",
+    "placeholderEnterCode": "Enter code",
+    "labelNewPassword": "New Password",
+    "labelConfirmPassword": "Confirm Password",
+    "errorInvalidCode": "The code is invalid or the passwords don’t match.",
+    "btnResetPassword": "Reset Password"
+  },
+  "salonCard": {
+    "phone": "Phone: {{phone}}",
+    "errorToggleFav": "Could not update favorites. Please try again."
+  },
+  "salonModal": {
+    "titleAdd": "Add Salon",
+    "titleUpdate": "Update Salon",
+    "labelId": "ID",
+    "labelName": "Name",
+    "labelPhoneNumber": "Phone Number",
+    "btnAdd": "Add",
+    "btnUpdate": "Update",
+    "btnCancel": "Cancel"
+  },
+  "salonTable": {
+    "title": "Salons",
+    "colId": "ID",
+    "colName": "Name",
+    "colPhoneNumber": "Phone Number",
+    "loading": "Loading...",
+    "error": "An error occurred while fetching the data"
+  },
+  "serviceItemModal": {
+    "titleAdd": "Add Service Item",
+    "titleUpdate": "Update Service Item",
+    "labelId": "ID",
+    "labelName": "Name",
+    "labelDescription": "Description",
+    "labelPrice": "Price",
+    "labelSalon": "Salon",
+    "optionSelectSalon": "-- Select a Salon --",
+    "btnAdd": "Add",
+    "btnUpdate": "Update",
+    "btnCancel": "Cancel"
+  },
+  "serviceItemTable": {
+    "title": "Service Items",
+    "colId": "ID",
+    "colName": "Name",
+    "colDescription": "Description",
+    "colPrice": "Price",
+    "colSalon": "Salon",
+    "loading": "Loading...",
+    "error": "An error occurred while fetching the service items"
+  },
+  "userModal": {
+    "titleAdd": "Add User",
+    "titleUpdate": "Update User",
+    "labelId": "ID",
+    "labelUsername": "Username",
+    "labelPassword": "Password",
+    "labelEmail": "Email",
+    "labelUserType": "User Type",
+    "optionAdmin": "Admin",
+    "optionClient": "Client",
+    "labelName": "Name",
+    "labelAge": "Age",
+    "btnAdd": "Add",
+    "btnUpdate": "Update",
+    "btnCancel": "Cancel"
+  },
+  "userTable": {
+    "title": "Users",
+    "colId": "ID",
+    "colUsername": "Username",
+    "colEmail": "Email",
+    "colUserType": "User Type",
+    "colName": "Name",
+    "colAge": "Age",
+    "loading": "Loading...",
+    "error": "An error occurred while fetching the data"
+  },
+  "aiChat": {
+    "title": "AI Chat",
+    "initialMessage": "Hi there! Ask me anything.",
+    "placeholder": "Type your question…",
+    "btnSend": "Send"
+  },
+  "bookingPage": {
+    "btnBack": "← Back",
+    "finalPrice": "Final Price: ${{amount}}"
+  },
+  "bookingPayment": {
+    "title": "Complete Your Payment"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "user": "user",
+    "sectionUsers": "User Management",
+    "salon": "salon",
+    "sectionSalons": "Salon Management",
+    "service": "service",
+    "sectionServices": "Service Management",
+    "discount": "discount code",
+    "sectionDiscounts": "Discount Code Management",
+    "btnAdd": "Add {{what}}",
+    "btnUpdate": "Update {{what}}",
+    "btnDelete": "Delete {{what}}",
+    "noSelection": "{{what}} not selected",
+    "filterUsers": "Apply Filter"
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "none": "You have no bookings yet."
+  },
+  "myLoyalty": {
+    "title": "My Loyalty Points",
+    "loading": "Loading points…",
+    "error": "Failed to load points",
+    "tierMessage": {
+      "hasTier": "You are a {{tier}} loyal client with {{discount}}% discount at every booking!",
+      "noTier": "Not yet a loyal client. Earn more points to unlock discounts!"
+    }
+  },
+  "salonsPage": {
+    "title": "Salons",
+    "loading": "Loading salons…",
+    "error": "{{error}}"
+  }
+}

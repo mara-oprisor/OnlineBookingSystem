@@ -1,5 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import Salon from "../model/Salon";
+import {useTranslation} from "react-i18next";
 
 interface SalonTableProps {
     data: Salon[];
@@ -9,10 +10,23 @@ interface SalonTableProps {
 }
 
 function SalonTable({ data, loading, isError, onRowSelected }: SalonTableProps) {
+    const { t } = useTranslation();
     const columns: TableColumn<Salon>[] = [
-        { name: "ID", selector: (row: Salon) => row.uuid, sortable: true },
-        { name: "Name", selector: (row: Salon) => row.name, sortable: true },
-        { name: "Phone Number", selector: (row: Salon) => row.phoneNumber, sortable: false },
+        {
+            name: t("salonTable.colId"),
+            selector: (row) => row.uuid,
+            sortable: true,
+        },
+        {
+            name: t("salonTable.colName"),
+            selector: (row) => row.name,
+            sortable: true,
+        },
+        {
+            name: t("salonTable.colPhoneNumber"),
+            selector: (row) => row.phoneNumber,
+            sortable: false,
+        }
     ];
 
     return (

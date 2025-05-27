@@ -1,0 +1,231 @@
+{
+  "auth": {
+    "register": "Înregistrare",
+    "login": "Autentificare"
+  },
+  "bookingCard": {
+    "areYouSureCancel": "Sigur doriți să anulați această programare?",
+    "salon": "Salon",
+    "service": "Serviciu",
+    "price": "Preț",
+    "seeInvoice": "Vezi factura",
+    "cancel": "Anulează",
+    "at": "la"
+  },
+  "bookingForm": {
+    "title": "Programează o întâlnire",
+    "selectServiceDate": "Vă rugăm să selectați un serviciu și o dată/oră pentru programare.",
+    "appointmentDateTime": "Dată și oră programare",
+    "discountCode": "Cod de reducere (opțional)",
+    "goToPayment": "Continuă către plată"
+  },
+  "discountModal": {
+    "titleAdd": "Adaugă cod de reducere",
+    "titleUpdate": "Actualizează codul de reducere",
+    "labelId": "ID",
+    "labelCode": "Cod",
+    "labelDiscountCode": "Cod de reducere",
+    "labelDiscount": "Reducere",
+    "labelExpirationDate": "Data expirării",
+    "btnAdd": "Adaugă",
+    "btnUpdate": "Actualizează",
+    "btnCancel": "Anulează"
+  },
+  "discountTable": {
+    "title": "Coduri de reducere",
+    "colId": "ID",
+    "colCode": "Cod",
+    "colExpiration": "Data expirării",
+    "loading": "Se încarcă…",
+    "error": "A apărut o eroare la încărcarea codurilor de reducere"
+  },
+  "userFilter": {
+    "username": "Nume de utilizator",
+    "placeholderUsername": "Filtrează după nume de utilizator",
+    "email": "Email",
+    "placeholderEmail": "Filtrează după email",
+    "userType": "Tip utilizator",
+    "all": "-- Toți --",
+    "client": "Client",
+    "admin": "Admin",
+    "btnApply": "Aplică filtrul"
+  },
+  "loginForm": {
+    "title": "Autentificare",
+    "username": "Nume de utilizator",
+    "password": "Parolă",
+    "btnLogin": "Conectează-te",
+    "forgotPassword": "Ți-ai uitat parola?"
+  },
+  "logoutButton": {
+    "logout": "Deconectare"
+  },
+  "navBarClient": {
+    "brand": "BookIT",
+    "salons": "Saloane",
+    "myBookings": "Rezervările mele",
+    "loyaltyPoints": "Puncte de fidelitate",
+    "aiAssistant": "Asistent AI",
+    "logout": "Deconectare"
+  },
+  "passwordMeter": {
+    "labelVeryWeak": "Foarte slab",
+    "labelWeak": "Slab",
+    "labelFair": "Acceptabil",
+    "labelGood": "Bun",
+    "labelStrong": "Puternic"
+  },
+  "paymentForm": {
+    "processing": "Se procesează…",
+    "pay": "Plătește {{amount}} RON",
+    "cancelPayment": "Anulează plata",
+    "cancelSuccess": "Rezervarea ta a fost anulată.",
+    "cancelError": "Eroare la anularea rezervării. Te rugăm să încerci din nou."
+  },
+  "registerForm": {
+    "title": "Înregistrare",
+    "labelUsername": "Nume de utilizator",
+    "labelEmail": "Email",
+    "labelPassword": "Parolă",
+    "labelConfirmPassword": "Confirmă parola",
+    "errorPasswordsMatch": "Parolele trebuie să coincidă",
+    "labelUserType": "Tip utilizator",
+    "optionClient": "Client",
+    "optionAdmin": "Admin",
+    "btnRegister": "Înregistrează-te"
+  },
+  "resetForm": {
+    "enterEmailTitle": "Vă rugăm să introduceți adresa de email",
+    "labelEmail": "Email",
+    "errorEmailNotFound": "Nu am găsit această adresă de email. Vă rugăm să încercați din nou.",
+    "btnSendCode": "Trimite codul de resetare",
+    "codeSentTitle": "Un cod a fost trimis la <strong>{{email}}</strong>",
+    "labelCode6": "Cod de 6 cifre",
+    "placeholderEnterCode": "Introduceți codul",
+    "labelNewPassword": "Parolă nouă",
+    "labelConfirmPassword": "Confirmă parola",
+    "errorInvalidCode": "Codul este invalid sau parolele nu se potrivesc.",
+    "btnResetPassword": "Resetează parola"
+  },
+  "salonCard": {
+    "phone": "Telefon: {{phone}}",
+    "errorToggleFav": "Nu am putut actualiza favoritele. Vă rugăm să încercați din nou."
+  },
+  "salonModal": {
+    "titleAdd": "Adaugă salon",
+    "titleUpdate": "Actualizează salon",
+    "labelId": "ID",
+    "labelName": "Nume",
+    "labelPhoneNumber": "Număr de telefon",
+    "btnAdd": "Adaugă",
+    "btnUpdate": "Actualizează",
+    "btnCancel": "Anulează"
+  },
+  "salonTable": {
+    "title": "Saloane",
+    "colId": "ID",
+    "colName": "Nume",
+    "colPhoneNumber": "Număr de telefon",
+    "loading": "Se încarcă…",
+    "error": "A apărut o eroare la preluarea datelor"
+  },
+  "serviceItemModal": {
+    "titleAdd": "Adaugă serviciu",
+    "titleUpdate": "Actualizează serviciu",
+    "labelId": "ID",
+    "labelName": "Nume",
+    "labelDescription": "Descriere",
+    "labelPrice": "Preț",
+    "labelSalon": "Salon",
+    "optionSelectSalon": "-- Selectați un salon --",
+    "btnAdd": "Adaugă",
+    "btnUpdate": "Actualizează",
+    "btnCancel": "Anulează"
+  },
+  "serviceItemTable": {
+    "title": "Servicii",
+    "colId": "ID",
+    "colName": "Nume",
+    "colDescription": "Descriere",
+    "colPrice": "Preț",
+    "colSalon": "Salon",
+    "loading": "Se încarcă…",
+    "error": "A apărut o eroare la preluarea serviciilor"
+  },
+  "userModal": {
+    "titleAdd": "Adaugă utilizator",
+    "titleUpdate": "Actualizează utilizator",
+    "labelId": "ID",
+    "labelUsername": "Nume de utilizator",
+    "labelPassword": "Parolă",
+    "labelEmail": "Email",
+    "labelUserType": "Tip utilizator",
+    "optionAdmin": "Admin",
+    "optionClient": "Client",
+    "labelName": "Nume",
+    "labelAge": "Vârstă",
+    "btnAdd": "Adaugă",
+    "btnUpdate": "Actualizează",
+    "btnCancel": "Anulează"
+  },
+  "userTable": {
+    "title": "Utilizatori",
+    "colId": "ID",
+    "colUsername": "Nume de utilizator",
+    "colEmail": "Email",
+    "colUserType": "Tip utilizator",
+    "colName": "Nume",
+    "colAge": "Vârstă",
+    "loading": "Se încarcă…",
+    "error": "A apărut o eroare la preluarea datelor"
+  },
+  "aiChat": {
+    "title": "Chat AI",
+    "initialMessage": "Bună! Întreabă-mi orice.",
+    "placeholder": "Tastați întrebarea…",
+    "btnSend": "Trimite"
+  },
+  "bookingPage": {
+    "btnBack": "← Înapoi",
+    "finalPrice": "Preț final: ${{amount}}"
+  },
+  "bookingPayment": {
+    "title": "Finalizează plata"
+  },
+  "dashboard": {
+    "title": "Tablou de bord",
+    "user": "utilizator",
+    "sectionUsers": "Gestionare utilizatori",
+    "salon": "salon",
+    "sectionSalons": "Gestionare saloane",
+    "service": "serviciu",
+    "sectionServices": "Gestionare servicii",
+    "discount": "cod promo",
+    "sectionDiscounts": "Gestionare coduri promo",
+    "btnAdd": "Adaugă {{what}}",
+    "btnUpdate": "Actualizează {{what}}",
+    "btnDelete": "Șterge {{what}}",
+    "noSelection": "{{what}} neselectat",
+    "filterUsers": "Aplică filtrul"
+  },
+  "myBookings": {
+    "title": "Rezervările mele",
+    "upcoming": "Viitoare",
+    "past": "Trecute",
+    "none": "Nu ai nicio rezervare."
+  },
+  "myLoyalty": {
+    "title": "Punctele mele de loialitate",
+    "loading": "Se încarcă punctele…",
+    "error": "Eșec la încărcarea punctelor",
+    "tierMessage": {
+      "hasTier": "Ești client fidel {{tier}} cu {{discount}}% reducere la fiecare rezervare!",
+      "noTier": "Încă nu ești client fidel. Câștigă mai multe puncte pentru a debloca reduceri!"
+    }
+  },
+  "salonsPage": {
+    "title": "Saloane",
+    "loading": "Se încarcă saloanele…",
+    "error": "{{error}}"
+  }
+}

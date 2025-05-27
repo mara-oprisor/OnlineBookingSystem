@@ -1,4 +1,5 @@
 import zxcvbn from "zxcvbn";
+import {useTranslation} from "react-i18next";
 
 interface PasswordStrengthMeterProps{
     password: string;
@@ -6,10 +7,18 @@ interface PasswordStrengthMeterProps{
 
 function PasswordStrengthMeter({password}:PasswordStrengthMeterProps) {
     const {score, feedback} = zxcvbn(password);
+    const { t } = useTranslation();
 
     const percentage = (score / 4) * 100;
-    const labels = ["Very weak", "Weak", "Fair", "Good", "Strong"];
+    const labels = [
+        t("passwordMeter.labelVeryWeak"),
+        t("passwordMeter.labelWeak"),
+        t("passwordMeter.labelFair"),
+        t("passwordMeter.labelGood"),
+        t("passwordMeter.labelStrong"),
+    ];
     const label  = labels[score];
+
 
     const colorClass =
         score <= 1 ? "bg-danger" :
@@ -18,7 +27,6 @@ function PasswordStrengthMeter({password}:PasswordStrengthMeterProps) {
 
     return (
         <div className="mt-3">
-            {/* Progress bar */}
             <div className="progress mb-2" style={{ height: 6 }}>
                 <div
                     className={`progress-bar ${colorClass}`}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import DiscountCodeCreate from "../model/DiscountCodeCreate";
 import DiscountCode from "../model/DiscountCode.ts";
+import {useTranslation} from "react-i18next";
 
 export interface DiscountCodeModalProps {
     isOpen: boolean;
@@ -20,6 +21,7 @@ function DiscountCodeModal({
                                onUpdate,
                            }: DiscountCodeModalProps) {
     const [discount, setDiscount] = React.useState<DiscountCode | DiscountCodeCreate>(initialDiscount);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (isOpen) {
@@ -65,10 +67,9 @@ function DiscountCodeModal({
             >
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
-                        {/* Header */}
                         <div className="modal-header">
                             <h5 className="modal-title">
-                                {isUpdateMode ? "Update Discount Code" : "Add Discount Code"}
+                                {isUpdateMode ? t("discountModal.titleUpdate") : t("discountModal.titleAdd")}
                             </h5>
                             <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
@@ -89,7 +90,7 @@ function DiscountCodeModal({
                             {isUpdateMode ? (
                                 <>
                                     <div className="mb-3">
-                                        <label>Discount Code</label>
+                                        <label>{t("discountModal.labelDiscountCode")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -99,7 +100,7 @@ function DiscountCodeModal({
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label>Expiration Date</label>
+                                        <label>{t("discountModal.labelExpirationDate")}</label>
                                         <input
                                             type="datetime-local"
                                             className="form-control"
@@ -112,7 +113,7 @@ function DiscountCodeModal({
                             ) : (
                                 <>
                                     <div className="mb-3">
-                                        <label>Code</label>
+                                        <label>{t("discountModal.labelCode")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -122,7 +123,7 @@ function DiscountCodeModal({
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label>Discount</label>
+                                        <label>{t("discountModal.labelDiscount")}</label>
                                         <input
                                             type="number"
                                             className="form-control"
@@ -132,7 +133,7 @@ function DiscountCodeModal({
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label>Expiration Date</label>
+                                        <label>{t("discountModal.labelExpirationDate")}</label>
                                         <input
                                             type="datetime-local"
                                             className="form-control"
@@ -147,10 +148,10 @@ function DiscountCodeModal({
 
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                                {isUpdateMode ? "Update" : "Add"}
+                                {isUpdateMode ? t("discountModal.btnUpdate") : t("discountModal.btnAdd")}
                             </button>
                             <button type="button" className="btn btn-secondary" onClick={onClose}>
-                                Cancel
+                                {t("discountModal.btnCancel")}
                             </button>
                         </div>
                     </div>

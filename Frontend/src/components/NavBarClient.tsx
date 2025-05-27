@@ -1,8 +1,11 @@
 import LogoutButton from "./LogoutButton.tsx";
 import {NavLink} from "react-router-dom";
 import logo from "../assets/logo/logo_navbar.png";
+import {useTranslation} from "react-i18next";
 
 function NavBarClient() {
+    const { t } = useTranslation();
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
             <div className="container-fluid">
@@ -24,22 +27,22 @@ function NavBarClient() {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/salons">
-                                Salons
+                                {t("navBarClient.salons")}
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/my_bookings">
-                                My Bookings
+                                {t("navBarClient.myBookings")}
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/loyalty-points">
-                                Loyalty Points
+                                {t("navBarClient.loyaltyPoints")}
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/ai-chat">
-                                AI Assistant
+                                {t("navBarClient.aiAssistant")}
                             </NavLink>
                         </li>
                     </ul>

@@ -3,6 +3,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import React, {useEffect, useState} from "react";
 import salon1 from "../assets/salon1.jpg";
 import SalonService from "../service/SalonService.tsx";
+import {useTranslation} from "react-i18next";
 
 export interface SalonCardProps {
     salon: Salon;
@@ -13,6 +14,7 @@ function SalonCard({ salon, onSelect }: SalonCardProps) {
     const clientId = sessionStorage.getItem("uuid") as string;
     const [favourite, setFavourite] = useState((salon.favoriteFor ?? []).some(c => c.uuid === clientId));
     const salonService = SalonService();
+    const { t } = useTranslation();
 
     useEffect(() => {
         setFavourite(
@@ -32,7 +34,7 @@ function SalonCard({ salon, onSelect }: SalonCardProps) {
             }
         } catch (err) {
             console.error("Favorite toggle failed", err);
-            alert("Could not update favorites. Please try again.");
+            alert(t("salonCard.errorToggleFav"));
         }
     };
 
@@ -55,7 +57,7 @@ function SalonCard({ salon, onSelect }: SalonCardProps) {
 
             <div className="card-body text-center">
                 <h5 className="card-title">{salon.name}</h5>
-                <p className="card-text">Phone: {salon.phoneNumber}</p>
+                <p className="card-text">{t("salonCard.phone", { phone: salon.phoneNumber })}</p>
             </div>
         </div>
     );

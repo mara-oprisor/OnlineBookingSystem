@@ -1,5 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import ServiceItem from "../model/ServiceItem";
+import {useTranslation} from "react-i18next";
 
 export interface ServiceItemTableProps {
     data: ServiceItem[];
@@ -9,34 +10,30 @@ export interface ServiceItemTableProps {
 }
 
 function ServiceItemTable({ data, loading, isError, onRowSelected }: ServiceItemTableProps) {
+    const { t } = useTranslation();
     const columns: TableColumn<ServiceItem>[] = [
-        { name: "ID", selector: (row: ServiceItem) => row.uuid, sortable: true },
-        { name: "Name", selector: (row: ServiceItem) => row.name, sortable: true },
-        { name: "Description", selector: (row: ServiceItem) => row.description ?? "", sortable: false },
-        { name: "Price", selector: (row: ServiceItem) => row.price, sortable: true },
-        { name: "Salon", selector: (row: ServiceItem) => row.salonName, sortable: true }
+        { name: t("serviceItemTable.colId"), selector: r => r.uuid, sortable: true },
+        { name: t("serviceItemTable.colName"), selector: r => r.name, sortable: true },
+        { name: t("serviceItemTable.colDescription"), selector: r => r.description ?? "", sortable: false },
+        { name: t("serviceItemTable.colPrice"), selector: r => r.price, sortable: true },
+        { name: t("serviceItemTable.colSalon"), selector: r => r.salonName, sortable: true }
     ];
 
+    if (loading) return <p>{t("serviceItemTable.loading")}</p>;
+    if (isError) return <p>{t("serviceItemTable.error")}</p>;
+
     return (
-        <>
-            {loading ? (
-                <p className="loading-text">Loading...</p>
-            ) : isError ? (
-                <p className="error-text">An error occurred while fetching the service items</p>
-            ) : (
-                <div className="table-container">
-                    <DataTable
-                        title="Service Items"
-                        columns={columns}
-                        data={data}
-                        pagination
-                        highlightOnHover
-                        selectableRows
-                        onSelectedRowsChange={onRowSelected}
-                    />
-                </div>
-            )}
-        </>
+        <div className="table-container">
+            <DataTable
+                title={t("serviceItemTable.title")}
+                columns={columns}
+                data={data}
+                pagination
+                highlightOnHover
+                selectableRows
+                onSelectedRowsChange={onRowSelected}
+            />
+        </div>
     );
 }
 

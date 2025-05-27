@@ -1,6 +1,7 @@
 import BookingDisplay from '../model/BookingDisplay';
 import { format } from 'date-fns';
 import useDownloadInvoice from '../hooks/useDownloadInvoice';
+import {useTranslation} from "react-i18next";
 
 interface BookingCardProps {
     booking: BookingDisplay;
@@ -15,10 +16,11 @@ export default function BookingCard({
                                     }: BookingCardProps) {
     const dt = new Date(booking.dateTime);
     const { downloadInvoice } = useDownloadInvoice();
+    const { t } = useTranslation();
 
     const handleCancel = () => {
         if (!onCancel) return;
-        if (window.confirm('Are you sure you want to cancel this booking?')) {
+        if (window.confirm(t('bookingCard.areYouSureCancel'))) {
             onCancel(booking.bookingId);
         }
     };
@@ -38,13 +40,13 @@ export default function BookingCard({
                         <small className="text-muted">at {format(dt, 'hh:mm a')}</small>
                     </h5>
                     <p className="card-text mb-1">
-                        <strong>Salon:</strong> {booking.salonName}
+                        <strong>{ t('bookingCard.service') }:</strong> {booking.serviceName}
                     </p>
                     <p className="card-text mb-1">
-                        <strong>Service:</strong> {booking.serviceName}
+                        <strong>{ t('bookingCard.salon') }:</strong> {booking.salonName}
                     </p>
                     <p className="card-text mb-0">
-                        <strong>Price:</strong> {booking.finalPrice.toFixed(2)} RON
+                        <strong>{ t('bookingCard.price') }:</strong> {booking.finalPrice.toFixed(2)} RON
                     </p>
                 </div>
                 <div className="btn-group">
@@ -54,10 +56,10 @@ export default function BookingCard({
                                 className="btn btn-outline-primary"
                                 onClick={() => downloadInvoice(booking.bookingId)}
                             >
-                                See Invoice
+                                { t('bookingCard.seeInvoice') }
                             </button>
                             <button className="btn btn-outline-danger" onClick={handleCancel}>
-                                Cancel
+                                { t('bookingCard.cancel') }
                             </button>
                         </>
                     ) : (
@@ -65,7 +67,7 @@ export default function BookingCard({
                             className="btn btn-outline-success"
                             onClick={() => downloadInvoice(booking.bookingId)}
                         >
-                            See Invoice
+                            { t('bookingCard.seeInvoice') }
                         </button>
                     )}
                 </div>

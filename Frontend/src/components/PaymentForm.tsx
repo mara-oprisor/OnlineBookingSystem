@@ -2,19 +2,23 @@ import BookingDisplay from "../model/BookingDisplay.ts";
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import usePayment from "../hooks/usePayment.ts";
 import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
+import BookingService from "../service/BookingService.tsx";
 
 
 interface PaymentFormProps {
     booking: BookingDisplay;
     onSuccess: () => void;
     onError: () => void;
+    onCancel: () => void;
 }
 
-function PaymentForm({booking, onSuccess, onError}: PaymentFormProps) {
+function PaymentForm({booking, onSuccess, onError, onCancel}: PaymentFormProps) {
     const stripe = useStripe();
     const elements = useElements();
     const { loading, error, pay } = usePayment(booking, stripe, elements);
     const [internalError, setInternalError] = useState<string | null>(null);
+    const { t } = useTranslation();
 
 
     async function handleSubmit(e: React.FormEvent) {
@@ -28,6 +32,16 @@ function PaymentForm({booking, onSuccess, onError}: PaymentFormProps) {
         }
     }
 
+    async function handleCancelPayment() {
+        try {
+            await BookingService().deleteBooking(booking.bookingId);
+            alert(t("paymentForm.cancelSuccess"));
+            onCancel();
+        } catch {
+            alert(t("paymentForm.cancelError"));
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit} className="payment-form">
             {(error || internalError) && (
@@ -36,9 +50,28 @@ function PaymentForm({booking, onSuccess, onError}: PaymentFormProps) {
             <div className="mb-3">
                 <CardElement options={{ hidePostalCode: true }} />
             </div>
-            <button className="btn btn-primary" type="submit" disabled={loading || !stripe}>
-                {loading ? 'Processing…' : `Pay ${booking.finalPrice.toFixed(2)} RON`}
-            </button>
+            <div className="d-flex">
+                <button
+                    className="btn btn-primary me-2"
+                    type="submit"
+                    disabled={loading || !stripe}
+                >
+                    {loading
+                        ? t("paymentForm.processing")
+                        : t("paymentForm.pay", {
+                            amount: booking.finalPrice.toFixed(2),
+                        })}
+                </button>
+
+                <button
+                    className="btn btn-secondary"
+                    type="button"
+                    onClick={handleCancelPayment}
+                    disabled={loading}
+                >
+                    {t("paymentForm.cancelPayment")}
+                </button>
+            </div>
         </form>
     );
 }

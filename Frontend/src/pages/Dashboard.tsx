@@ -28,8 +28,11 @@ import DiscountCodeModal from "../components/DiscountCodeModal.tsx";
 import FilterUserForm from "../components/FilterUserForm.tsx";
 import UserFilter from "../model/UserFilter.ts";
 import LogoutButton from "../components/LogoutButton.tsx";
+import {useTranslation} from "react-i18next";
 
 function Dashboard() {
+    const { t } = useTranslation();
+
     const [userData, setUserData] = useState<User[]>([]);
     const [userLoading, setUserLoading] = useState<boolean>(true);
     const [userIsError, setUserIsError] = useState<boolean>(false);
@@ -181,16 +184,16 @@ function Dashboard() {
 
             <h1>Dashboard</h1>
             <div className="app-container">
-                <h2>User Management</h2>
+                <h2>{t("dashboard.sectionUsers")}</h2>
                 <div className="button-group">
                     <button className="btn btn-secondary" onClick={() => openModalUser()}>
-                        Add User
+                        {t("dashboard.btnAdd", { what: t("dashboard.user") })}
                     </button>
                     <button className="btn btn-secondary" onClick={() => openModalUser(true)} disabled={!selectedUser}>
-                        Update User
+                        {t("dashboard.btnUpdate", { what: t("dashboard.user") })}
                     </button>
                     <button className="btn btn-secondary" onClick={handleDeleteUser} disabled={!selectedUser}>
-                        Delete User
+                        {t("dashboard.btnDelete", { what: t("dashboard.user") })}
                     </button>
                     <FilterUserForm onSubmit={handleFilterSubmit} />
                 </div>
@@ -209,16 +212,16 @@ function Dashboard() {
                     onUpdate={handleUpdateUser}
                 />
 
-                <h2>Salon Management</h2>
+                <h2>{t("dashboard.sectionSalons")}</h2>
                 <div className="button-group">
                     <button className="btn btn-secondary" onClick={() => openModalSalon()}>
-                        Add Salon
+                        {t("dashboard.btnAdd", { what: t("dashboard.salon") })}
                     </button>
                     <button className="btn btn-secondary" onClick={() => openModalSalon(true)} disabled={!selectedSalon}>
-                        Update Salon
+                        {t("dashboard.btnUpdate", { what: t("dashboard.salon") })}
                     </button>
                     <button className="btn btn-secondary" onClick={handleDeleteSalon} disabled={!selectedSalon}>
-                        Delete Salon
+                        {t("dashboard.btnDelete", { what: t("dashboard.salon") })}
                     </button>
                 </div>
                 <SalonTable
@@ -236,16 +239,16 @@ function Dashboard() {
                     onUpdate={handleUpdateSalon}
                 />
 
-                <h2>Service Management</h2>
+                <h2>{t("dashboard.sectionServices")}</h2>
                 <div className="button-group">
                     <button className="btn btn-secondary" onClick={() => openModalServiceItem()}>
-                        Add Service Item
+                        {t("dashboard.btnAdd", { what: t("dashboard.service") })}
                     </button>
                     <button className="btn btn-secondary" onClick={() => openModalServiceItem(true)} disabled={!selectedServiceItem}>
-                        Update Service Item
+                        {t("dashboard.btnUpdate", { what: t("dashboard.service") })}
                     </button>
                     <button className="btn btn-secondary" onClick={handleDeleteServiceItem} disabled={!selectedServiceItem}>
-                        Delete Service Item
+                        {t("dashboard.btnDelete", { what: t("dashboard.service") })}
                     </button>
                 </div>
                 <ServiceItemTable
@@ -264,16 +267,16 @@ function Dashboard() {
                     salons={salonData}
                 />
 
-                <h1>Discount Code Management</h1>
+                <h2>{t("dashboard.sectionDiscounts")}</h2>
                 <div className="button-group">
                     <button className="btn btn-secondary" onClick={() => openModal()}>
-                        Add Discount Code
+                        {t("dashboard.btnAdd", { what: t("dashboard.discount") })}
                     </button>
                     <button className="btn btn-secondary" onClick={() => openModal(true)} disabled={!selectedDiscount}>
-                        Update Discount Code
+                        {t("dashboard.btnUpdate", { what: t("dashboard.discount") })}
                     </button>
                     <button className="btn btn-secondary" onClick={handleDeleteDiscountCode} disabled={!selectedDiscount}>
-                        Delete Discount Code
+                        {t("dashboard.btnDelete", { what: t("dashboard.discount") })}
                     </button>
                 </div>
                 <DiscountCodeTable

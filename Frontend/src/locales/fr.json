@@ -1,0 +1,231 @@
+{
+  "auth": {
+    "register": "S’inscrire",
+    "login": "Connexion"
+  },
+  "bookingCard": {
+    "areYouSureCancel": "Êtes-vous sûr de vouloir annuler cette réservation ?",
+    "salon": "Salon",
+    "service": "Service",
+    "price": "Prix",
+    "seeInvoice": "Voir la facture",
+    "cancel": "Annuler",
+    "at": "à"
+  },
+  "bookingForm": {
+    "title": "Prendre un rendez-vous",
+    "selectServiceDate": "Veuillez sélectionner un service et une date/heure de rendez-vous.",
+    "appointmentDateTime": "Date et heure du rendez-vous",
+    "discountCode": "Code promo (facultatif)",
+    "goToPayment": "Passer au paiement"
+  },
+  "discountModal": {
+    "titleAdd": "Ajouter un code de réduction",
+    "titleUpdate": "Mettre à jour le code de réduction",
+    "labelId": "ID",
+    "labelCode": "Code",
+    "labelDiscountCode": "Code de réduction",
+    "labelDiscount": "Réduction",
+    "labelExpirationDate": "Date d’expiration",
+    "btnAdd": "Ajouter",
+    "btnUpdate": "Mettre à jour",
+    "btnCancel": "Annuler"
+  },
+  "discountTable": {
+    "title": "Codes de réduction",
+    "colId": "ID",
+    "colCode": "Code",
+    "colExpiration": "Date d’expiration",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue lors du chargement des codes de réduction"
+  },
+  "userFilter": {
+    "username": "Nom d’utilisateur",
+    "placeholderUsername": "Filtrer par nom d’utilisateur",
+    "email": "Email",
+    "placeholderEmail": "Filtrer par email",
+    "userType": "Type d’utilisateur",
+    "all": "-- Tous --",
+    "client": "Client",
+    "admin": "Admin",
+    "btnApply": "Appliquer le filtre"
+  },
+  "loginForm": {
+    "title": "Connexion",
+    "username": "Nom d’utilisateur",
+    "password": "Mot de passe",
+    "btnLogin": "Se connecter",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "logoutButton": {
+    "logout": "Se déconnecter"
+  },
+  "navBarClient": {
+    "brand": "BookIT",
+    "salons": "Salons",
+    "myBookings": "Mes réservations",
+    "loyaltyPoints": "Points de fidélité",
+    "aiAssistant": "Assistant IA",
+    "logout": "Se déconnecter"
+  },
+  "passwordMeter": {
+    "labelVeryWeak": "Très faible",
+    "labelWeak": "Faible",
+    "labelFair": "Passable",
+    "labelGood": "Bon",
+    "labelStrong": "Fort"
+  },
+  "paymentForm": {
+    "processing": "Traitement…",
+    "pay": "Payer {{amount}} RON",
+    "cancelPayment": "Annuler le paiement",
+    "cancelSuccess": "Votre réservation a été annulée.",
+    "cancelError": "Échec de l’annulation de la réservation. Veuillez réessayer."
+  },
+  "registerForm": {
+    "title": "S’inscrire",
+    "labelUsername": "Nom d’utilisateur",
+    "labelEmail": "Email",
+    "labelPassword": "Mot de passe",
+    "labelConfirmPassword": "Confirmer le mot de passe",
+    "errorPasswordsMatch": "Les mots de passe doivent correspondre",
+    "labelUserType": "Type d’utilisateur",
+    "optionClient": "Client",
+    "optionAdmin": "Admin",
+    "btnRegister": "S’inscrire"
+  },
+  "resetForm": {
+    "enterEmailTitle": "Veuillez saisir votre adresse email",
+    "labelEmail": "Email",
+    "errorEmailNotFound": "Nous n’avons pas trouvé cet email. Veuillez réessayer.",
+    "btnSendCode": "Envoyer le code",
+    "codeSentTitle": "Un code a été envoyé à <strong>{{email}}</strong>",
+    "labelCode6": "Code à 6 chiffres",
+    "placeholderEnterCode": "Entrez le code",
+    "labelNewPassword": "Nouveau mot de passe",
+    "labelConfirmPassword": "Confirmer le mot de passe",
+    "errorInvalidCode": "Le code est invalide ou les mots de passe ne correspondent pas.",
+    "btnResetPassword": "Réinitialiser le mot de passe"
+  },
+  "salonCard": {
+    "phone": "Téléphone : {{phone}}",
+    "errorToggleFav": "Impossible de mettre à jour les favoris. Veuillez réessayer."
+  },
+  "salonModal": {
+    "titleAdd": "Ajouter un salon",
+    "titleUpdate": "Mettre à jour le salon",
+    "labelId": "ID",
+    "labelName": "Nom",
+    "labelPhoneNumber": "Numéro de téléphone",
+    "btnAdd": "Ajouter",
+    "btnUpdate": "Mettre à jour",
+    "btnCancel": "Annuler"
+  },
+  "salonTable": {
+    "title": "Salons",
+    "colId": "ID",
+    "colName": "Nom",
+    "colPhoneNumber": "Numéro de téléphone",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue lors du chargement des données"
+  },
+  "serviceItemModal": {
+    "titleAdd": "Ajouter un service",
+    "titleUpdate": "Mettre à jour le service",
+    "labelId": "ID",
+    "labelName": "Nom",
+    "labelDescription": "Description",
+    "labelPrice": "Prix",
+    "labelSalon": "Salon",
+    "optionSelectSalon": "-- Sélectionnez un salon --",
+    "btnAdd": "Ajouter",
+    "btnUpdate": "Mettre à jour",
+    "btnCancel": "Annuler"
+  },
+  "serviceItemTable": {
+    "title": "Services",
+    "colId": "ID",
+    "colName": "Nom",
+    "colDescription": "Description",
+    "colPrice": "Prix",
+    "colSalon": "Salon",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue lors du chargement des services"
+  },
+  "userModal": {
+    "titleAdd": "Ajouter un utilisateur",
+    "titleUpdate": "Mettre à jour l’utilisateur",
+    "labelId": "ID",
+    "labelUsername": "Nom d’utilisateur",
+    "labelPassword": "Mot de passe",
+    "labelEmail": "Email",
+    "labelUserType": "Type d’utilisateur",
+    "optionAdmin": "Admin",
+    "optionClient": "Client",
+    "labelName": "Nom",
+    "labelAge": "Âge",
+    "btnAdd": "Ajouter",
+    "btnUpdate": "Mettre à jour",
+    "btnCancel": "Annuler"
+  },
+  "userTable": {
+    "title": "Utilisateurs",
+    "colId": "ID",
+    "colUsername": "Nom d’utilisateur",
+    "colEmail": "Email",
+    "colUserType": "Type d’utilisateur",
+    "colName": "Nom",
+    "colAge": "Âge",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue lors du chargement des données"
+  },
+  "aiChat": {
+    "title": "Chat IA",
+    "initialMessage": "Bonjour ! Posez-moi n’importe quelle question.",
+    "placeholder": "Tapez votre question…",
+    "btnSend": "Envoyer"
+  },
+  "bookingPage": {
+    "btnBack": "← Retour",
+    "finalPrice": "Prix final : ${{amount}}"
+  },
+  "bookingPayment": {
+    "title": "Complétez votre paiement"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "user": "utilisateur",
+    "sectionUsers": "Gestion des utilisateurs",
+    "salon": "salon",
+    "sectionSalons": "Gestion des salons",
+    "service": "service",
+    "sectionServices": "Gestion des services",
+    "discount": "code promo",
+    "sectionDiscounts": "Gestion des codes promo",
+    "btnAdd": "Ajouter {{what}}",
+    "btnUpdate": "Mettre à jour {{what}}",
+    "btnDelete": "Supprimer {{what}}",
+    "noSelection": "{{what}} non sélectionné",
+    "filterUsers": "Appliquer le filtre"
+  },
+  "myBookings": {
+    "title": "Mes réservations",
+    "upcoming": "À venir",
+    "past": "Passées",
+    "none": "Vous n’avez aucune réservation."
+  },
+  "myLoyalty": {
+    "title": "Mes points de fidélité",
+    "loading": "Chargement des points…",
+    "error": "Échec du chargement des points",
+    "tierMessage": {
+      "hasTier": "Vous êtes un client fidèle {{tier}} avec {{discount}} % de réduction à chaque réservation !",
+      "noTier": "Pas encore un client fidèle. Gagnez plus de points pour débloquer des réductions !"
+    }
+  },
+  "salonsPage": {
+    "title": "Salons",
+    "loading": "Chargement des salons…",
+    "error": "{{error}}"
+  }
+}

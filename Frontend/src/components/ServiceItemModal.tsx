@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ServiceItem from "../model/ServiceItem";
 import Salon from "../model/Salon";
+import {useTranslation} from "react-i18next";
 
 export interface ServiceItemModalProps {
     isOpen: boolean;
@@ -22,6 +23,7 @@ function ServiceItemModal({
                               salons,
                           }: ServiceItemModalProps) {
     const [item, setItem] = useState<ServiceItem>(initialItem);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (isOpen) {
@@ -69,7 +71,7 @@ function ServiceItemModal({
                         {/* Header */}
                         <div className="modal-header">
                             <h5 className="modal-title">
-                                {isUpdateMode ? "Update Service Item" : "Add Service Item"}
+                                {isUpdateMode ? t("serviceItemModal.titleUpdate") : t("serviceItemModal.titleAdd")}
                             </h5>
                             <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
@@ -77,7 +79,7 @@ function ServiceItemModal({
                         <div className="modal-body">
                             {isUpdateMode && (
                                 <div className="mb-3">
-                                    <label>ID</label>
+                                    <label>{t("serviceItemModal.labelId")}</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -88,7 +90,7 @@ function ServiceItemModal({
                                 </div>
                             )}
                             <div className="mb-3">
-                                <label>Name</label>
+                                <label>{t("serviceItemModal.labelName")}</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -98,7 +100,7 @@ function ServiceItemModal({
                                 />
                             </div>
                             <div className="mb-3">
-                                <label>Description</label>
+                                <label>{t("serviceItemModal.labelDescription")}</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -108,7 +110,7 @@ function ServiceItemModal({
                                 />
                             </div>
                             <div className="mb-3">
-                                <label>Price</label>
+                                <label>{t("serviceItemModal.labelPrice")}</label>
                                 <input
                                     type="number"
                                     className="form-control"
@@ -118,7 +120,7 @@ function ServiceItemModal({
                                 />
                             </div>
                             <div className="mb-3">
-                                <label>Salon</label>
+                                <label>{t("serviceItemModal.labelSalon")}</label>
                                 {isUpdateMode ? (
                                     <input type="text" className="form-control" name="salonName" value={item.salonName} disabled />
                                 ) : (
@@ -128,7 +130,7 @@ function ServiceItemModal({
                                         value={item.salonName}
                                         onChange={handleInputChange}
                                     >
-                                        <option value="">-- Select a Salon --</option>
+                                        <option value="">{t("serviceItemModal.optionSelectSalon")}</option>
                                         {salons.map((salon: Salon) => (
                                             <option key={salon.uuid} value={salon.name}>
                                                 {salon.name}
@@ -145,13 +147,13 @@ function ServiceItemModal({
                                 className="btn btn-primary"
                                 onClick={handleSubmit}
                             >
-                                {isUpdateMode ? "Update" : "Add"}
+                                {isUpdateMode ? t("serviceItemModal.btnUpdate") : t("serviceItemModal.btnAdd")}
                             </button>
                             <button
                                 type="button"
                                 className="btn btn-secondary"
                                 onClick={onClose}
-                            >Cancel
+                            >{t("serviceItemModal.btnCancel")}
                             </button>
                         </div>
                     </div>

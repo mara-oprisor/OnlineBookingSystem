@@ -1,5 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import User from "../model/User";
+import {useTranslation} from "react-i18next";
 
 export interface UserTableProps {
     data: User[];
@@ -9,35 +10,31 @@ export interface UserTableProps {
 }
 
 function UserTable({ data, loading, isError, onRowSelected }: UserTableProps) {
+    const { t } = useTranslation();
     const columns: TableColumn<User>[] = [
-        { name: "ID", selector: (row: User) => row.uuid, sortable: true },
-        { name: "Username", selector: (row: User) => row.username, sortable: true },
-        { name: "Email", selector: (row: User) => row.email, sortable: true },
-        { name: "User Type", selector: (row: User) => row.userType, sortable: true },
-        { name: "Name", selector: (row: User) => row.name, sortable: true },
-        { name: "Age", selector: (row: User) => row.age ?? "", sortable: true }
+        { name: t("userTable.colId"), selector: r => r.uuid, sortable: true },
+        { name: t("userTable.colUsername"), selector: r => r.username, sortable: true },
+        { name: t("userTable.colEmail"), selector: r => r.email, sortable: true },
+        { name: t("userTable.colUserType"), selector: r => r.userType, sortable: true },
+        { name: t("userTable.colName"), selector: r => r.name, sortable: true },
+        { name: t("userTable.colAge"), selector: r => r.age ?? "", sortable: true }
     ];
 
+    if (loading) return <p>{t("userTable.loading")}</p>;
+    if (isError) return <p>{t("userTable.error")}</p>;
+
     return (
-        <>
-            {loading ? (
-                <p className="loading-text">Loading...</p>
-            ) : isError ? (
-                <p className="error-text">An error occurred while fetching the data</p>
-            ) : (
-                <div className="table-container">
-                    <DataTable
-                        title="Users"
-                        columns={columns}
-                        data={data}
-                        pagination
-                        highlightOnHover
-                        selectableRows
-                        onSelectedRowsChange={onRowSelected}
-                    />
-                </div>
-            )}
-        </>
+        <div className="table-container">
+            <DataTable
+                title={t("userTable.title")}
+                columns={columns}
+                data={data}
+                pagination
+                highlightOnHover
+                selectableRows
+                onSelectedRowsChange={onRowSelected}
+            />
+        </div>
     );
 }
 

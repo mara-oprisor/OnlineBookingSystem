@@ -1,6 +1,7 @@
 import useRegister from "../hooks/useRegister";
 import getPasswordRules from "../model/PasswordRule";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
+import {useTranslation} from "react-i18next";
 
 function RegisterForm() {
     const {
@@ -26,11 +27,12 @@ function RegisterForm() {
 
     const passwordsMatch = password1 === password2;
     const allRulesPass = results.every((r) => r.passed);
+    const { t } = useTranslation();
 
     return (
         <div className="register-form-container">
             <form onSubmit={handleRegister}>
-                <h1>Register</h1>
+                <h1>{t("registerForm.title")}</h1>
 
                 {errorMsg && <div className="alert alert-danger mb-4">{errorMsg}</div>}
 
@@ -46,7 +48,7 @@ function RegisterForm() {
                                 onChange={handleUsernameChange}
                                 required
                             />
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="username">{t("registerForm.labelUsername")}</label>
                         </div>
                     </div>
                     <div className="col-12 col-md-6 mb-3">
@@ -60,7 +62,7 @@ function RegisterForm() {
                                 onChange={handleEmailChange}
                                 required
                             />
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">{t("registerForm.labelEmail")}</label>
                         </div>
                     </div>
                 </div>
@@ -91,7 +93,7 @@ function RegisterForm() {
                                 onChange={handlePassword1Change}
                                 required
                             />
-                            <label htmlFor="password1">Password</label>
+                            <label htmlFor="password1">{t("registerForm.labelPassword")}</label>
                         </div>
                     </div>
                     <div className="col-12 col-md-6 mb-3">
@@ -105,9 +107,9 @@ function RegisterForm() {
                                 onChange={handlePassword2Change}
                                 required
                             />
-                            <label htmlFor="password2">Confirm Password</label>
+                            <label htmlFor="password2">{t("registerForm.labelConfirmPassword")}</label>
                             {!passwordsMatch && password2 && (
-                                <div className="text-danger small mt-1">Passwords must match</div>
+                                <div className="text-danger small mt-1">{t("registerForm.errorPasswordsMatch")}</div>
                             )}
                         </div>
                     </div>
@@ -116,7 +118,7 @@ function RegisterForm() {
                 <div className="row">
                     <div className="col-12 col-md-6 mb-3">
                         <label htmlFor="userType" className="form-label">
-                            User Type
+                            {t("registerForm.labelUserType")}
                         </label>
                         <select
                             id="userType"
@@ -124,8 +126,8 @@ function RegisterForm() {
                             value={userType}
                             onChange={handleUserTypeChange}
                         >
-                            <option value="CLIENT">Client</option>
-                            <option value="ADMIN">Admin</option>
+                            <option value="CLIENT">{t("registerForm.optionClient")}</option>
+                            <option value="ADMIN">{t("registerForm.optionAdmin")}</option>
                         </select>
                     </div>
                     <div className="col-12 col-md-6 d-grid">
@@ -134,7 +136,7 @@ function RegisterForm() {
                             className="btn btn-primary btn-sm py-1"
                             disabled={!(allRulesPass && passwordsMatch)}
                         >
-                            Register
+                            {t("registerForm.btnRegister")}
                         </button>
                     </div>
                 </div>

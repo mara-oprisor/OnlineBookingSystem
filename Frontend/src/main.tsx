@@ -15,11 +15,17 @@ import MyBookingsPage from "./pages/MyBookingsPage.tsx";
 import BookingPaymentPage from "./pages/BookingPaymentPage.tsx";
 import MyLoyaltyPage from "./pages/MyLoyaltyPointsPage.tsx";
 import AIChatPage from "./pages/AIChatPage.tsx";
+import './i18n';
+import LanguageSelector from "./components/LanguageSeletor.tsx";
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
+        <div className="app-header d-flex justify-content-end p-2">
+            <LanguageSelector />
+        </div>
+
         <Routes>
             <Route path="/" element={<Navigate to="/auth" />} />
             <Route path="/auth" element={<AuthModal />}/>

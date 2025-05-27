@@ -3,12 +3,14 @@ import { Elements } from '@stripe/react-stripe-js';
 import PaymentForm from '../components/PaymentForm';
 import {useLocation, useNavigate} from 'react-router-dom';
 import BookingService from "../service/BookingService.tsx";
+import {useTranslation} from "react-i18next";
 
 
 function BookingPaymentPage() {
     const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
     const { state } = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     if (!state?.booking) {
         navigate("/salons");
@@ -17,17 +19,17 @@ function BookingPaymentPage() {
     const booking = state.booking;
 
     function handleSuccess() {
-        alert('Payment successful!');
+        alert(t("bookingPayment.successAlert"));
         navigate('/my_bookings');
     }
 
     async function handleError() {
         try {
             await BookingService().deleteBooking(booking.bookingId);
-            alert('Payment failed — your booking has been canceled.');
+            alert(t("bookingPayment.failedCancel"));
         } catch (deleteErr) {
             console.error('Failed to delete booking:', deleteErr);
-            alert('Payment failed and we couldn’t cancel your booking automatically. Please contact support.');
+            alert(t("bookingPayment.failedManual"));
         }
         navigate('/my_bookings');
     }
@@ -40,6 +42,7 @@ function BookingPaymentPage() {
                     booking={booking}
                     onSuccess={handleSuccess}
                     onError={handleError}
+                    onCancel={() => navigate('/my_bookings')}
                 />
             </Elements>
         </div>
