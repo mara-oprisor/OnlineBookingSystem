@@ -38,7 +38,7 @@ function PaymentForm({booking, onSuccess, onError, onCancel}: PaymentFormProps) 
             alert(t("paymentForm.cancelSuccess"));
             onCancel();
         } catch {
-            alert(t("paymentForm.cancelError"));
+            console.log(t("paymentForm.cancelError"));
         }
     }
 

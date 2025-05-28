@@ -189,7 +189,9 @@
     "finalPrice": "Final Price: ${{amount}}"
   },
   "bookingPayment": {
-    "title": "Complete Your Payment"
+    "title": "Complete Your Payment",
+    "successAlert": "Successful Payment",
+    "failedCancel": "Payment failed"
   },
   "dashboard": {
     "title": "Dashboard",

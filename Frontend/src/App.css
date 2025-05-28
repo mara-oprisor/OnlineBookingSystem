@@ -478,3 +478,15 @@ nav {
   border-color: #666;
   box-shadow: 0 0 0 2px rgba(100, 150, 250, 0.4);
 }
+
+.reminder-toast {
+  background: #fffbea;
+  border-left: 4px solid #facc15;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  max-width: 280px;
+}
+
