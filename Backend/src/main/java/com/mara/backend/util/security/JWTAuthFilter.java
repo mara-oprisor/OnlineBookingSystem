@@ -78,7 +78,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        if ("/register".equals(path) || "/login".equals(path) || "/reset_password".equals(path) || "/forgot_password".equals(path) || "OPTIONS".equalsIgnoreCase(method)) {
+        if ("/register".equals(path) || "/login".equals(path) || "/reset_password".equals(path) || "/forgot_password".equals(path) || path.startsWith("/ws-chat/")  || "OPTIONS".equalsIgnoreCase(method)) {
             log.info("Skipping JWT filter for path: {} and method: {}", path, method);
             filterChain.doFilter(request, response);
             return;
